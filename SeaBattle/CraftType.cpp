@@ -1,0 +1,1 @@
+#include "CraftType.h"

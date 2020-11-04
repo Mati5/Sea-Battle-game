@@ -10,6 +10,7 @@ private:
 	Board playerBoard_1;
 	Board playerBoard_2;
 	bool leftMouseBtnPressed{ false };
+	bool turn = false;
 	void processEvents();
 	void update();
 	void render();
@@ -18,6 +19,8 @@ private:
 public:
 	Game();
 	void run();
+	void setTurn(bool turn);
+	bool getTurn();
 
 };
 

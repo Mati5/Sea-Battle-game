@@ -15,6 +15,16 @@ void Game::run()
 	}
 }
 
+void Game::setTurn(bool turn)
+{
+	this->turn = turn;
+}
+
+bool Game::getTurn()
+{
+	return this->turn;
+}
+
 void Game::processEvents()
 {
 	sf::Event event;
@@ -46,7 +56,18 @@ void Game::update()
 {
 	if (leftMouseBtnPressed)
 	{
-		sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+		if (this->playerBoard_1.getClickedField().getChecked() && !this->playerBoard_1.getClickedField().hitCraft())
+		{
+			Field none;
+			this->playerBoard_1.setClickedField(none);
+			this->setTurn(true);
+		}
+		if (this->playerBoard_2.getClickedField().getChecked() && !this->playerBoard_2.getClickedField().hitCraft())
+		{
+			Field none;
+			this->playerBoard_2.setClickedField(none);
+			this->setTurn(false);
+		}
 	}
 }
 
@@ -61,10 +82,10 @@ void Game::render()
 	mWindow.clear();
 
 	mWindow.setView(playerView_1);
-	this->playerBoard_1.renderBoard(mWindow, leftMouseBtnPressed);
+	this->playerBoard_1.renderBoard(mWindow, leftMouseBtnPressed, !this->getTurn());
 
 	mWindow.setView(playerView_2);
-	this->playerBoard_2.renderBoard(mWindow, leftMouseBtnPressed);
+	this->playerBoard_2.renderBoard(mWindow, leftMouseBtnPressed, this->getTurn());
 
 	mWindow.display();
 	//mWindow.setFramerateLimit(0);

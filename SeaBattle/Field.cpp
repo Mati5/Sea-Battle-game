@@ -1,10 +1,12 @@
 #include "Field.h"
-#include <iostream>
+
+
 
 Field::Field()
 {
 	this->coordinate[0] = 0;
 	this->coordinate[1] = 0;
+	this->type = CraftType::zeroMasted;
 	this->checked = false;
 	this->width = 20.f;
 	this->height = 20.f;
@@ -22,12 +24,12 @@ int* Field::getCoordinate()
 	return coordinate;
 }
 
-void Field::setType(char* type)
+void Field::setType(CraftType type)
 {
 	this->type = type;
 }
 
-char* Field::getType()
+CraftType Field::getType()
 {
 	return this->type;
 }
@@ -103,11 +105,22 @@ bool Field::onClick(float mouseX, float mouseY)
 		&& mouseY > fieldPositionY && mouseY<fieldPositionY+this->getHeight()) 
 	{
 		std::cout << "clicked field: " << this->getCoordinate()[1] / this->getSpaceBetweenField() << " " << this->getCoordinate()[0] / this->getSpaceBetweenField() << std::endl;
-		this->setColor(sf::Color::Red);
+		this->setColor(sf::Color::White);
 		this->setChecked(true);
+
+		if (this->hitCraft()) {
+			std::cout << "You hit a craft" << std::endl;
+			std::cout << int(this->getType())<<std::endl;
+			this->setColor(sf::Color::Blue);
+		}
 
 		return true;
 	}
 
 	return false;
+}
+
+bool Field::hitCraft()
+{
+	return int(this->getType()) > 0 && int(this->getType()) < 5;
 }

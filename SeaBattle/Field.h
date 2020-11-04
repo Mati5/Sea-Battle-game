@@ -1,10 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "CraftType.h";
 
 class Field
 {
 	int coordinate[2];
-	char* type;
+	CraftType type;
 	bool checked;
 	sf::Color color;
 	float width;
@@ -18,9 +20,9 @@ public:
 
 	int* getCoordinate();
 
-	void setType(char* type);
+	void setType(CraftType type);
 
-	char* getType();
+	CraftType getType();
 
 	void setChecked(bool checked);
 
@@ -45,5 +47,7 @@ public:
 	sf::RectangleShape renderField();
 
 	bool onClick(float mouseX, float mouseY);
+
+	bool hitCraft();
 };
 

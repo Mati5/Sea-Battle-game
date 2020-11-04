@@ -41,6 +41,16 @@ std::array<std::array<Field, 10>, 10> Board::getFieldTab()
 	return this->fieldTab;
 }
 
+void Board::setClickedField(Field clickedField)
+{
+	this->clickedField = clickedField;
+}
+
+Field Board::getClickedField()
+{
+	return this->clickedField;
+}
+
 void Board::updateTabEl(Field field)
 {
 	int tabY = field.getCoordinate()[1] / field.getSpaceBetweenField();
@@ -49,7 +59,7 @@ void Board::updateTabEl(Field field)
 	this->fieldTab[tabY][tabX] = field;
 }
 
-void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed)
+void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, bool turn)
 {
 	for (int y = 0; y < this->getDimensionY(); y++)
 	{
@@ -57,7 +67,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed)
 		{
 			Field field = this->getFieldTab()[y][x];
 
-			if (leftMouseBtnPressed) {
+			if (turn && leftMouseBtnPressed) {
 				sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
 				sf::Vector2f worldPos = mWindow.mapPixelToCoords(mousePosition);
 
@@ -65,6 +75,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed)
 				float mouseY = worldPos.y;
 
 				if (field.onClick(mouseX, mouseY)) {
+					this->setClickedField(field);
 					this->updateTabEl(field);
 				}
 			}
@@ -72,4 +83,16 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed)
 			mWindow.draw(field.renderField());
 		}
 	}
+
+	this->randomCraft();
+}
+
+void Board::randomCraft()
+{
+	CraftType craft = CraftType::fourMasted;
+
+	this->fieldTab[0][0].setType(craft);
+	this->fieldTab[0][1].setType(craft);
+	this->fieldTab[0][2].setType(craft);
+	this->fieldTab[0][3].setType(craft);
 }
