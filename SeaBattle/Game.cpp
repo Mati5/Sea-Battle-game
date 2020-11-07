@@ -82,10 +82,10 @@ void Game::render()
 	mWindow.clear();
 
 	mWindow.setView(playerView_1);
-	this->playerBoard_1.renderBoard(mWindow, leftMouseBtnPressed, !this->getTurn());
+	this->playerBoard_1.renderBoard(mWindow, leftMouseBtnPressed, true); //!this->getTurn()
 
 	mWindow.setView(playerView_2);
-	this->playerBoard_2.renderBoard(mWindow, leftMouseBtnPressed, this->getTurn());
+	this->playerBoard_2.renderBoard(mWindow, leftMouseBtnPressed, true); //this->getTurn()
 
 	mWindow.display();
 	//mWindow.setFramerateLimit(0);

@@ -3,8 +3,9 @@ enum class CraftType
 {
 	zeroMasted,
 	oneMasted,
-	twoMsted,
+	twoMasted,
 	threeMasted,
-	fourMasted
+	fourMasted,
+	forbid
 };
 

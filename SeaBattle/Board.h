@@ -11,6 +11,19 @@ class Board
 	std::array<std::array<Field, 10>, 10> fieldTab;
 	Field clickedField;
 
+	int availableField[10][10] = {
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9},
+		{0,1,2,3,4,5,6,7,8,9}
+	};
+
 public:
 	Board();
 	
@@ -32,5 +45,5 @@ public:
 
 	void renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, bool turn);
 
-	void randomCraft();
+	void randomCraft(int type, int quantity);
 };
