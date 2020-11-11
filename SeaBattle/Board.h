@@ -3,6 +3,7 @@
 #include "Field.h"
 #include <iostream>
 #include "CraftType.h"
+#include "DrawLotsBtn.h"
 
 class Board
 {
@@ -11,21 +12,24 @@ class Board
 	std::array<std::array<Field, 10>, 10> fieldTab;
 	Field clickedField;
 
-	int availableField[10][10] = {
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9},
-		{0,1,2,3,4,5,6,7,8,9}
-	};
-
 public:
 	Board();
+
+	void resetBoard()
+	{
+		this->dimensionX = 10;
+		this->dimensionY = 10;
+
+		for (int y = 0; y < this->getDimensionY(); y++) {
+			for (int x = 0; x < this->getDimensionX(); x++) {
+				Field field;
+				field.setCoordinate(x, y);
+				field.setColor(sf::Color::Cyan);
+
+				this->fieldTab[y][x] = field;
+			}
+		}
+	}
 	
 	void setDimensionX(int dimensionX);
 
@@ -34,6 +38,8 @@ public:
 	void setDimensionY(int dimensionY);
 
 	int getDimensionY();
+
+	void setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab);
 
 	std::array<std::array<Field, 10>, 10> getFieldTab();
 

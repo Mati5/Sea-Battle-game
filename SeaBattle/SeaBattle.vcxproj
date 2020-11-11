@@ -147,15 +147,19 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="CraftType.cpp" />
+    <ClCompile Include="DrawLotsBtn.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GridField.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="CraftType.h" />
+    <ClInclude Include="DrawLotsBtn.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GridField.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

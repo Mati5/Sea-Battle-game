@@ -8,6 +8,7 @@ Board::Board()
 	for (int y = 0; y < this->getDimensionY(); y++) {
 		for (int x = 0; x < this->getDimensionX(); x++) {
 			Field field;
+			
 			field.setCoordinate(x, y);
 			field.setColor(sf::Color::Cyan);
 
@@ -39,6 +40,13 @@ void Board::setDimensionY(int dimensionY)
 int Board::getDimensionY()
 {
 	return this->dimensionY;
+}
+
+void Board::setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab)
+{
+	{
+		this->fieldTab = fieldTab;
+	}
 }
 
 std::array<std::array<Field, 10>, 10> Board::getFieldTab()
@@ -87,6 +95,9 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, boo
 				if (field.onClick(mouseX, mouseY)) {
 					this->setClickedField(field);
 					this->updateTabEl(field);
+
+					//check if craft is destroyed
+
 				}
 			}
 
@@ -224,7 +235,24 @@ void Board::randomCraft(int type, int quantity)
 {
 	for (int i = 0; i < quantity; i++)
 	{
-		CraftType craft = CraftType::fourMasted;
+		CraftType craft;
+
+		switch (type)
+		{
+			case 1:
+				craft = CraftType::oneMasted;
+				break;
+			case 2:
+				craft = CraftType::twoMasted;
+				break;
+			case 3:
+				craft = CraftType::threeMasted;
+				break;
+			case 4:
+				craft = CraftType::fourMasted;
+				break;
+		}
+
 		bool allowCraft = true;
 		char allowedDirection = 'K';
 
@@ -371,7 +399,7 @@ void Board::randomCraft(int type, int quantity)
 			if (colIndex < 9 && fieldTab[rowIndex][colIndex + 1].getType() == CraftType::zeroMasted)
 				fieldTab[rowIndex][colIndex + 1].setType(CraftType::forbid);
 
-			if (colIndex < 9 && fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
+			if (colIndex < 9 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
 				fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
 
 			if (colIndex < 9 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted)
@@ -387,4 +415,6 @@ void Board::randomCraft(int type, int quantity)
 				fieldTab[rowIndex + 1][colIndex - type].setType(CraftType::forbid);
 		}
 	}
+
+	setFieldTab(fieldTab);
 }
