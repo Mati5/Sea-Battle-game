@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Craft.cpp" />
     <ClCompile Include="CraftType.cpp" />
     <ClCompile Include="DrawLotsBtn.cpp" />
     <ClCompile Include="Field.cpp" />
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Craft.h" />
     <ClInclude Include="CraftType.h" />
     <ClInclude Include="DrawLotsBtn.h" />
     <ClInclude Include="Field.h" />

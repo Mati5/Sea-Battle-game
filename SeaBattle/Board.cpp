@@ -415,6 +415,4 @@ void Board::randomCraft(int type, int quantity)
 				fieldTab[rowIndex + 1][colIndex - type].setType(CraftType::forbid);
 		}
 	}
-
-	setFieldTab(fieldTab);
 }

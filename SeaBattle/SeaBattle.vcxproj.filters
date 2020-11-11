@@ -36,6 +36,9 @@
     <ClCompile Include="GridField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Craft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GridField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Craft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
