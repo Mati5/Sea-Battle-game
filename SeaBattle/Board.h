@@ -4,12 +4,14 @@
 #include <iostream>
 #include "CraftType.h"
 #include "DrawLotsBtn.h"
+#include "Craft.h"
 
 class Board
 {
 	int dimensionX;
 	int dimensionY;
 	std::array<std::array<Field, 10>, 10> fieldTab;
+	std::vector<Craft> craftTab;
 	Field clickedField;
 
 public:
@@ -42,6 +44,10 @@ public:
 	void setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab);
 
 	std::array<std::array<Field, 10>, 10> getFieldTab();
+
+	void addCraft(Craft craft);
+
+	std::vector<Craft> getCraftTab();
 
 	void setClickedField(Field clickedField);
 

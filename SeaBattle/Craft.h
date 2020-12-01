@@ -4,7 +4,8 @@
 
 class Craft
 {
-	Field* area;
+	//Field* area;
+	std::vector<std::vector<Field>> area;
 	CraftType craftType;
 	int craftTypeNumber;
 	int quantityDestroyedEl;
@@ -13,6 +14,8 @@ public:
 	void setArea(Field* area);
 
 	Field* getArea();
+
+	void addField(Field field);
 
 	void setCraftType(CraftType craftType);
 

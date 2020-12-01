@@ -54,6 +54,16 @@ std::array<std::array<Field, 10>, 10> Board::getFieldTab()
 	return this->fieldTab;
 }
 
+void Board::addCraft(Craft craft)
+{
+	this->craftTab.push_back(craft);
+}
+
+std::vector<Craft> Board::getCraftTab()
+{
+	return this->craftTab;
+}
+
 void Board::setClickedField(Field clickedField)
 {
 	this->clickedField = clickedField;
@@ -235,21 +245,21 @@ void Board::randomCraft(int type, int quantity)
 {
 	for (int i = 0; i < quantity; i++)
 	{
-		CraftType craft;
+		CraftType craftType;
 
 		switch (type)
 		{
 			case 1:
-				craft = CraftType::oneMasted;
+				craftType = CraftType::oneMasted;
 				break;
 			case 2:
-				craft = CraftType::twoMasted;
+				craftType = CraftType::twoMasted;
 				break;
 			case 3:
-				craft = CraftType::threeMasted;
+				craftType = CraftType::threeMasted;
 				break;
 			case 4:
-				craft = CraftType::fourMasted;
+				craftType = CraftType::fourMasted;
 				break;
 		}
 
@@ -286,133 +296,267 @@ void Board::randomCraft(int type, int quantity)
 			} while (allowCraft != true);
 		}
 		
-	
-		
+		Craft craftModel;
+		craftModel.setCraftType(craftType);
+
 		//If checked set craft on map
 		if (allowCraft && allowedDirection == 'S')
 		{
+			//Top left
+			if (colIndex > 0 && rowIndex > 0 && fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex - 1][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex - 1]);
+			}
+				
+			//Top center
+			if (rowIndex > 0 && fieldTab[rowIndex - 1][colIndex].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex - 1][colIndex].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex]);
+			}	
+
+			//TopRight
+			if (colIndex < 9 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex + 1]);
+			}	
+
 			for (int i = 0; i < type; i++)
 			{
-				fieldTab[rowIndex + i][colIndex].setType(craft);
-
-				if (colIndex < 9 && fieldTab[rowIndex + i][colIndex + 1].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex + i][colIndex + 1].setType(CraftType::forbid);
-
+				//left forbid field
 				if (colIndex > 0 && fieldTab[rowIndex + i][colIndex - 1].getType() == CraftType::zeroMasted)
+				{
 					fieldTab[rowIndex + i][colIndex - 1].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex + i][colIndex - 1]);
+				}					
+
+				//set field's craft
+				fieldTab[rowIndex + i][colIndex].setType(craftType);
+				craftModel.addField(fieldTab[rowIndex + i][colIndex]);
+
+				//right forbied field
+				if (colIndex < 9 && fieldTab[rowIndex + i][colIndex + 1].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex + i][colIndex + 1].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex + i][colIndex + 1]);
+				}	
 			}
 
-			if (rowIndex>0&&fieldTab[rowIndex - 1][colIndex].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex - 1][colIndex].setType(CraftType::forbid);
-
-			if (colIndex > 0 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex - 1][colIndex - 1].setType(CraftType::forbid);
-
-			if (colIndex<9&&rowIndex>0&&fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
-
-			if (rowIndex+type<=9 && fieldTab[rowIndex + type][colIndex].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex + type][colIndex].setType(CraftType::forbid);
-
-			if (colIndex > 0 && rowIndex+type<=9 && fieldTab[rowIndex + type][colIndex - 1].getType() == CraftType::zeroMasted)
+			//Bottom left
+			if (colIndex > 0 && rowIndex + type <= 9 && fieldTab[rowIndex + type][colIndex - 1].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex + type][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + type][colIndex - 1]);
+			}
 
-			if (colIndex<9&& rowIndex+type<=9 && fieldTab[rowIndex + type][colIndex + 1].getType() == CraftType::zeroMasted)
+			//Bottom center
+			if (rowIndex + type <= 9 && fieldTab[rowIndex + type][colIndex].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex + type][colIndex].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + type][colIndex]);
+			}
+				
+			//Bottom right
+			if (colIndex < 9 && rowIndex + type <= 9 && fieldTab[rowIndex + type][colIndex + 1].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex + type][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + type][colIndex + 1]);
+			}	
 		}
 		else if (allowCraft && allowedDirection == 'N')
 		{
-			for (int i = 0; i < type; i++)
+			//Bottom left
+			if (colIndex > 0 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::zeroMasted)
 			{
-				fieldTab[rowIndex - i][colIndex].setType(craft);
-
-				if (colIndex<9 && fieldTab[rowIndex - i][colIndex + 1].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex - i][colIndex + 1].setType(CraftType::forbid);
-
-				if (colIndex > 0 && fieldTab[rowIndex - i][colIndex - 1].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex - i][colIndex - 1].setType(CraftType::forbid);
+				fieldTab[rowIndex + 1][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex - 1]);
+			}
+				
+			//Bottom center
+			if (rowIndex < 9 && fieldTab[rowIndex + 1][colIndex].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex + 1][colIndex].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex]);
 			}
 
-			if (rowIndex < 9 && fieldTab[rowIndex + 1][colIndex].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex + 1][colIndex].setType(CraftType::forbid);
-
-			if (colIndex > 0 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex + 1][colIndex - 1].setType(CraftType::forbid);
-
-			if (rowIndex < 9 && colIndex<9 && fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted)
+			//Bottom right
+			if (rowIndex < 9 && colIndex < 9 && fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted)
 				fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
 
-			if (rowIndex-type>=0&&fieldTab[rowIndex - type][colIndex].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex - type][colIndex].setType(CraftType::forbid);
+			for (int i = 0; i < type; i++)
+			{
+				if (colIndex > 0 && fieldTab[rowIndex - i][colIndex - 1].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex - i][colIndex - 1].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex - i][colIndex - 1]);
+				}	
 
-			if (colIndex > 0 && rowIndex-type>=0&& fieldTab[rowIndex - type][colIndex - 1].getType() == CraftType::zeroMasted)
+				fieldTab[rowIndex - i][colIndex].setType(craftType);
+				craftModel.addField(fieldTab[rowIndex - i][colIndex]);
+
+				if (colIndex < 9 && fieldTab[rowIndex - i][colIndex + 1].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex - i][colIndex + 1].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex - i][colIndex + 1]);
+				}		
+			}
+
+			//Top left
+			if (colIndex > 0 && rowIndex - type >= 0 && fieldTab[rowIndex - type][colIndex - 1].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex - type][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - type][colIndex - 1]);
+			}
 
-			if (rowIndex-type>=0 && colIndex<9 && fieldTab[rowIndex - type][colIndex + 1].getType() == CraftType::zeroMasted)
+			//Top center
+			if (rowIndex - type >= 0 && fieldTab[rowIndex - type][colIndex].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex - type][colIndex].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - type][colIndex]);
+			}
+
+			//Top right
+			if (rowIndex - type >= 0 && colIndex < 9 && fieldTab[rowIndex - type][colIndex + 1].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex - type][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - type][colIndex + 1]);
+			}	
 		}
 		else if (allowCraft && allowedDirection == 'E')
 		{
-			for (int i = 0; i < type; i++)
+			//top
+			if (colIndex > 0 && rowIndex > 0 && fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::zeroMasted)
 			{
-				fieldTab[rowIndex][colIndex+i].setType(craft);
-
-				if (rowIndex<9&&fieldTab[rowIndex+1][colIndex + i].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex+1][colIndex + i].setType(CraftType::forbid);
-
-				if (colIndex<9&&rowIndex>0&&fieldTab[rowIndex-1][colIndex + i].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex - 1][colIndex +i].setType(CraftType::forbid);
+				fieldTab[rowIndex - 1][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex - 1]);
+			}
+				
+			//center
+			if (colIndex > 0 && fieldTab[rowIndex][colIndex - 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex][colIndex - 1]);
 			}
 
-			if (colIndex>0 && fieldTab[rowIndex][colIndex-1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex][colIndex-1].setType(CraftType::forbid);
+			//bottom
+			if (colIndex > 0 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex + 1][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex - 1]);
+			}			
 
-			if (colIndex > 0 && rowIndex>0 && fieldTab[rowIndex-1][colIndex - 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex-1][colIndex - 1].setType(CraftType::forbid);
+			for (int i = 0; i < type; i++)
+			{
+				//Top
+				if (colIndex < 9 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex - 1][colIndex + i].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex - 1][colIndex + i]);
+				}
 
-			if (colIndex > 0 && rowIndex<9 && fieldTab[rowIndex+1][colIndex - 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex+1][colIndex - 1].setType(CraftType::forbid);
+				//Center
+				fieldTab[rowIndex][colIndex+i].setType(craftType);
+				craftModel.addField(fieldTab[rowIndex][colIndex + i]);
 
-			if (colIndex+type <= 9 && fieldTab[rowIndex][colIndex + type].getType() == CraftType::zeroMasted)
+				//Bottom
+				if (rowIndex < 9 && fieldTab[rowIndex + 1][colIndex + i].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex + 1][colIndex + i].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex + 1][colIndex + i]);
+				}	
+			}
+			
+			//Top
+			if (colIndex + type <= 9 && rowIndex > 0 && fieldTab[rowIndex - 1][colIndex + type].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex - 1][colIndex + type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex + type]);
+			}
+
+			//Center
+			if (colIndex + type <= 9 && fieldTab[rowIndex][colIndex + type].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex][colIndex + type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex][colIndex + type]);
+			}
 
-			if (colIndex+type <= 9 && rowIndex>0 && fieldTab[rowIndex-1][colIndex + type].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex-1][colIndex + type].setType(CraftType::forbid);
-
-			if (colIndex+type <= 9 && rowIndex<9 && fieldTab[rowIndex+1][colIndex + type].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex+1][colIndex + type].setType(CraftType::forbid);
+			//Bottom
+			if (colIndex + type <= 9 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex + type].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex + 1][colIndex + type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex + type]);
+			}
+				
 
 		}
 		else if (allowCraft && allowedDirection == 'W')
 		{
-			for (int i = 0; i < type; i++)
+			//Top
+			if (colIndex < 9 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
 			{
-				fieldTab[rowIndex][colIndex - i].setType(craft);
+				fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex + 1]);
+			}
+				
 
-				if (rowIndex<9 && fieldTab[rowIndex + 1][colIndex - i].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex + 1][colIndex - i].setType(CraftType::forbid);
+			//Center
+			if (colIndex < 9 && fieldTab[rowIndex][colIndex + 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex][colIndex + 1]);
+			}	
 
-				if (colIndex-i>=0 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex - i].getType() == CraftType::zeroMasted)
-					fieldTab[rowIndex - 1][colIndex - i].setType(CraftType::forbid);
+			//Bottom
+			if (colIndex < 9 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex + 1]);
 			}
 
-			if (colIndex < 9 && fieldTab[rowIndex][colIndex + 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex][colIndex + 1].setType(CraftType::forbid);
+			for (int i = 0; i < type; i++)
+			{
+				if (colIndex - i >= 0 && rowIndex > 0 && fieldTab[rowIndex - 1][colIndex - i].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex - 1][colIndex - i].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex - 1][colIndex - i]);
+				}
+	
+				fieldTab[rowIndex][colIndex - i].setType(craftType);
+				craftModel.addField(fieldTab[rowIndex][colIndex - i]);
 
-			if (colIndex < 9 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
+				if (rowIndex < 9 && fieldTab[rowIndex + 1][colIndex - i].getType() == CraftType::zeroMasted)
+				{
+					fieldTab[rowIndex + 1][colIndex - i].setType(CraftType::forbid);
+					craftModel.addField(fieldTab[rowIndex + 1][colIndex - i]);
+				}	
+			}
 
-			if (colIndex < 9 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
-
-			if (colIndex-type > 0 && fieldTab[rowIndex][colIndex - type].getType() == CraftType::zeroMasted)
-				fieldTab[rowIndex][colIndex - type].setType(CraftType::forbid);
-
-			if (colIndex-type > 0 && rowIndex>0 && fieldTab[rowIndex - 1][colIndex - type].getType() == CraftType::zeroMasted)
+			//Top
+			if (colIndex - type > 0 && rowIndex > 0 && fieldTab[rowIndex - 1][colIndex - type].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex - 1][colIndex - type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex - 1][colIndex - type]);
+			}
 
-			if (colIndex-type > 0 && rowIndex<9 && fieldTab[rowIndex + 1][colIndex - type].getType() == CraftType::zeroMasted)
+			//Center
+			if (colIndex - type > 0 && fieldTab[rowIndex][colIndex - type].getType() == CraftType::zeroMasted)
+			{
+				fieldTab[rowIndex][colIndex - type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex][colIndex - type]);
+			}
+
+			//Bottom
+			if (colIndex - type > 0 && rowIndex < 9 && fieldTab[rowIndex + 1][colIndex - type].getType() == CraftType::zeroMasted)
+			{
 				fieldTab[rowIndex + 1][colIndex - type].setType(CraftType::forbid);
+				craftModel.addField(fieldTab[rowIndex + 1][colIndex - type]);
+			}	
+		}
+		if (allowCraft)
+		{
+			this->addCraft(craftModel);
 		}
 	}
 }
