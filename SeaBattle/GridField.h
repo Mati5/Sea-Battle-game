@@ -19,9 +19,9 @@ public:
 
 	int* getCoordinate();
 
-	int getCoordinateX();
+	virtual int getCoordinateX();
 
-	int getCoordinateY();
+	virtual int getCoordinateY();
 
 	void setColor(sf::Color color);
 

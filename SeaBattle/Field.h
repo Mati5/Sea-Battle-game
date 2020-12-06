@@ -21,6 +21,10 @@ public:
 
 	bool getChecked();
 
+	int getCoordinateX();
+
+	int getCoordinateY();
+
 	sf::RectangleShape renderField();
 
 	bool onClick(float mouseX, float mouseY);

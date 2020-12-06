@@ -17,10 +17,13 @@ class Board
 public:
 	Board();
 
+	~Board();
+
 	void resetBoard()
 	{
 		this->dimensionX = 10;
 		this->dimensionY = 10;
+		this->craftTab.clear();
 
 		for (int y = 0; y < this->getDimensionY(); y++) {
 			for (int x = 0; x < this->getDimensionX(); x++) {
@@ -55,7 +58,11 @@ public:
 
 	void updateTabEl(Field field);
 
+	void updateCraftTab(Craft craft, int index);
+
 	void renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, bool turn);
 
 	void randomCraft(int type, int quantity);
+
+	void tickForbidArea(Craft craft);
 };
