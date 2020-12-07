@@ -116,8 +116,6 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, boo
 				float mouseX = worldPos.x;
 				float mouseY = worldPos.y;
 
-				
-
 				if (field.onClick(mouseX, mouseY)) {
 					
 					this->setClickedField(field);
@@ -227,51 +225,6 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, boo
 			mWindow.draw(field.renderField());
 		}
 	}
-
-	//for (int i = 0; i < this->craftTab.size(); i++)
-	//{
-	//	Craft craft = this->craftTab[i];
-
-	//	for (int areaY = 0; areaY < craft.getArea().size(); areaY++)
-	//	{
-	//		for (int areaX = 0; areaX < craft.getArea()[areaY].size(); areaX++)
-	//		{
-	//			Field field = craft.getArea()[areaY][areaX];
-
-	//			this->fieldTab[field.getCoordinateY()][field.getCoordinateX()] = field;
-
-	//			//Display craft
-	//			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
-	//				field.setColor(sf::Color::Green);
-
-	//			//Display forbid 
-	//			if (field.getType() == CraftType::forbid)
-	//				field.setColor(sf::Color::Blue);
-
-	//			if (turn && leftMouseBtnPressed) {
-	//				sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-	//				sf::Vector2f worldPos = mWindow.mapPixelToCoords(mousePosition);
-
-	//				float mouseX = worldPos.x;
-	//				float mouseY = worldPos.y;
-
-	//				
-
-	//				if (craft.onClick(field, mouseX, mouseY)) {
-	//					std::cout << "clickedHERERERE" << std::endl;
-	//					this->setClickedField(field);
-	//					this->updateCraftTab(craft, i);
-
-	//					//check if craft is destroyed
-
-	//				}
-	//			}
-
-	//			mWindow.draw(field.renderField());
-	//		}
-	//	}
-	//}
-	
 }
 
 void randomField()
@@ -540,7 +493,7 @@ void Board::randomCraft(int type, int quantity)
 			}
 
 			//Bottom right
-			if (rowIndex < 9 && colIndex < 9 && colIndex>0 && (fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted || fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::forbid))
+			if (rowIndex < 9 && colIndex < 9 && (fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted || fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::forbid))
 			{
 				fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
 				craftModel.addForbidArea(fieldTab[rowIndex + 1][colIndex + 1]);
