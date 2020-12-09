@@ -17,7 +17,6 @@ public:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 	/*implementacja funkcji z interfesju*/
 	void processEvents(sf::RenderWindow& window) override;
-	void handleInput(sf::RenderWindow& window) override;
 	void update(sf::Time delta) override;
 	void render(sf::RenderWindow& window) override;
 	

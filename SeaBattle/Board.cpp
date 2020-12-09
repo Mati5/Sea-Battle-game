@@ -50,9 +50,7 @@ int Board::getDimensionY()
 
 void Board::setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab)
 {
-	{
-		this->fieldTab = fieldTab;
-	}
+	this->fieldTab = fieldTab;
 }
 
 std::array<std::array<Field, 10>, 10> Board::getFieldTab()

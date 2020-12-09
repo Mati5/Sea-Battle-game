@@ -1,12 +1,5 @@
 #include "Craft.h"
 
-/*void Craft::setArea(Field* area)
-{
-	this->area = area;
-}*/
-
-
-
 std::vector<std::vector<Field>> Craft::getArea()
 {
 	return this->area;
@@ -94,30 +87,4 @@ void Craft::destroyEl()
 bool Craft::checkStateCraft()
 {
 	return this->quantityDestroyedEl == getCraftTypeNumber(this->craftType);
-}
-
-bool Craft::onClick(Field& field, float mouseX, float mouseY)
-{
-	if (field.onClick(mouseX, mouseY))
-	{
-		CraftType craftType = field.getType();
-		if (craftType == this->getCraftType())
-		{
-
-			std::cout << "You hit a craft" << std::endl;
-			std::cout << int(field.getType()) << std::endl;
-			field.setColor(sf::Color::Blue);
-
-			this->destroyEl();
-			std::cout << "==================== " << this->quantityDestroyedEl << "=========" << std::endl;
-
-			if (this -> getQuantityDestroyedEl() == this->getCraftTypeNumber(this->getCraftType())) {
-				//destroyed all craft
-				std::cout << "DESTROYED craft";
-			}
-		}
-		return true;
-	}
-
-	return false;
 }

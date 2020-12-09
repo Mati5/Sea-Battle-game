@@ -27,18 +27,6 @@ void GameScreen::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	}
 }
 
-void GameScreen::handleInput(sf::RenderWindow& window)
-{
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		leftMouseBtnPressed = true;
-	}
-	else
-	{
-		leftMouseBtnPressed = false;
-	}
-}
-
 void GameScreen::update(sf::Time delta)
 {
 	if (leftMouseBtnPressed)
@@ -92,6 +80,7 @@ void GameScreen::render(sf::RenderWindow& window)
 
 		if (playerDrawLotsBtn_1.onClick(mouseX, mouseY))
 		{
+			std::cout << "CLICKED BUTTON RAND" << std::endl;
 			this->playerBoard_1.resetBoard();
 			this->playerBoard_1.randomCraft(4, 1);
 			this->playerBoard_1.randomCraft(3, 2);
@@ -99,11 +88,6 @@ void GameScreen::render(sf::RenderWindow& window)
 			this->playerBoard_1.randomCraft(1, 4);
 		}
 	}
-	
-
-	//window.display();
-	//mWindow.setFramerateLimit(0);
-	
 }
 
 void GameScreen::setTurn(bool turn)

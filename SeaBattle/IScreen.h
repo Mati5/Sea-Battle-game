@@ -9,8 +9,6 @@ public:
 
 		deklaracja tych funkcji wystêpuje w klasach gdiz nastêpuje dziedziczenie	*/
 	virtual void processEvents(sf::RenderWindow& window) = 0;
-	virtual void handleInput(sf::RenderWindow& window) = 0;
 	virtual void update(sf::Time delta) = 0;
 	virtual void render(sf::RenderWindow& window) = 0;
 };
-

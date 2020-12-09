@@ -58,8 +58,6 @@ bool Field::onClick(float mouseX, float mouseY)
 		this->setChecked(true);
 
 		if (this->hitCraft()) {
-			std::cout << "You hit a craft" << std::endl;
-			std::cout << int(this->getType())<<std::endl;
 			this->setColor(sf::Color::Blue);
 		}
 

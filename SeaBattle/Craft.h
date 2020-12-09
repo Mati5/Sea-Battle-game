@@ -4,7 +4,6 @@
 
 class Craft
 {
-	//Field* area;
 	std::vector<std::vector<Field>> area;
 	std::vector<Field> forbidArea;
 	CraftType craftType;
@@ -12,10 +11,6 @@ class Craft
 	int quantityDestroyedEl=0;
 
 public:
-	
-
-	void setArea(Field* area);
-
 	std::vector<std::vector<Field>> getArea();
 
 	std::vector<Field> getForbidArea();
@@ -38,7 +33,5 @@ public:
 
 	//return true if craft destroyed
 	bool checkStateCraft();
-
-	bool onClick(Field& field, float mouseX, float mouseY);
 };
 

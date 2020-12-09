@@ -79,9 +79,6 @@ bool GridField::onClick(float mouseX, float mouseY)
 	if (mouseX > fieldPositionX && mouseX < fieldPositionX + this->width
 		&& mouseY > fieldPositionY && mouseY < fieldPositionY + this->height)
 	{
-
-		std::cout << "clicked\n";
-
 		return true;
 	}
 

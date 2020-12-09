@@ -14,29 +14,14 @@ void Game::run()
 	while (_window.isOpen())
 	{
 		processEvents();
-		//handleInput();
 		update(TimePerFrame);
 		render();
 	}
 }
 
-void Game::handleInput()
-{
-	
-
-	Game::Screen->handleInput(_window);
-}
-
 void Game::processEvents()
 {
-	sf::Event event;
-
-	while (_window.pollEvent(event)) {
-		if (event.type == sf::Event::Closed)
-			_window.close();
-	}
-
-	Game::Screen->handleInput(_window);
+	Game::Screen->processEvents(_window);
 }
 
 void Game::update(sf::Time delta)
@@ -50,6 +35,7 @@ void Game::render()
 	Game::Screen->render(_window);
 	_window.display();
 	_window.setVerticalSyncEnabled(true);
+	_window.setFramerateLimit(15);
 }
 
 
