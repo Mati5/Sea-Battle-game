@@ -2,28 +2,27 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "DrawLotsBtn.h"
+#include "IScreen.h"
+#include "GameScreen.h"
 
 class Game
 {
 	
 private:
-	sf::RenderWindow mWindow;
-	Board playerBoard_1;
-	Board playerBoard_2;
-	DrawLotsBtn playerDrawLotsBtn_1;
-	DrawLotsBtn playerDrawLotsBtn_2;
-	bool leftMouseBtnPressed{ false };
-	bool turn = false;
+	sf::RenderWindow _window;
+	static const sf::Time TimePerFrame;
+
 	void processEvents();
-	void update();
+	void update(sf::Time delta);
 	void render();
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	void handleInput();
 
 public:
 	Game();
-	void run();
-	void setTurn(bool turn);
-	bool getTurn();
 
+	/*Wskaünik na interfejs z metodami wirtualnymi*/
+	static std::shared_ptr<IScreen> Screen;
+
+	void run();
 };
 

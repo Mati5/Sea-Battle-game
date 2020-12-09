@@ -151,7 +151,9 @@
     <ClCompile Include="DrawLotsBtn.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GridField.cpp" />
+    <ClCompile Include="IScreen.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +163,9 @@
     <ClInclude Include="DrawLotsBtn.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GridField.h" />
+    <ClInclude Include="IScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

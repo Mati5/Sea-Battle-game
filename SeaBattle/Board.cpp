@@ -389,7 +389,7 @@ void Board::randomCraft(int type, int quantity)
 		//Rand empty field
 		randomEmptyField(rowIndex, colIndex, this->fieldTab);
 
-		std::cout << std::endl << "Rand field" << rowIndex << ' ' << colIndex << std::endl;
+		//std::cout << std::endl << "Rand field" << rowIndex << ' ' << colIndex << std::endl;
 
 		//Check if field is empty vertical
 		if (direction == 1)
@@ -564,7 +564,7 @@ void Board::randomCraft(int type, int quantity)
 			for (int i = 0; i < type; i++)
 			{
 				//Top
-				if (colIndex < 9 && rowIndex>0 && (fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::zeroMasted || fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::forbid))
+				if (colIndex <= 9 && rowIndex>0 && (fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::zeroMasted || fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::forbid))
 				{
 					fieldTab[rowIndex - 1][colIndex + i].setType(CraftType::forbid);
 					craftModel.addForbidArea(fieldTab[rowIndex - 1][colIndex + i]);
