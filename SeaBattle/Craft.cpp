@@ -30,7 +30,6 @@ void Craft::addField(Field field)
 	{
 		this->area.push_back(std::vector<Field>{field});
 	}
-
 }
 
 void Craft::addForbidArea(Field field)

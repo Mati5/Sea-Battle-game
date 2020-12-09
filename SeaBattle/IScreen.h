@@ -8,7 +8,7 @@ public:
 		jest przyrówna do zera aby poinformowaæ kompilator ¿e brak definicji i mo¿liwoœci wyw³ania jest zamierzony
 
 		deklaracja tych funkcji wystêpuje w klasach gdiz nastêpuje dziedziczenie	*/
-	virtual void processEvents(sf::RenderWindow& window) = 0;
-	virtual void update(sf::Time delta) = 0;
+	//virtual void handlePlayerInput(sf::Keyboard::Key key, bool isPressed) = 0;
+	virtual void update(bool leftMouseBtnPressed, float mouseX, float mouseY) = 0;
 	virtual void render(sf::RenderWindow& window) = 0;
 };

@@ -21,6 +21,8 @@ public:
 
 	bool getChecked();
 
+	void setCoordinate(int x, int y);
+
 	int getCoordinateX();
 
 	int getCoordinateY();

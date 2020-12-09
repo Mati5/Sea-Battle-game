@@ -14,11 +14,11 @@ class GameScreen: public IScreen
 
 public:
 	
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 	/*implementacja funkcji z interfesju*/
-	void processEvents(sf::RenderWindow& window) override;
-	void update(sf::Time delta) override;
+	void update(bool leftMouseBtnPressed, float mouseX, float mouseY) override;
 	void render(sf::RenderWindow& window) override;
+
+	void setLeftMouseBtnPressed(bool leftMouseBtnPressed);
 	
 	void setTurn(bool turn);
 	bool getTurn();

@@ -4,18 +4,21 @@
 #include "DrawLotsBtn.h"
 #include "IScreen.h"
 #include "GameScreen.h"
+#include "StartScreen.h"
 
 class Game
 {
 	
 private:
 	sf::RenderWindow _window;
-	static const sf::Time TimePerFrame;
+	bool leftMouseBtnPressed{ false };
+	float mouseX;
+	float mouseY;
 
 	void processEvents();
-	void update(sf::Time delta);
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	void update();
 	void render();
-	void handleInput();
 
 public:
 	Game();

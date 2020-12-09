@@ -1,0 +1,23 @@
+﻿  Board.cpp
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(141,34): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(143,35): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(169,34): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(171,35): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(197,34): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(199,35): warning C4018: '<': signed/unsigned mismatch
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Board.cpp(678,20): warning C4018: '<': signed/unsigned mismatch
+  Craft.cpp
+  CraftType.cpp
+  DrawLotsBtn.cpp
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\DrawLotsBtn.cpp(24,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\DrawLotsBtn.cpp(24,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Field.cpp
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Field.cpp(46,69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\School\Studia\III semestr\C++\Projekt\SeaBattle\SeaBattle\Field.cpp(46,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Game.cpp
+  GameScreen.cpp
+  GridField.cpp
+  IScreen.cpp
+  main.cpp
+  StartScreen.cpp
+LINK : fatal error LNK1181: cannot open input file 'Roboto-Regular.ttf'

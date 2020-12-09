@@ -26,6 +26,12 @@ bool Field::getChecked()
 	return this->checked;
 }
 
+void Field::setCoordinate(int x, int y)
+{
+	this->coordinate[0] = x * this->getSpaceBetweenField();
+	this->coordinate[1] = y * this->getSpaceBetweenField();
+}
+
 int Field::getCoordinateX()
 {
 	return GridField::getCoordinateX() > 0 ? GridField::getCoordinateX() / GridField::getSpaceBetweenField() : GridField::getCoordinateX();

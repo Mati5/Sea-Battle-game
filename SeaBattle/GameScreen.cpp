@@ -1,34 +1,9 @@
 #include "GameScreen.h"
 
-void GameScreen::processEvents(sf::RenderWindow& window)
+void GameScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
 {
-	sf::Event event;
-	while (window.pollEvent(event))
-	{
-		switch (event.type) {
-		case sf::Event::MouseButtonPressed:
-			handlePlayerInput(event.key.code, true);
-			break;
-		case sf::Event::MouseButtonReleased:
-			handlePlayerInput(event.key.code, false);
-			break;
-		case sf::Event::Closed:
-			window.close();
-			break;
-		}
-	}
-}
+	this->setLeftMouseBtnPressed(leftMouseBtnPressed);
 
-void GameScreen::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-	if (key == sf::Mouse::Left)
-	{
-		leftMouseBtnPressed = isPressed;
-	}
-}
-
-void GameScreen::update(sf::Time delta)
-{
 	if (leftMouseBtnPressed)
 	{
 		//Set user turn
@@ -43,6 +18,16 @@ void GameScreen::update(sf::Time delta)
 			Field none;
 			this->playerBoard_2.setClickedField(none);
 			this->setTurn(false);
+		}
+
+		if (playerDrawLotsBtn_1.onClick(mouseX, mouseY))
+		{
+			std::cout << "CLICKED BUTTON RAND" << std::endl;
+			this->playerBoard_1.resetBoard();
+			this->playerBoard_1.randomCraft(4, 1);
+			this->playerBoard_1.randomCraft(3, 2);
+			this->playerBoard_1.randomCraft(2, 3);
+			this->playerBoard_1.randomCraft(1, 4);
 		}
 	}
 }
@@ -68,26 +53,11 @@ void GameScreen::render(sf::RenderWindow& window)
 
 	window.setView(control);
 	window.draw(playerDrawLotsBtn_1.renderField());
+}
 
-	//Btn rand crafts
-	if (leftMouseBtnPressed) 
-	{
-		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-		sf::Vector2f worldPos = window.mapPixelToCoords(mousePosition);
-
-		float mouseX = worldPos.x;
-		float mouseY = worldPos.y;
-
-		if (playerDrawLotsBtn_1.onClick(mouseX, mouseY))
-		{
-			std::cout << "CLICKED BUTTON RAND" << std::endl;
-			this->playerBoard_1.resetBoard();
-			this->playerBoard_1.randomCraft(4, 1);
-			this->playerBoard_1.randomCraft(3, 2);
-			this->playerBoard_1.randomCraft(2, 3);
-			this->playerBoard_1.randomCraft(1, 4);
-		}
-	}
+void GameScreen::setLeftMouseBtnPressed(bool leftMouseBtnPressed)
+{
+	this->leftMouseBtnPressed = leftMouseBtnPressed;
 }
 
 void GameScreen::setTurn(bool turn)

@@ -12,8 +12,8 @@ GridField::GridField()
 
 void GridField::setCoordinate(int x, int y)
 {
-	this->coordinate[0] = x * this->getSpaceBetweenField();
-	this->coordinate[1] = y * this->getSpaceBetweenField();;
+	this->coordinate[0] = x;
+	this->coordinate[1] = y;
 }
 
 int* GridField::getCoordinate()
