@@ -14,7 +14,8 @@ void StartScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
 		if (startBtn.onClick(mouseX, mouseY))
 		{
 			std::cout << "CLICKED BUTTON Start" << std::endl;
-			Game::Screen = std::make_shared<GameScreen>();
+			//Game::Screen = std::make_shared<GameScreen>();
+			Game::Screen = std::make_shared<SelectCraftWindow>();
 		}
 	}
 }

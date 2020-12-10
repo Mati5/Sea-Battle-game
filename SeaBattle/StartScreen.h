@@ -3,6 +3,7 @@
 #include "IScreen.h"
 #include "DrawLotsBtn.h"
 #include "Game.h"
+#include "SelectCraftWindow.h"
 
 class StartScreen: public IScreen
 {
