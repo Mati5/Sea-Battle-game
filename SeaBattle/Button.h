@@ -5,7 +5,7 @@
 #include "GridField.h"
 #include "Board.h"
 
-class DrawLotsBtn: public GridField
+class Button: public GridField
 {
 	sf::Font myFont;
 	sf::Text title;
@@ -13,7 +13,7 @@ class DrawLotsBtn: public GridField
 	//sf::Font myFont;
 
 public:
-	DrawLotsBtn();
+	Button();
 	void setTitle(std::string title);
 	sf::RectangleShape renderField();
 	sf::Text renderText();

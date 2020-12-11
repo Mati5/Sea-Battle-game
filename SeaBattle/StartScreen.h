@@ -1,13 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "IScreen.h"
-#include "DrawLotsBtn.h"
+#include "Button.h"
 #include "Game.h"
 #include "SelectCraftWindow.h"
 
 class StartScreen: public IScreen
 {
-	DrawLotsBtn startBtn;
+	Button startBtn;
 
 public:
 	StartScreen();

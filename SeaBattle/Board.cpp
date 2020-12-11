@@ -16,16 +16,29 @@ Board::Board()
 			this->fieldTab[y][x] = field;
 		}
 	}
-
-	this->randomCraft(4, 1);
-	this->randomCraft(3, 2);
-	this->randomCraft(2, 3);
-	this->randomCraft(1, 4);
 }
 
 Board::~Board()
 {
 	craftTab.clear();
+}
+
+Board::Board(const Board& board)
+{
+	this->dimensionX = board.dimensionX;
+	this->dimensionY = board.dimensionY;
+	for (int y = 0; y < 10; y++)
+	{
+		for (int x = 0; x < 10; x++)
+		{
+			this->fieldTab[y][x] = board.fieldTab[y][x];
+		}
+	}
+	for (int i = 0; i < board.craftTab.size(); i++)
+	{
+		this->craftTab.push_back(board.craftTab[i]);
+	}
+	this->clickedField = board.clickedField;
 }
 
 void Board::setDimensionX(int dimensionX)

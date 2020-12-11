@@ -1,6 +1,6 @@
-#include "DrawLotsBtn.h"
+#include "Button.h"
 
-DrawLotsBtn::DrawLotsBtn()
+Button::Button()
 {
 	width = 100;
 	height = 50;
@@ -25,14 +25,14 @@ DrawLotsBtn::DrawLotsBtn()
 
 }
 
-void DrawLotsBtn::setTitle(std::string title)
+void Button::setTitle(std::string title)
 {
 	this->title.setString(title);
 }
 
 
 
-sf::RectangleShape DrawLotsBtn::renderField()
+sf::RectangleShape Button::renderField()
 {
 	sf::RectangleShape shape;
 	sf::Vector2f kratkaSize(this->width, this->height);
@@ -45,7 +45,7 @@ sf::RectangleShape DrawLotsBtn::renderField()
 	return shape;
 }
 
-sf::Text DrawLotsBtn::renderText()
+sf::Text Button::renderText()
 {
 	
 	float d = (height - fontSize - 5) / 2;

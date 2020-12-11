@@ -148,7 +148,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Craft.cpp" />
     <ClCompile Include="CraftType.cpp" />
-    <ClCompile Include="DrawLotsBtn.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScreen.cpp" />
@@ -163,7 +163,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Craft.h" />
     <ClInclude Include="CraftType.h" />
-    <ClInclude Include="DrawLotsBtn.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />

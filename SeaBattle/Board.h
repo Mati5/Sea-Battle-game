@@ -3,7 +3,7 @@
 #include "Field.h"
 #include <iostream>
 #include "CraftType.h"
-#include "DrawLotsBtn.h"
+#include "Button.h"
 #include "Craft.h"
 
 class Board
@@ -18,6 +18,8 @@ public:
 	Board();
 
 	~Board();
+
+	Board(const Board& board);
 
 	void resetBoard()
 	{
