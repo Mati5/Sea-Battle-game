@@ -8,12 +8,14 @@ GridField::GridField()
 	this->width = 20.f;
 	this->height = 20.f;
 	this->spaceBetweenField = 40;
+	this->sprite.setPosition(coordinate[0], coordinate[1]);
 }
 
 void GridField::setCoordinate(int x, int y)
 {
 	this->coordinate[0] = x;
 	this->coordinate[1] = y;
+	this->sprite.setPosition(x, y);
 }
 
 int* GridField::getCoordinate()
@@ -88,4 +90,15 @@ bool GridField::onClick(float mouseX, float mouseY)
 sf::RectangleShape GridField::renderField()
 {
 	return sf::RectangleShape();
+}
+
+void GridField::setSprite(sf::Texture& texture)
+{
+	this->sprite.setTexture(texture, true);
+	this->sprite.setPosition(coordinate[0], coordinate[1]);
+}
+
+sf::Sprite GridField::getSprite()
+{
+	return this->sprite;
 }

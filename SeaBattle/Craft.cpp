@@ -1,5 +1,10 @@
 #include "Craft.h"
 
+Field& Craft::getSpriteField()
+{
+	return this->sprite;
+}
+
 std::vector<std::vector<Field>> Craft::getArea()
 {
 	return this->area;
@@ -87,3 +92,4 @@ bool Craft::checkStateCraft()
 {
 	return this->quantityDestroyedEl == getCraftTypeNumber(this->craftType);
 }
+

@@ -11,6 +11,7 @@ protected:
 	float width;
 	float height;
 	int spaceBetweenField;
+	sf::Sprite sprite;
 
 public:
 	GridField();
@@ -42,4 +43,8 @@ public:
 	virtual bool onClick(float mouseX, float mouseY);
 
 	virtual sf::RectangleShape renderField();
+
+	void setSprite(sf::Texture& texture);
+
+	sf::Sprite getSprite();
 };

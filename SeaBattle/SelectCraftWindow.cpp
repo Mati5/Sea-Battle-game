@@ -13,6 +13,21 @@ SelectCraftWindow::SelectCraftWindow()
 	startGameBtn.setColor(sf::Color::Cyan);
 
 	startGame = false;
+
+	// Load a texture from a file
+	craft.getSpriteField().setCoordinate(10, 6);
+	if (!threeMastedTexture.loadFromFile("../images/craft_3.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+	else
+	{
+		// Assign it to a sprite
+		craft.getSpriteField().setSprite(threeMastedTexture);
+		craft.getSpriteField().setWidth(60);
+		craft.getSpriteField().setHeight(20);
+		
+	}
 }
 
 void SelectCraftWindow::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
@@ -38,6 +53,14 @@ void SelectCraftWindow::update(bool leftMouseBtnPressed, float mouseX, float mou
 			gameSettings.setPlayerBoard_2(board);
 			Game::Screen = std::make_shared<GameScreen>(gameSettings);
 		}
+		if (this->craft.getSpriteField().onClick(mouseX, mouseY))
+		{
+			if (craft.getSpriteField().getChecked())
+				craft.getSpriteField().setChecked(false);
+
+			std::cout << mouseX << " " << mouseY << std::endl;
+		}
+		std::cout << mouseX << " " << mouseY << std::endl;
 	}
 }
 
@@ -58,6 +81,8 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 			window.draw(field.renderField());
 		}
 	}
+
+	window.draw(craft.getSpriteField().getSprite());
 
 	window.draw(this->randomCraftBtn.renderField());
 	if(!startGame)

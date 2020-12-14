@@ -1,6 +1,6 @@
 #include "Game.h"
 
-std::shared_ptr<IScreen> Game::Screen = std::make_shared<StartScreen>();
+std::shared_ptr<IScreen> Game::Screen = std::make_shared<SelectCraftWindow>(); //StartScreen()
 
 Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titlebar | sf::Style::Close)
 {

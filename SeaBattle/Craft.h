@@ -4,13 +4,17 @@
 
 class Craft
 {
+	Field sprite;
 	std::vector<std::vector<Field>> area;
 	std::vector<Field> forbidArea;
 	CraftType craftType;
 	int craftTypeNumber;
 	int quantityDestroyedEl=0;
+	
 
 public:
+	Field& getSpriteField();
+
 	std::vector<std::vector<Field>> getArea();
 
 	std::vector<Field> getForbidArea();

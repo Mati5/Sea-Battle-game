@@ -5,6 +5,8 @@
 #include "Button.h"
 #include "Game.h"
 #include "GameScreen.h"
+#include "SelectCraftWindow.h"
+#include "Craft.h"
 
 class SelectCraftWindow: public IScreen
 {
@@ -14,6 +16,8 @@ class SelectCraftWindow: public IScreen
 	Button nextPlayerBtn;
 	Button startGameBtn;
 	bool startGame;
+	sf::Texture threeMastedTexture;
+	Craft craft;
 
 public:
 	SelectCraftWindow();
