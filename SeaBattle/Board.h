@@ -46,8 +46,6 @@ public:
 
 	int getDimensionY();
 
-	void setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab);
-
 	std::array<std::array<Field, 10>, 10> getFieldTab();
 
 	void addCraft(Craft craft);
@@ -67,4 +65,12 @@ public:
 	void randomCraft(int type, int quantity);
 
 	void tickForbidArea(Craft craft);
+
+	void checkNSDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
+
+	void checkVertical(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
+
+	void checkWEDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
+
+	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
 };

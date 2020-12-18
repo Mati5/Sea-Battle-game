@@ -7,9 +7,13 @@ StartScreen::StartScreen()
 	startBtn.setTitle("Play with firend");
 }
 
-void StartScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
+void StartScreen::handleInput(sf::RenderWindow& window, sf::Event event)
 {
-	if (leftMouseBtnPressed)
+}
+
+void StartScreen::update()
+{
+	/*if (leftMouseBtnPressed)
 	{
 		if (startBtn.onClick(mouseX, mouseY))
 		{
@@ -17,7 +21,7 @@ void StartScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
 			//Game::Screen = std::make_shared<GameScreen>();
 			Game::Screen = std::make_shared<SelectCraftWindow>();
 		}
-	}
+	}*/
 }
 
 void StartScreen::render(sf::RenderWindow& window)

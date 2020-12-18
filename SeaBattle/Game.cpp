@@ -4,45 +4,30 @@ std::shared_ptr<IScreen> Game::Screen = std::make_shared<SelectCraftWindow>(); /
 
 Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titlebar | sf::Style::Close)
 {
-	
-}
 
+}
 
 
 void Game::run()
 {
 	while (_window.isOpen())
 	{
-		processEvents();
+		handleInput();
 		update();
 		render();
 	}
 }
 
-void Game::processEvents()
+
+void Game::handleInput()
 {
 	sf::Event event;
-	while (_window.pollEvent(event))
-	{
-		switch (event.type) {
-		case sf::Event::MouseButtonPressed:
-			handlePlayerInput(event.key.code, true);
-			break;
-		case sf::Event::MouseButtonReleased:
-			handlePlayerInput(event.key.code, false);
-			break;
-		case sf::Event::Closed:
-			_window.close();
-			break;
-		}
-	}
-}
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-	if (key == sf::Mouse::Left)
-	{
-		leftMouseBtnPressed = isPressed;
+	while (_window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed)
+			_window.close();
+
+		Game::Screen->handleInput(_window, event);
 	}
 }
 
@@ -51,10 +36,10 @@ void Game::update()
 	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
 	sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);
 
-	mouseX = worldPos.x;
-	mouseY = worldPos.y;
+	Game::Screen->mouseX= worldPos.x;
+	Game::Screen->mouseY = worldPos.y;
 
-	Game::Screen->update(leftMouseBtnPressed, mouseX, mouseY);
+	Game::Screen->update();
 }
 
 void Game::render()

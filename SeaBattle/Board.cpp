@@ -61,10 +61,6 @@ int Board::getDimensionY()
 	return this->dimensionY;
 }
 
-void Board::setFieldTab(std::array<std::array<Field, 10>, 10> fieldTab)
-{
-	this->fieldTab = fieldTab;
-}
 
 std::array<std::array<Field, 10>, 10> Board::getFieldTab()
 {
@@ -243,7 +239,7 @@ void randomField()
 
 }
 
-void checkNSDirection(int rowIndex, int colIndex, int type, std::array<std::array<Field, 10>, 10> fieldTab, bool& allowCraft, int direction)
+void Board::checkNSDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction)
 {
 	for (int i = 1; i < type; i++)
 	{
@@ -261,7 +257,7 @@ void checkNSDirection(int rowIndex, int colIndex, int type, std::array<std::arra
 	}
 }
 
-void checkVertical(int rowIndex, int colIndex, int type, std::array<std::array<Field, 10>, 10> fieldTab, bool& allowCraft, char& allowedDirection)
+void Board::checkVertical(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection)
 {
 	allowCraft = true;
 	allowedDirection = 'S';
@@ -269,28 +265,28 @@ void checkVertical(int rowIndex, int colIndex, int type, std::array<std::array<F
 	if (rowIndex + type - 1 <= 9)
 	{
 		allowCraft = true;
-		checkNSDirection(rowIndex, colIndex, type, fieldTab, allowCraft, 1);
+		checkNSDirection(rowIndex, colIndex, type, allowCraft, 1);
 		
 		if (!allowCraft)
 		{
 			allowCraft = true;
 			allowedDirection = 'N';
 
-			checkNSDirection(rowIndex, colIndex, type, fieldTab, allowCraft, -1);
+			checkNSDirection(rowIndex, colIndex, type, allowCraft, -1);
 		}
 	}
 	else if(rowIndex-type-1>=0)
 	{
 		allowCraft = true;
 		allowedDirection = 'N';
-		checkNSDirection(rowIndex, colIndex, type, fieldTab, allowCraft, -1);
+		checkNSDirection(rowIndex, colIndex, type, allowCraft, -1);
 
 		if (!allowCraft)
 		{
 			allowCraft = true;
 			allowedDirection = 'S';
 
-			checkNSDirection(rowIndex, colIndex, type, fieldTab, allowCraft, 1);
+			checkNSDirection(rowIndex, colIndex, type, allowCraft, 1);
 		}
 	}
 	else
@@ -299,7 +295,7 @@ void checkVertical(int rowIndex, int colIndex, int type, std::array<std::array<F
 	}
 }
 
-void checkWEDirection(int rowIndex, int colIndex, int type, std::array<std::array<Field, 10>, 10> fieldTab, bool& allowCraft, int direction)
+void Board::checkWEDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction)
 {
 	for (int i = 1; i < type; i++)
 	{
@@ -317,20 +313,20 @@ void checkWEDirection(int rowIndex, int colIndex, int type, std::array<std::arra
 	}
 }
 
-void checkHorizontal(int rowIndex, int colIndex, int type, std::array<std::array<Field, 10>, 10> fieldTab, bool& allowCraft, char& allowedDirection)
+void Board::checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection)
 {
 	allowCraft = true;
 	allowedDirection = 'E';
 	if (colIndex + type - 1 <= 9)
 	{
-		checkWEDirection(rowIndex, colIndex, type, fieldTab, allowCraft, 1);
+		checkWEDirection(rowIndex, colIndex, type, allowCraft, 1);
 
 		if (!allowCraft)
 		{
 			allowCraft = true;
 			allowedDirection = 'W';
 
-			checkWEDirection(rowIndex, colIndex, type, fieldTab, allowCraft, -1);
+			checkWEDirection(rowIndex, colIndex, type, allowCraft, -1);
 		}
 	}
 	else if (colIndex - type - 1 >= 0)
@@ -338,14 +334,14 @@ void checkHorizontal(int rowIndex, int colIndex, int type, std::array<std::array
 		allowCraft = true;
 		allowedDirection = 'W';
 
-		checkWEDirection(rowIndex, colIndex, type, fieldTab, allowCraft, -1);
+		checkWEDirection(rowIndex, colIndex, type, allowCraft, -1);
 			
 		if(!allowCraft)
 		{
 			allowCraft = true;
 			allowedDirection = 'E';
 
-			checkWEDirection(rowIndex, colIndex, type, fieldTab, allowCraft, 1);	
+			checkWEDirection(rowIndex, colIndex, type, allowCraft, 1);	
 		}
 	}
 	else
@@ -407,14 +403,14 @@ void Board::randomCraft(int type, int quantity)
 		{
 			do {
 				randomEmptyField(rowIndex, colIndex, this->fieldTab);
-				checkVertical(rowIndex, colIndex, type, this->fieldTab, allowCraft, allowedDirection);
+				checkVertical(rowIndex, colIndex, type, allowCraft, allowedDirection);
 			} while (allowCraft != true);
 		}
 		else // check if field is empty horizontal
 		{
 			do {
 				randomEmptyField(rowIndex, colIndex, this->fieldTab);
-				checkHorizontal(rowIndex, colIndex, type, this->fieldTab, allowCraft, allowedDirection);
+				checkHorizontal(rowIndex, colIndex, type, allowCraft, allowedDirection);
 			} while (allowCraft != true);
 		}
 		

@@ -15,7 +15,8 @@ public:
 	GameScreen(GameSettings gameSettings);
 
 	/*implementacja funkcji z interfesju*/
-	void update(bool leftMouseBtnPressed, float mouseX, float mouseY) override;
+	void handleInput(sf::RenderWindow& window, sf::Event event);
+	void update() override;
 	void render(sf::RenderWindow& window) override;
 
 	void setLeftMouseBtnPressed(bool leftMouseBtnPressed);

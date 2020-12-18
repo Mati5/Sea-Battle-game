@@ -13,7 +13,8 @@ public:
 	StartScreen();
 	/*implementacja funkcji z interfesju*/
 	//void handlePlayerInput(sf::Keyboard::Key key, bool isPressed) override;
-	void update(bool leftMouseBtnPressed, float mouseX, float mouseY) override;
+	void handleInput(sf::RenderWindow& window, sf::Event event);
+	void update() override;
 	void render(sf::RenderWindow& window) override;
 };
 

@@ -10,12 +10,8 @@ class Game
 	
 private:
 	sf::RenderWindow _window;
-	bool leftMouseBtnPressed{ false };
-	float mouseX;
-	float mouseY;
 
-	void processEvents();
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	void handleInput();
 	void update();
 	void render();
 

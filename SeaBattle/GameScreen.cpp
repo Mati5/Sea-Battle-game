@@ -6,9 +6,13 @@ GameScreen::GameScreen(GameSettings gameSettings)
 	this->playerBoard_2 = gameSettings.getPlayerBoard_2();
 }
 
-void GameScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
+void GameScreen::handleInput(sf::RenderWindow& window, sf::Event event)
 {
-	this->setLeftMouseBtnPressed(leftMouseBtnPressed);
+}
+
+void GameScreen::update()
+{
+	/*this->setLeftMouseBtnPressed(leftMouseBtnPressed);
 
 	if (leftMouseBtnPressed)
 	{
@@ -25,7 +29,7 @@ void GameScreen::update(bool leftMouseBtnPressed, float mouseX, float mouseY)
 			this->playerBoard_2.setClickedField(none);
 			this->setTurn(false);
 		}
-	}
+	}*/
 }
 
 void GameScreen::render(sf::RenderWindow& window)
