@@ -5,6 +5,7 @@
 #include "CraftType.h"
 #include "Button.h"
 #include "Craft.h"
+#include<windows.h>
 
 class Board
 {
@@ -13,6 +14,7 @@ class Board
 	std::array<std::array<Field, 10>, 10> fieldTab;
 	std::vector<Craft> craftTab;
 	Field clickedField;
+	bool leftMouseBtnPressed{false};
 
 public:
 	Board();
@@ -60,9 +62,15 @@ public:
 
 	void updateCraftTab(Craft craft, int index);
 
-	void renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, bool turn);
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+
+	void handleInput(sf::Event event);
+
+	void renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai=false);
 
 	void randomCraft(int type, int quantity);
+
+	void checkCraftIsDestroyed(Field field);
 
 	void tickForbidArea(Craft craft);
 

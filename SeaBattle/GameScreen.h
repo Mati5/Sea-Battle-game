@@ -8,7 +8,7 @@ class GameScreen: public IScreen
 {
 	Board playerBoard_1;
 	Board playerBoard_2;
-	bool leftMouseBtnPressed{ false };
+	GameMode gameMode;
 	bool turn = false;
 
 public:
@@ -18,8 +18,6 @@ public:
 	void handleInput(sf::RenderWindow& window, sf::Event event);
 	void update() override;
 	void render(sf::RenderWindow& window) override;
-
-	void setLeftMouseBtnPressed(bool leftMouseBtnPressed);
 	
 	void setTurn(bool turn);
 	bool getTurn();

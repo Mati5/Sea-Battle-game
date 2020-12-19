@@ -4,32 +4,44 @@ GameScreen::GameScreen(GameSettings gameSettings)
 {
 	this->playerBoard_1 = gameSettings.getPlayerBoard_1();
 	this->playerBoard_2 = gameSettings.getPlayerBoard_2();
+	this->gameMode = gameSettings.getSelectedGameMode();
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window, sf::Event event)
 {
+	float mouseX = IScreen::mouseX;
+	float mouseY = IScreen::mouseY;
+
+	if (event.type == sf::Event::MouseButtonPressed)
+	{
+		if (event.key.code == sf::Mouse::Left)
+		{
+			//Set user turn
+			
+		}
+	}
+
+	playerBoard_1.handleInput(event);
+	playerBoard_2.handleInput(event);
 }
 
 void GameScreen::update()
 {
-	/*this->setLeftMouseBtnPressed(leftMouseBtnPressed);
 
-	if (leftMouseBtnPressed)
+	if (this->playerBoard_1.getClickedField().getChecked() && !this->playerBoard_1.getClickedField().hitCraft())
 	{
-		//Set user turn
-		if (this->playerBoard_1.getClickedField().getChecked() && !this->playerBoard_1.getClickedField().hitCraft())
-		{
-			Field none;
-			this->playerBoard_1.setClickedField(none);
-			this->setTurn(true);
-		}
-		if (this->playerBoard_2.getClickedField().getChecked() && !this->playerBoard_2.getClickedField().hitCraft())
-		{
-			Field none;
-			this->playerBoard_2.setClickedField(none);
-			this->setTurn(false);
-		}
-	}*/
+		Field none;
+		this->playerBoard_1.setClickedField(none);
+		this->setTurn(false);
+	}
+	if (this->playerBoard_2.getClickedField().getChecked() && !this->playerBoard_2.getClickedField().hitCraft())
+	{
+		Field none;
+		this->playerBoard_2.setClickedField(none);
+		this->setTurn(true);
+	}
+
+	
 }
 
 void GameScreen::render(sf::RenderWindow& window)
@@ -43,15 +55,10 @@ void GameScreen::render(sf::RenderWindow& window)
 	window.clear();
 
 	window.setView(playerView_1);
-	this->playerBoard_1.renderBoard(window, leftMouseBtnPressed, true); //!this->getTurn()
+	this->playerBoard_1.renderBoard(window, turn, gameMode == GameMode::OneVsAi && true); //!this->getTurn()
 
 	window.setView(playerView_2);
-	this->playerBoard_2.renderBoard(window, leftMouseBtnPressed, true); //this->getTurn()
-}
-
-void GameScreen::setLeftMouseBtnPressed(bool leftMouseBtnPressed)
-{
-	this->leftMouseBtnPressed = leftMouseBtnPressed;
+	this->playerBoard_2.renderBoard(window, !turn); //this->getTurn() gameMode == GameMode::OneVsAi && true
 }
 
 void GameScreen::setTurn(bool turn)

@@ -13,6 +13,8 @@ class Field: public GridField
 public:
 	Field();
 
+	Field(const Field& field);
+
 	void setType(CraftType type);
 
 	CraftType getType();

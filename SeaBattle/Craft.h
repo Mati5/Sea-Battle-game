@@ -13,6 +13,10 @@ class Craft
 	
 
 public:
+	Craft();
+
+
+
 	Field& getSpriteField();
 
 	std::vector<std::vector<Field>> getArea();

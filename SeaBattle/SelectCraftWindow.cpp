@@ -59,18 +59,33 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, sf::Event event)
 
 			if (this->nextPlayerBtn.onClick(mouseX, mouseY))
 			{
-				gameSettings.setPlayerBoard_1(board);
-				board.resetBoard();
-				this->setStartGame(true);
+				switch (gameSettings.getSelectedGameMode())
+				{
+				case GameMode::OneVsOne:
+					gameSettings.setPlayerBoard_1(board);
+					board.resetBoard();
+					this->setStartGame(true);
+					break;
+				case GameMode::OneVsAi:
+					gameSettings.setPlayerBoard_1(board);
+					board.resetBoard();
+					board.randomCraft(4, 1);
+					board.randomCraft(3, 2);
+					board.randomCraft(2, 3);
+					board.randomCraft(1, 4);
+					gameSettings.setPlayerBoard_2(board);
+					Game::Screen = std::make_shared<GameScreen>(gameSettings);
+					break;
+				}
+				return;
 			}
 
 			if (this->startGameBtn.onClick(mouseX, mouseY))
 			{
 				gameSettings.setPlayerBoard_2(board);
 				Game::Screen = std::make_shared<GameScreen>(gameSettings);
+				return;
 			}
-
-			
 		}
 	}
 	

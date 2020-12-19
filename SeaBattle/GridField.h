@@ -15,6 +15,8 @@ protected:
 
 public:
 	GridField();
+	
+	GridField(const GridField& gridField);
 
 	void setCoordinate(int x, int y);
 

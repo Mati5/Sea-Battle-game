@@ -16,6 +16,8 @@ Board::Board()
 			this->fieldTab[y][x] = field;
 		}
 	}
+
+	this->leftMouseBtnPressed = false;
 }
 
 Board::~Board()
@@ -100,8 +102,105 @@ void Board::updateCraftTab(Craft craft, int index)
 	this->craftTab[index] = craft;
 }
 
-void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, bool turn)
+void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
+	if (key == sf::Mouse::Left)
+	{
+		leftMouseBtnPressed = isPressed;
+	}
+}
+
+
+
+void Board::handleInput(sf::Event event)
+{
+	switch (event.type)
+	{
+	case sf::Event::MouseButtonPressed:
+		handlePlayerInput(event.key.code, true);
+		break;
+	case sf::Event::MouseButtonReleased:
+		handlePlayerInput(event.key.code, false);
+		break;
+	}
+}
+
+void Board::renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai)
+{
+	Field field2;
+		
+	if (Ai && turn)
+	{
+		if (clickedField.hitCraft())
+		{
+			field2 = this->getClickedField();
+
+			//Tick 4 option (random 4 direction)
+			int quantityDirection = 0;
+			char direction = 'S';
+
+			int x = field2.getCoordinateX();
+			int y = field2.getCoordinateY();
+
+			//1 check which direction is available
+			// all 4 direction
+			if (x > 0 && x < 9 &&
+				y > 0 && y < 9)
+			{
+				quantityDirection = rand() % 4;
+
+				switch (quantityDirection)
+				{
+				case 0:
+					field2 = fieldTab[y-1][x - 1];
+					break;
+				case 1:
+					field2 = fieldTab[y][x+1];
+					break;
+				case 2:
+					field2 = fieldTab[y+1][x];
+					break;
+				case 3:
+					field2 = fieldTab[y][x-1];
+					break;
+				}
+			}
+			else {
+				field2 = this->fieldTab[rand() % 10][rand() % 10];
+			}
+		}
+		else
+		{
+			field2 = this->fieldTab[rand() % 10][rand() % 10];
+		}
+		
+		
+		Sleep(1000);
+		std::cout << "AI action" << std::endl;
+
+
+		if (!field2.getChecked())
+		{
+
+			field2.setColor(sf::Color::White);
+			field2.setChecked(true);
+
+			if (field2.hitCraft()) {
+				field2.setColor(sf::Color::Blue);
+			}
+
+			this->setClickedField(field2);
+			this->updateTabEl(field2);
+			std::cout << "Tick some field" << std::endl;
+			checkCraftIsDestroyed(field2);
+		}
+		else
+		{
+			std::cout << "Not work Ai" << std::endl;
+		}
+
+	}
+
 	for (int y = 0; y < this->getDimensionY(); y++)
 	{
 		for (int x = 0; x < getDimensionX(); x++)
@@ -112,16 +211,29 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, boo
 			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
 				field.setColor(sf::Color::Green);
 
+			if(Ai && field.getChecked())
+				field.setColor(sf::Color::Red);
+
+			if (Ai && field.getChecked())
+				field.setColor(sf::Color::Red);
+
+			if(Ai&& field.getChecked() && field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
+				field.setColor(sf::Color::Blue);
+
 			//Display forbid 
 			/*if (field.getType() == CraftType::forbid)
 				field.setColor(sf::Color::Blue);*/
 
-			if (turn && leftMouseBtnPressed) {
+			
+			//Board player
+			if (turn && !Ai && this->leftMouseBtnPressed) {
 				sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
 				sf::Vector2f worldPos = mWindow.mapPixelToCoords(mousePosition);
 
 				float mouseX = worldPos.x;
 				float mouseY = worldPos.y;
+
+				
 
 				if (field.onClick(mouseX, mouseY)) {
 					
@@ -129,103 +241,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool leftMouseBtnPressed, boo
 					this->updateTabEl(field);
 
 					//check if craft is destroyed
-					
-					//1.Find craft in array
-					if (field.getType() == CraftType::fourMasted)
-					{
-						craftTab[0].destroyEl();
-
-						if (craftTab[0].checkStateCraft())
-						{
-							std::cout << "Destroyed fourMasted craft" << std::endl;
-							//Tick field around craft
-							this->tickForbidArea(craftTab[0]);
-						}
-					}
-					else if(field.getType() == CraftType::threeMasted)
-					{
-						//1-2
-						for (int i = 1; i <= 2; i++)
-						{
-							for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
-							{
-								for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
-								{
-									if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
-										craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
-									{
-										craftTab[i].destroyEl();
-
-										if (craftTab[i].checkStateCraft())
-										{
-											std::cout << "Destroyed threeMasted craft" << std::endl;
-
-											//Tick field around craft
-											this->tickForbidArea(craftTab[i]);
-										}
-
-										break;
-									}
-								}
-							}
-						}
-					}
-					else if (field.getType() == CraftType::twoMasted)
-					{
-						//3-5
-						for (int i = 3; i <= 5; i++)
-						{
-							for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
-							{
-								for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
-								{
-									if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
-										craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
-									{
-										craftTab[i].destroyEl();
-
-										if (craftTab[i].checkStateCraft())
-										{
-											std::cout << "Destroyed threeMasted craft" << std::endl;
-
-											//Tick field around craft
-											this->tickForbidArea(craftTab[i]);
-										}
-
-										break;
-									}
-								}
-							}
-						}
-					}
-					else if (field.getType() == CraftType::oneMasted)
-					{
-						//6-9
-						for (int i = 6; i <= 9; i++)
-						{
-							for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
-							{
-								for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
-								{
-									if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
-										craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
-									{
-										craftTab[i].destroyEl();
-
-										if (craftTab[i].checkStateCraft())
-										{
-											std::cout << "Destroyed threeMasted craft" << std::endl;
-
-											//Tick field around craft
-											this->tickForbidArea(craftTab[i]);
-										}
-
-										break;
-									}
-								}
-							}
-						}
-					}
+					checkCraftIsDestroyed(field);
 				}
 			}
 
@@ -678,6 +694,105 @@ void Board::randomCraft(int type, int quantity)
 		if (allowCraft)
 		{
 			this->addCraft(craftModel);
+		}
+	}
+}
+
+void Board::checkCraftIsDestroyed(Field field)
+{
+	if (field.getType() == CraftType::fourMasted)
+	{
+		craftTab[0].destroyEl();
+
+		if (craftTab[0].checkStateCraft())
+		{
+			std::cout << "Destroyed fourMasted craft" << std::endl;
+			//Tick field around craft
+			this->tickForbidArea(craftTab[0]);
+		}
+	}
+	else if (field.getType() == CraftType::threeMasted)
+	{
+		//1-2
+		for (int i = 1; i <= 2; i++)
+		{
+			for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
+			{
+				for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
+				{
+					if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
+						craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
+					{
+						craftTab[i].destroyEl();
+
+						if (craftTab[i].checkStateCraft())
+						{
+							std::cout << "Destroyed threeMasted craft" << std::endl;
+
+							//Tick field around craft
+							this->tickForbidArea(craftTab[i]);
+						}
+
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (field.getType() == CraftType::twoMasted)
+	{
+		//3-5
+		for (int i = 3; i <= 5; i++)
+		{
+			for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
+			{
+				for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
+				{
+					if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
+						craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
+					{
+						craftTab[i].destroyEl();
+
+						if (craftTab[i].checkStateCraft())
+						{
+							std::cout << "Destroyed threeMasted craft" << std::endl;
+
+							//Tick field around craft
+							this->tickForbidArea(craftTab[i]);
+						}
+
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (field.getType() == CraftType::oneMasted)
+	{
+		//6-9
+		for (int i = 6; i <= 9; i++)
+		{
+			for (int areaY = 0; areaY < craftTab[i].getArea().size(); areaY++)
+			{
+				for (int areaX = 0; areaX < craftTab[i].getArea()[areaY].size(); areaX++)
+				{
+					if (craftTab[i].getArea()[areaY][areaX].getCoordinateX() == field.getCoordinateX() &&
+						craftTab[i].getArea()[areaY][areaX].getCoordinateY() == field.getCoordinateY())
+					{
+						craftTab[i].destroyEl();
+
+						if (craftTab[i].checkStateCraft())
+						{
+							std::cout << "Destroyed threeMasted craft" << std::endl;
+
+							//Tick field around craft
+							this->tickForbidArea(craftTab[i]);
+						}
+
+						break;
+					}
+				}
+			}
 		}
 	}
 }

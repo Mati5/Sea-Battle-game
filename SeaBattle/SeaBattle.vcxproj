@@ -151,6 +151,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="GridField.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMode.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GridField.h" />

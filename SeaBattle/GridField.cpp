@@ -11,6 +11,17 @@ GridField::GridField()
 	this->sprite.setPosition(coordinate[0], coordinate[1]);
 }
 
+GridField::GridField(const GridField& gridField)
+{
+	coordinate[0] = gridField.coordinate[0];
+	coordinate[1] = gridField.coordinate[1];
+	color = gridField.color;
+	width = gridField.width;
+	height = gridField.height;
+	spaceBetweenField = gridField.spaceBetweenField;
+	sprite = gridField.sprite;
+}
+
 void GridField::setCoordinate(int x, int y)
 {
 	this->coordinate[0] = x;

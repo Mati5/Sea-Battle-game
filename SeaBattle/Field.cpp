@@ -6,6 +6,20 @@ Field::Field()
 	this->checked = false;
 }
 
+Field::Field(const Field& field)
+{
+	coordinate[0] = field.coordinate[0];
+	coordinate[1] = field.coordinate[1];
+	color = field.color;
+	width = field.width;
+	height = field.height;
+	spaceBetweenField = field.spaceBetweenField;
+	sprite = field.sprite;
+	type = field.type;
+	checked = field.checked;
+}
+
+
 void Field::setType(CraftType type)
 {
 	this->type = type;

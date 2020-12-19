@@ -19,3 +19,8 @@ Board GameSettings::getPlayerBoard_2()
 {
     return playerBoard_2;
 }
+
+GameMode GameSettings::getSelectedGameMode()
+{
+    return this->selectedGameMode;
+}

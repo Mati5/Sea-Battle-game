@@ -1,5 +1,12 @@
 #include "Craft.h"
 
+Craft::Craft()
+{
+	
+}
+
+
+
 Field& Craft::getSpriteField()
 {
 	return this->sprite;
