@@ -5,27 +5,29 @@
 class Craft
 {
 	Field sprite;
-	std::vector<std::vector<Field>> area;
+	std::vector<Field> area;
 	std::vector<Field> forbidArea;
+	std::string orientation; //horizontal/vertical
 	CraftType craftType;
-	int craftTypeNumber;
-	int quantityDestroyedEl=0;
+	int quantityDestroyedEl;
 	
 
 public:
 	Craft();
 
-
-
 	Field& getSpriteField();
 
-	std::vector<std::vector<Field>> getArea();
+	std::vector<Field> getArea();
 
 	std::vector<Field> getForbidArea();
 
-	void addField(Field field);
+	void addField(const Field& field);
 
 	void addForbidArea(Field field);
+
+	void setOrientation(std::string orientation);
+
+	std::string getOrientation();
 
 	void setCraftType(CraftType craftType);
 

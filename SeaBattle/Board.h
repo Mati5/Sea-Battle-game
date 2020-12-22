@@ -13,6 +13,8 @@ class Board
 	int dimensionY;
 	std::array<std::array<Field, 10>, 10> fieldTab;
 	std::vector<Craft> craftTab;
+	std::vector<std::vector<int>> availableField{};
+	std::vector<Field> hitCraftTab;
 	Field clickedField;
 	bool leftMouseBtnPressed{false};
 
@@ -70,7 +72,7 @@ public:
 
 	void randomCraft(int type, int quantity);
 
-	void checkCraftIsDestroyed(Field field);
+	Craft checkCraftIsDestroyed(Field field);
 
 	void tickForbidArea(Craft craft);
 
@@ -81,4 +83,18 @@ public:
 	void checkWEDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
 
 	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
+
+	Field getAvailableField();
+
+	void delAvailableField(int index);
+
+	void delForbidAvailableField(std::vector<Field> forbidArea);
+
+	int getIndexAvailableField(int coordinateX, int coordinateY);
+
+	int getCraft(Field field);
+
+	void addHitCraft(Field field);
+
+	int getHitCraft(Field field);
 };

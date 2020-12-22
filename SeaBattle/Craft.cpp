@@ -2,9 +2,9 @@
 
 Craft::Craft()
 {
-	
+	craftType = CraftType::zeroMasted;
+	quantityDestroyedEl = 0;
 }
-
 
 
 Field& Craft::getSpriteField()
@@ -12,7 +12,7 @@ Field& Craft::getSpriteField()
 	return this->sprite;
 }
 
-std::vector<std::vector<Field>> Craft::getArea()
+std::vector<Field> Craft::getArea()
 {
 	return this->area;
 }
@@ -22,31 +22,24 @@ std::vector<Field> Craft::getForbidArea()
 	return this->forbidArea;
 }
 
-void Craft::addField(Field field)
+void Craft::addField(const Field& field)
 {
-	int sizeY = this->area.size();
-	
-	if (sizeY > 0)
-	{
-		int sizeX = this->area[sizeY - 1].size();
-		if (this->area[sizeY - 1][sizeX - 1].getCoordinateY() == field.getCoordinateY())
-		{
-			this->area[sizeY - 1].push_back(field);
-		}
-		else
-		{
-			this->area.push_back(std::vector<Field>{field});
-		}
-	}
-	else
-	{
-		this->area.push_back(std::vector<Field>{field});
-	}
+	area.push_back(field);
 }
 
 void Craft::addForbidArea(Field field)
 {
 	this->forbidArea.push_back(field);
+}
+
+void Craft::setOrientation(std::string orientation)
+{
+	this->orientation = orientation;
+}
+
+std::string Craft::getOrientation()
+{
+	return this->orientation;
 }
 
 void Craft::setCraftType(CraftType craftType)
@@ -97,6 +90,8 @@ void Craft::destroyEl()
 
 bool Craft::checkStateCraft()
 {
-	return this->quantityDestroyedEl == getCraftTypeNumber(this->craftType);
+	if(getCraftTypeNumber(this->craftType)>0 && getCraftTypeNumber(this->craftType)<=4)
+		return this->quantityDestroyedEl == getCraftTypeNumber(this->craftType);
+	return false;
 }
 
