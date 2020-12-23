@@ -72,7 +72,7 @@ public:
 
 	void randomCraft(int type, int quantity);
 
-	Craft checkCraftIsDestroyed(Field field);
+	void checkCraftIsDestroyed(Field field);
 
 	void tickForbidArea(Craft craft);
 

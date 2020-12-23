@@ -134,76 +134,148 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai)
 		
 	if (Ai && turn)
 	{
-		if (clickedField.hitCraft())
+		if (hitCraftTab.size()==1)
 		{
-			field2 = this->getClickedField();
-			int indexHitCraft = getCraft(field2);
-			if (!craftTab[indexHitCraft].checkStateCraft())
+			field2 = hitCraftTab[0];
+
+			//Tick 4 option (random 4 direction)
+			std::vector<char> direction = {};
+			int x = field2.getCoordinateX();
+			int y = field2.getCoordinateY();
+
+			//1 check which direction is available
+			// all 4 direction
+			if (x > 0 && x < 9 && y > 0 && y < 9)
 			{
-				//Tick 4 option (random 4 direction)
-				int quantityDirection = 0;
-				std::vector<char> direction = {};
-				int x = field2.getCoordinateX();
-				int y = field2.getCoordinateY();
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
+			else if (x==0 && y==0)
+			{
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+			}
+			else if (x == 0 && y == 9)
+			{
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+			}
+			else if (x == 9 && y == 0)
+			{
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
+			else if (x == 9 && y == 9)
+			{
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
+			else if (x == 0 && y > 0 && y < 9)
+			{
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+			}
+			else if (x == 9 && y>0 && y<9)
+			{
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
+			else if (x > 0 && x < 9 && y == 0)
+			{
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+				if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
+			else if (x > 0 && x < 9 && y == 9)
+			{
+				if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
+				if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+				if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			}
 
-				//1 check which direction is available
-				// all 4 direction
-				if (x > 0 && x < 9 && y > 0 && y < 9)
+			if (direction.size() > 0)
+			{
+				int randDirectionNum = rand() % direction.size();
+				char randDirection = direction[randDirectionNum];
+
+				switch (randDirection)
 				{
-					if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-					if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-					if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
-					if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
-
-					if (direction.size() > 0)
-					{
-						int randDirectionNum = rand() % direction.size();
-						char randDirection = direction[randDirectionNum];
-
-						switch (randDirection)
-						{
-						case 'N':
-							field2 = fieldTab[y - 1][x];
-							break;
-						case 'E':
-							field2 = fieldTab[y][x + 1];
-							break;
-						case 'S':
-							field2 = fieldTab[y + 1][x];
-							break;
-						case 'W':
-							field2 = fieldTab[y][x - 1];;
-							break;
-						}
-					}
-
-				}
-				else {
-					field2 = getAvailableField();
+				case 'N':
+					field2 = fieldTab[y - 1][x];
+					break;
+				case 'E':
+					field2 = fieldTab[y][x + 1];
+					break;
+				case 'S':
+					field2 = fieldTab[y + 1][x];
+					break;
+				case 'W':
+					field2 = fieldTab[y][x - 1];;
+					break;
 				}
 			}
-			else
-			{
+			else {
 				field2 = getAvailableField();
+			}
+		}
+		else if (hitCraftTab.size() > 1)
+		{
+			int hitCraftIndex = getCraft(hitCraftTab[0]);
+			std::string hitCraftDirection = craftTab[hitCraftIndex].getOrientation();
+
+			if (hitCraftDirection == "vertical") //N/S
+			{
+				for (int i = 0; i < hitCraftTab.size(); i++)
+				{
+					int x = hitCraftTab[i].getCoordinateX();
+					int y = hitCraftTab[i].getCoordinateY();
+
+					if (y-1>=0 && !fieldTab[y - 1][x].getChecked()) {
+						field2 = fieldTab[y - 1][x];
+						break;
+					}
+					else if (y+1<=9 && !fieldTab[y + 1][x].getChecked())
+					{
+						field2 = fieldTab[y + 1][x];
+						break;
+					}
+				}
+			}
+			else//E/W
+			{
+				for (int i = 0; i < hitCraftTab.size(); i++)
+				{
+					int x = hitCraftTab[i].getCoordinateX();
+					int y = hitCraftTab[i].getCoordinateY();
+
+					if (x-1>=0 && !fieldTab[y][x - 1].getChecked()) {
+						field2 = fieldTab[y][x - 1];
+						break;
+					}
+					else if (x+1<=9 && !fieldTab[y][x + 1].getChecked())
+					{
+						field2 = fieldTab[y][x + 1];
+						break;
+					}
+				}
 			}
 		}
 		else
 		{
 			field2 = getAvailableField();
-		}
-		
+		}	
 		
 		Sleep(1000);
-		std::cout << "AI action" << std::endl;
-
 
 		if (!field2.getChecked())
 		{
-
 			field2.setColor(sf::Color::White);
 			field2.setChecked(true);
 			
-
 			if (field2.hitCraft()) {
 				field2.setColor(sf::Color::Blue);
 
@@ -216,10 +288,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai)
 			int checkedFieldIndex = getIndexAvailableField(field2.getCoordinateX(), field2.getCoordinateY());
 			delAvailableField(checkedFieldIndex);
 
-
-			Craft destroyedCraft = checkCraftIsDestroyed(field2);
-			if(destroyedCraft.checkStateCraft())
-				delForbidAvailableField(destroyedCraft.getForbidArea());
+			checkCraftIsDestroyed(field2);
 		}
 		else
 		{
@@ -811,7 +880,7 @@ void Board::randomCraft(int type, int quantity)
 	}
 }
 
-Craft Board::checkCraftIsDestroyed(Field field)
+void Board::checkCraftIsDestroyed(Field field)
 {
 	int craftIndex = getCraft(field);
 	if (craftIndex >= 0)
@@ -825,14 +894,13 @@ Craft Board::checkCraftIsDestroyed(Field field)
 			//Tick field around craft
 			this->tickForbidArea(craftTab[craftIndex]);
 
+			//delete forbid element from available field
+			delForbidAvailableField(craftTab[craftIndex].getForbidArea());
+
 			//delete element from hitCraftTab
-
-
-			return craftTab[craftIndex];
+			hitCraftTab.clear();
 		}
 	}
-
-	return Craft();
 }
 
 void Board::tickForbidArea(Craft craft)
