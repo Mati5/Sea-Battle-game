@@ -4,12 +4,12 @@
 
 class Craft
 {
-	Field sprite;
-	std::vector<Field> area;
-	std::vector<Field> forbidArea;
-	std::string orientation; //horizontal/vertical
-	CraftType craftType;
-	int quantityDestroyedEl;
+	Field m_sprite;
+	std::vector<Field> m_area;
+	std::vector<Field> m_forbidArea;
+	std::string m_orientation; //horizontal/vertical
+	CraftType m_craftType;
+	int m_quantityDestroyedEl;
 	
 
 public:
@@ -17,31 +17,31 @@ public:
 
 	Field& getSpriteField();
 
-	std::vector<Field> getArea();
+	std::vector<Field> getArea() const;
 
-	std::vector<Field> getForbidArea();
+	std::vector<Field> getForbidArea() const;
 
 	void addField(const Field& field);
 
-	void addForbidArea(Field field);
+	void addForbidArea(const Field& field);
 
-	void setOrientation(std::string orientation);
+	void setOrientation(const std::string& orientation);
 
-	std::string getOrientation();
+	std::string getOrientation() const;
 
 	void setCraftType(CraftType craftType);
 
-	CraftType getCraftType();
+	CraftType getCraftType() const;
 
-	int getCraftTypeNumber(CraftType craftType);
+	int getCraftTypeNumber(CraftType craftType) const;
 
 	void setQuantityDestroyedEl(int quantityDestroyedEl);
 
-	int getQuantityDestroyedEl();
+	int getQuantityDestroyedEl() const;
 
 	void destroyEl();
 
 	//return true if craft destroyed
-	bool checkStateCraft();
+	bool checkStateCraft() const;
 };
 

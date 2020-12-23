@@ -1,96 +1,90 @@
 #include "GridField.h"
 
-GridField::GridField()
+GridField::GridField() :m_width{ 20.f }
 {
-	this->coordinate[0] = 10;
-	this->coordinate[1] = 10;
-	this->color = sf::Color::Red;
-	this->width = 20.f;
-	this->height = 20.f;
-	this->spaceBetweenField = 40;
-	this->sprite.setPosition(coordinate[0], coordinate[1]);
+	m_coordinate.push_back(10);
+	m_coordinate.push_back(10);
+	m_color = sf::Color::Red;
+	m_width = 20.f;
+	m_height = 20.f;
+	m_spaceBetweenField = 40;
+	m_sprite.setPosition(float(m_coordinate[0]), float(m_coordinate[1]));
 }
 
-GridField::GridField(const GridField& gridField)
+GridField::~GridField()
 {
-	coordinate[0] = gridField.coordinate[0];
-	coordinate[1] = gridField.coordinate[1];
-	color = gridField.color;
-	width = gridField.width;
-	height = gridField.height;
-	spaceBetweenField = gridField.spaceBetweenField;
-	sprite = gridField.sprite;
+	m_coordinate.clear();
 }
+
 
 void GridField::setCoordinate(int x, int y)
 {
-	this->coordinate[0] = x;
-	this->coordinate[1] = y;
-	this->sprite.setPosition(x, y);
+	m_coordinate[0] = x;
+	m_coordinate[1] = y;
 }
 
-int* GridField::getCoordinate()
+std::vector<int> GridField::getCoordinate() const
 {
-	return this->coordinate;
+	return m_coordinate;
 }
 
-int GridField::getCoordinateX()
+int GridField::getCoordinateX() const
 {
-	return this->coordinate[0];
+	return m_coordinate[0];
 }
 
-int GridField::getCoordinateY()
+int GridField::getCoordinateY() const
 {
-	return this->coordinate[1];
+	return m_coordinate[1];
 }
 
 void GridField::setColor(sf::Color color)
 {
-	this -> color = color;
+	m_color = color;
 }
 
-sf::Color GridField::getColor()
+sf::Color GridField::getColor() const
 {
-	return this->color;
+	return m_color;
 }
 
 void GridField::setWidth(float width)
 {
-	this->width = width;
+	m_width = width;
 }
 
-float GridField::getWidth()
+float GridField::getWidth() const 
 {
-	return this->width;
+	return m_width;
 }
 
 void GridField::setHeight(float height)
 {
-	this->height = height;
+	m_height = height;
 }
 
-float GridField::getHeight()
+float GridField::getHeight() const
 {
-	return this->height;
+	return m_height;
 }
 
 void GridField::setSpaceBetweenField(int spaceBetweenField)
 {
-	this->spaceBetweenField = spaceBetweenField;
+	m_spaceBetweenField = spaceBetweenField;
 }
 
-int GridField::getSpaceBetweenField()
+int GridField::getSpaceBetweenField() const
 {
-	return this->spaceBetweenField;
+	return m_spaceBetweenField;
 }
 
 bool GridField::onClick(float mouseX, float mouseY)
 {
-	int fieldPositionX = this->coordinate[0];
-	int fieldPositionY = this->coordinate[1];
+	auto fieldPositionX = float(m_coordinate[0]);
+	auto fieldPositionY = float(m_coordinate[1]);
 
-	if (mouseX > fieldPositionX && mouseX < fieldPositionX + this->width
-		&& mouseY > fieldPositionY && mouseY < fieldPositionY + this->height)
+	if (mouseX > fieldPositionX && mouseX < fieldPositionX + m_width
+		&& mouseY > fieldPositionY && mouseY < fieldPositionY + m_height)
 	{
 		return true;
 	}
@@ -98,18 +92,21 @@ bool GridField::onClick(float mouseX, float mouseY)
 	return false;
 }
 
-sf::RectangleShape GridField::renderField()
+sf::RectangleShape GridField::renderField() const
 {
 	return sf::RectangleShape();
 }
 
-void GridField::setSprite(sf::Texture& texture)
+void GridField::setSprite(const sf::Texture& texture)
 {
-	this->sprite.setTexture(texture, true);
-	this->sprite.setPosition(coordinate[0], coordinate[1]);
+	m_sprite.setTexture(texture, true);
+	auto x = float(m_coordinate[0]);
+	auto y = float(m_coordinate[1]);
+
+	m_sprite.setPosition(x, y);
 }
 
-sf::Sprite GridField::getSprite()
+sf::Sprite GridField::getSprite() const
 {
-	return this->sprite;
+	return m_sprite;
 }

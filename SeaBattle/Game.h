@@ -12,7 +12,7 @@ private:
 	sf::RenderWindow _window;
 
 	void handleInput();
-	void update();
+	void update() const;
 	void render();
 
 public:

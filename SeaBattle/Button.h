@@ -7,15 +7,9 @@
 
 class Button: public GridField
 {
-	sf::Font myFont;
-	sf::Text title;
-	int fontSize;
-	//sf::Font myFont;
-
+	
 public:
 	Button();
-	void setTitle(std::string title);
-	sf::RectangleShape renderField();
-	sf::Text renderText();
+	sf::RectangleShape renderField() const override;
 };
 

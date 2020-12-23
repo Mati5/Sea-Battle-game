@@ -6,33 +6,32 @@
 
 class Field: public GridField
 {
-	CraftType type;
-	bool checked;
-
+	CraftType m_type;
+	bool m_checked{false};
 
 public:
 	Field();
 
-	Field(const Field& field);
+	~Field() override;
 
-	void setType(CraftType type);
+	void setType(const CraftType type);
 
-	CraftType getType();
+	CraftType getType() const;
 
 	void setChecked(bool checked);
 
-	bool getChecked();
+	bool getChecked() const;
 
-	void setCoordinate(int x, int y);
+	void setCoordinate(int x, int y) override;
 
-	int getCoordinateX();
+	int getCoordinateX() const override;
 
-	int getCoordinateY();
+	int getCoordinateY() const override;
 
-	sf::RectangleShape renderField();
+	sf::RectangleShape renderField() const override;
 
-	bool onClick(float mouseX, float mouseY);
+	bool onClick(float mouseX, float mouseY) override;
 
-	bool hitCraft();
+	bool hitCraft()const;
 };
 

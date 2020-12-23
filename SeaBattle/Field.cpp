@@ -2,68 +2,57 @@
 
 Field::Field()
 {
-	this->type = CraftType::zeroMasted;
-	this->checked = false;
+	m_type = CraftType::zeroMasted;
 }
 
-Field::Field(const Field& field)
+Field::~Field() = default;
+
+void Field::setType(const CraftType type)
 {
-	coordinate[0] = field.coordinate[0];
-	coordinate[1] = field.coordinate[1];
-	color = field.color;
-	width = field.width;
-	height = field.height;
-	spaceBetweenField = field.spaceBetweenField;
-	sprite = field.sprite;
-	type = field.type;
-	checked = field.checked;
+	m_type = type;
 }
 
-
-void Field::setType(CraftType type)
+CraftType Field::getType() const
 {
-	this->type = type;
-}
-
-CraftType Field::getType()
-{
-	return this->type;
+	return m_type;
 }
 
 void Field::setChecked(bool checked)
 {
-	this->checked = checked;
+	m_checked = checked;
 }
 
-bool Field::getChecked()
+bool Field::getChecked() const
 {
-	return this->checked;
+	return m_checked;
 }
 
 void Field::setCoordinate(int x, int y)
 {
-	this->coordinate[0] = x * this->getSpaceBetweenField();
-	this->coordinate[1] = y * this->getSpaceBetweenField();
+	m_coordinate[0] = x * this->getSpaceBetweenField();
+	m_coordinate[1] = y * this->getSpaceBetweenField();
 }
 
-int Field::getCoordinateX()
+int Field::getCoordinateX() const
 {
 	return GridField::getCoordinateX() > 0 ? GridField::getCoordinateX() / GridField::getSpaceBetweenField() : GridField::getCoordinateX();
 }
 
-int Field::getCoordinateY()
+int Field::getCoordinateY() const
 {
 	return GridField::getCoordinateY() > 0 ? GridField::getCoordinateY() / GridField::getSpaceBetweenField() : GridField::getCoordinateY();
 }
 
-sf::RectangleShape Field::renderField()
+sf::RectangleShape Field::renderField() const
 {
 	sf::RectangleShape shape;
 	sf::Vector2f kratkaSize(this->getWidth(), this->getHeight());
 
 	shape.setSize(kratkaSize);
 	shape.setFillColor(this->getColor());
-	shape.setPosition(this->getCoordinate()[0], this->getCoordinate()[1]);
+	auto x = float(m_coordinate[0]);
+	auto y = float(m_coordinate[1]);
+	shape.setPosition(x, y);
 
 	return shape;
 }
@@ -87,7 +76,7 @@ bool Field::onClick(float mouseX, float mouseY)
 	return false;
 }
 
-bool Field::hitCraft()
+bool Field::hitCraft() const
 {
 	return int(this->getType()) > 0 && int(this->getType()) < 5;
 }

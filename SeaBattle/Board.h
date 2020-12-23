@@ -5,31 +5,29 @@
 #include "CraftType.h"
 #include "Button.h"
 #include "Craft.h"
-#include<windows.h>
+#include<Windows.h>
 
 class Board
 {
-	int dimensionX;
-	int dimensionY;
-	std::array<std::array<Field, 10>, 10> fieldTab;
-	std::vector<Craft> craftTab;
-	std::vector<std::vector<int>> availableField{};
-	std::vector<Field> hitCraftTab;
-	Field clickedField;
-	bool leftMouseBtnPressed{false};
+	int m_dimensionX{10};
+	int m_dimensionY{10};
+	std::array<std::array<Field, 10>, 10> m_fieldTab;
+	std::vector<Craft> m_craftTab;
+	std::vector<std::vector<int>> m_availableField{};
+	std::vector<Field> m_hitCraftTab;
+	Field m_clickedField;
+	bool m_leftMouseBtnPressed{false};
 
 public:
 	Board();
 
 	~Board();
 
-	Board(const Board& board);
-
 	void resetBoard()
 	{
-		this->dimensionX = 10;
-		this->dimensionY = 10;
-		this->craftTab.clear();
+		m_dimensionX = 10;
+		m_dimensionY = 10;
+		m_craftTab.clear();
 
 		for (int y = 0; y < this->getDimensionY(); y++) {
 			for (int x = 0; x < this->getDimensionX(); x++) {
@@ -37,44 +35,44 @@ public:
 				field.setCoordinate(x, y);
 				field.setColor(sf::Color::Cyan);
 
-				this->fieldTab[y][x] = field;
+				m_fieldTab[y][x] = field;
 			}
 		}
 	}
 	
 	void setDimensionX(int dimensionX);
 
-	int getDimensionX();
+	int getDimensionX() const;
 
 	void setDimensionY(int dimensionY);
 
-	int getDimensionY();
+	int getDimensionY() const;
 
-	std::array<std::array<Field, 10>, 10> getFieldTab();
+	std::array<std::array<Field, 10>, 10> getFieldTab() const;
 
-	void addCraft(Craft craft);
+	void addCraft(const Craft& craft);
 
-	std::vector<Craft> getCraftTab();
+	std::vector<Craft> getCraftTab() const;
 
-	void setClickedField(Field clickedField);
+	void setClickedField(const Field& clickedField);
 
-	Field getClickedField();
+	Field getClickedField() const;
 
-	void updateTabEl(Field field);
+	void updateTabEl(const Field& field);
 
-	void updateCraftTab(Craft craft, int index);
+	void updateCraftTab(const Craft& craft, int index);
 
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
-	void handleInput(sf::Event event);
+	void handleInput(const sf::Event& event);
 
 	void renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai=false);
 
 	void randomCraft(int type, int quantity);
 
-	void checkCraftIsDestroyed(Field field);
+	void checkCraftIsDestroyed(const Field& field);
 
-	void tickForbidArea(Craft craft);
+	void tickForbidArea(const Craft& craft);
 
 	void checkNSDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
 
@@ -92,9 +90,5 @@ public:
 
 	int getIndexAvailableField(int coordinateX, int coordinateY);
 
-	int getCraft(Field field);
-
-	void addHitCraft(Field field);
-
-	int getHitCraft(Field field);
+	int getCraft(const Field& field);
 };

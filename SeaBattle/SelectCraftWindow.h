@@ -10,24 +10,22 @@
 
 class SelectCraftWindow: public IScreen
 {
-	GameSettings gameSettings;
-	Board board;
-	Button randomCraftBtn;
-	Button nextPlayerBtn;
-	Button startGameBtn;
-	bool startGame;
-	sf::Texture threeMastedTexture;
-	Craft craft;
-	//bool leftMouseBtnPressed;
-	Craft selectedCraft;
+	GameSettings m_gameSettings;
+	Board m_board;
+	Button m_randomCraftBtn;
+	Button m_nextPlayerBtn;
+	Button m_startGameBtn;
+	bool m_startGame;
+	sf::Texture m_threeMastedTexture;
+	Craft m_craft;
+	Craft m_selectedCraft;
 
 public:
 	SelectCraftWindow();
 	/*implementacja funkcji z interfesju*/
-	void handleInput(sf::RenderWindow& window, sf::Event event);
+	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 	void update() override;
 	void render(sf::RenderWindow& window) override;
 
 	void setStartGame(bool startGame);
 };
-

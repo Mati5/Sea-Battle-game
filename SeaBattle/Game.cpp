@@ -1,12 +1,11 @@
 #include "Game.h"
 
-std::shared_ptr<IScreen> Game::Screen = std::make_shared<SelectCraftWindow>(); //StartScreen()
+std::shared_ptr<IScreen> Game::Screen = std::make_shared<StartScreen>(); //StartScreen()
 
 Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titlebar | sf::Style::Close)
 {
 
 }
-
 
 void Game::run()
 {
@@ -17,7 +16,6 @@ void Game::run()
 		render();
 	}
 }
-
 
 void Game::handleInput()
 {
@@ -31,7 +29,7 @@ void Game::handleInput()
 	}
 }
 
-void Game::update()
+void Game::update() const
 {
 	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
 	sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);

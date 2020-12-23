@@ -2,57 +2,57 @@
 
 Craft::Craft()
 {
-	craftType = CraftType::zeroMasted;
-	quantityDestroyedEl = 0;
+	m_craftType = CraftType::zeroMasted;
+	m_quantityDestroyedEl = 0;
 }
 
 
 Field& Craft::getSpriteField()
 {
-	return this->sprite;
+	return m_sprite;
 }
 
-std::vector<Field> Craft::getArea()
+std::vector<Field> Craft::getArea() const
 {
-	return this->area;
+	return m_area;
 }
 
-std::vector<Field> Craft::getForbidArea()
+std::vector<Field> Craft::getForbidArea() const
 {
-	return this->forbidArea;
+	return m_forbidArea;
 }
 
 void Craft::addField(const Field& field)
 {
-	area.push_back(field);
+	m_area.push_back(field);
 }
 
-void Craft::addForbidArea(Field field)
+void Craft::addForbidArea(const Field& field)
 {
-	this->forbidArea.push_back(field);
+	m_forbidArea.push_back(field);
 }
 
-void Craft::setOrientation(std::string orientation)
+void Craft::setOrientation(const std::string& orientation)
 {
-	this->orientation = orientation;
+	m_orientation = orientation;
 }
 
-std::string Craft::getOrientation()
+std::string Craft::getOrientation() const
 {
-	return this->orientation;
+	return m_orientation;
 }
 
 void Craft::setCraftType(CraftType craftType)
 {
-	this->craftType = craftType;
+	m_craftType = craftType;
 }
 
-CraftType Craft::getCraftType()
+CraftType Craft::getCraftType() const
 {
-	return this->craftType;
+	return m_craftType;
 }
 
-int Craft::getCraftTypeNumber(CraftType craftType)
+int Craft::getCraftTypeNumber(CraftType craftType) const
 {
 	switch (craftType)
 	{
@@ -73,25 +73,23 @@ int Craft::getCraftTypeNumber(CraftType craftType)
 
 void Craft::setQuantityDestroyedEl(int quantityDestroyedEl)
 {
-	this->quantityDestroyedEl = quantityDestroyedEl;
+	m_quantityDestroyedEl = quantityDestroyedEl;
 }
 
-int Craft::getQuantityDestroyedEl()
+int Craft::getQuantityDestroyedEl() const
 {
-	return this->quantityDestroyedEl;
+	return m_quantityDestroyedEl;
 }
 
 void Craft::destroyEl()
 {
-	this->quantityDestroyedEl += 1;
-
-	std::cout << "destroyed el " << this->quantityDestroyedEl << std::endl;
+	m_quantityDestroyedEl += 1;
 }
 
-bool Craft::checkStateCraft()
+bool Craft::checkStateCraft() const
 {
-	if(getCraftTypeNumber(this->craftType)>0 && getCraftTypeNumber(this->craftType)<=4)
-		return this->quantityDestroyedEl == getCraftTypeNumber(this->craftType);
+	if(getCraftTypeNumber(m_craftType)>0 && getCraftTypeNumber(m_craftType)<=4)
+		return m_quantityDestroyedEl == getCraftTypeNumber(m_craftType);
 	return false;
 }
 

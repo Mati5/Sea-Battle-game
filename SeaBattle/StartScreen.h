@@ -12,8 +12,7 @@ class StartScreen: public IScreen
 public:
 	StartScreen();
 	/*implementacja funkcji z interfesju*/
-	//void handlePlayerInput(sf::Keyboard::Key key, bool isPressed) override;
-	void handleInput(sf::RenderWindow& window, sf::Event event);
+	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 	void update() override;
 	void render(sf::RenderWindow& window) override;
 };

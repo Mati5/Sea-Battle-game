@@ -6,20 +6,20 @@
 
 class GameScreen: public IScreen
 {
-	Board playerBoard_1;
-	Board playerBoard_2;
-	GameMode gameMode;
-	bool turn = false;
+	Board m_playerBoard_1;
+	Board m_playerBoard_2;
+	GameMode m_gameMode;
+	bool m_turn = false;
 
 public:
-	GameScreen(GameSettings gameSettings);
+	explicit GameScreen(const GameSettings& gameSettings);
 
 	/*implementacja funkcji z interfesju*/
-	void handleInput(sf::RenderWindow& window, sf::Event event);
+	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 	void update() override;
 	void render(sf::RenderWindow& window) override;
 	
 	void setTurn(bool turn);
-	bool getTurn();
+	bool getTurn() const;
 };
 

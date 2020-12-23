@@ -6,47 +6,47 @@
 class GridField
 {
 protected:
-	int coordinate[2];
-	sf::Color color;
-	float width;
-	float height;
-	int spaceBetweenField;
-	sf::Sprite sprite;
+	std::vector<int> m_coordinate;
+	sf::Color m_color;
+	float m_width;
+	float m_height;
+	int m_spaceBetweenField;
+	sf::Sprite m_sprite;
 
 public:
 	GridField();
-	
-	GridField(const GridField& gridField);
 
-	void setCoordinate(int x, int y);
+	virtual ~GridField();
 
-	int* getCoordinate();
+	virtual void setCoordinate(int x, int y);
 
-	int getCoordinateX();
+	std::vector<int> getCoordinate() const;
 
-	int getCoordinateY();
+	virtual int getCoordinateX() const;
+
+	virtual int getCoordinateY() const;
 
 	void setColor(sf::Color color);
 
-	sf::Color getColor();
+	sf::Color getColor() const;
 
 	void setWidth(float width);
 
-	float getWidth();
+	float getWidth() const;
 
 	void setHeight(float height);
 
-	float getHeight();
+	float getHeight() const;
 
 	void setSpaceBetweenField(int spaceBetweenField);
 
-	int getSpaceBetweenField();
+	int getSpaceBetweenField() const;
 
 	virtual bool onClick(float mouseX, float mouseY);
 
-	virtual sf::RectangleShape renderField();
+	virtual sf::RectangleShape renderField() const;
 
-	void setSprite(sf::Texture& texture);
+	void setSprite(const sf::Texture& texture);
 
-	sf::Sprite getSprite();
+	sf::Sprite getSprite() const;
 };
