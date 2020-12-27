@@ -1,7 +1,6 @@
 #pragma once
 #include "IScreen.h"
 #include "GameSettings.h"
-#include "Board.h"
 #include "BoardPlayer.h"
 #include "BoardAi.h"
 #include "Button.h"
@@ -13,7 +12,6 @@
 class SelectCraftWindow: public IScreen
 {
 	GameSettings m_gameSettings;
-	//Board m_board;
 	BoardPlayer m_boardPlayer;
 	BoardAi m_boardAi;
 	Button m_randomCraftBtn;
@@ -28,7 +26,7 @@ public:
 	SelectCraftWindow();
 	/*implementacja funkcji z interfesju*/
 	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
-	void update() override;
+	void update(sf::Time deltaTime) override;
 	void render(sf::RenderWindow& window) override;
 
 	void setStartGame(bool startGame);

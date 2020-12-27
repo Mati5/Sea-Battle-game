@@ -1,6 +1,7 @@
 #pragma once
 #include "Board.h"
 #include "Field.h"
+#include<Windows.h>
 
 class BoardAi: public Board
 {

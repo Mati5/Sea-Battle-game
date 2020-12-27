@@ -17,7 +17,7 @@ void StartScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 	}
 }
 
-void StartScreen::update()
+void StartScreen::update(sf::Time deltaTime)
 {
 	
 }

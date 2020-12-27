@@ -157,7 +157,7 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 	{
 		field2 = getAvailableField(fieldTab);
 	}
-
+	
 	if (!field2.getChecked())
 	{
 

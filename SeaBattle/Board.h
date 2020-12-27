@@ -5,7 +5,7 @@
 #include "CraftType.h"
 #include "Button.h"
 #include "Craft.h"
-
+#include<Windows.h>
 
 class Board
 {
@@ -60,7 +60,7 @@ public:
 
 	void updateCraftTab(const Craft& craft, int index);
 
-	void renderBoard(sf::RenderWindow& mWindow);
+	void renderBoard(sf::RenderWindow& mWindow) const;
 
 	void randomCraft(int type, int quantity);
 

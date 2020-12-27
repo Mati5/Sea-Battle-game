@@ -78,10 +78,8 @@ void Board::updateCraftTab(const Craft& craft, int index)
 	m_craftTab[index] = craft;
 }
 
-void Board::renderBoard(sf::RenderWindow& mWindow)
-{
-	Field field2;
-		
+void Board::renderBoard(sf::RenderWindow& mWindow) const
+{	
 	for (int y = 0; y < getDimensionY(); y++)
 	{
 		for (int x = 0; x < getDimensionX(); x++)
@@ -94,7 +92,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow)
 
 			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid && field.getChecked())
 				field.setColor(sf::Color::Blue);
-			
+
 			mWindow.draw(field.renderField());
 		}
 	}
@@ -634,10 +632,6 @@ void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderW
 	if (key == sf::Mouse::Left)
 	{
 		//m_leftMouseBtnPressed = isPressed;
-
-
-		sf::View currentView = window.getView();
-		window.setView(currentView);
 
 		for (int y = 0; y < getDimensionY(); y++)
 		{

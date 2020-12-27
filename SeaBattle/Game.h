@@ -10,9 +10,10 @@ class Game
 	
 private:
 	sf::RenderWindow _window;
+	static const sf::Time TimePerFrame;
 
 	void handleInput();
-	void update() const;
+	void update(sf::Time deltaTime) const;
 	void render();
 
 public:

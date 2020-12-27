@@ -8,25 +8,3 @@ class BoardPlayer: public Board
 public:
 	void tickField(Field field);
 };
-
-
-
-
-
-//Board player
-/*if (turn && !Ai && m_leftMouseBtnPressed) {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-	sf::Vector2f worldPos = mWindow.mapPixelToCoords(mousePosition);
-
-	float mouseX = worldPos.x;
-	float mouseY = worldPos.y;
-
-	if (field.onClick(mouseX, mouseY)) {
-
-		setClickedField(field);
-		updateTabEl(field);
-
-		//check if craft is destroyed
-		checkCraftIsDestroyed(field);
-	}
-}*/

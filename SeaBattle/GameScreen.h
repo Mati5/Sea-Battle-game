@@ -15,13 +15,15 @@ class GameScreen: public IScreen
 	sf::View playerView_1;
 	sf::View playerView_2;
 	bool m_turn = false;
+	static const float DelayAi;
+	float timer;
 
 public:
 	explicit GameScreen(const GameSettings& gameSettings);
 
 	/*implementacja funkcji z interfesju*/
 	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
-	void update() override;
+	void update(sf::Time deltaTime) override;
 	void render(sf::RenderWindow& window) override;
 	
 	void setTurn(bool turn);

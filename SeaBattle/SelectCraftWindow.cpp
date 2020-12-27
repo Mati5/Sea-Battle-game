@@ -1,7 +1,5 @@
 #include "SelectCraftWindow.h"
 
-
-
 SelectCraftWindow::SelectCraftWindow()
 {
 	m_randomCraftBtn.setCoordinate(50, 400);
@@ -92,7 +90,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 	
 }
 
-void SelectCraftWindow::update()
+void SelectCraftWindow::update(sf::Time deltaTime)
 {
 
 	if (m_craft.getSpriteField().getChecked())

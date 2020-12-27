@@ -2,6 +2,7 @@
 
 void BoardPlayer::tickField(Field field)
 {
+	
 	if (!field.getChecked())
 	{
 		field.setColor(sf::Color::White);
