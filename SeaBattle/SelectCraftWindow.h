@@ -2,6 +2,8 @@
 #include "IScreen.h"
 #include "GameSettings.h"
 #include "Board.h"
+#include "BoardPlayer.h"
+#include "BoardAi.h"
 #include "Button.h"
 #include "Game.h"
 #include "GameScreen.h"
@@ -11,7 +13,9 @@
 class SelectCraftWindow: public IScreen
 {
 	GameSettings m_gameSettings;
-	Board m_board;
+	//Board m_board;
+	BoardPlayer m_boardPlayer;
+	BoardAi m_boardAi;
 	Button m_randomCraftBtn;
 	Button m_nextPlayerBtn;
 	Button m_startGameBtn;

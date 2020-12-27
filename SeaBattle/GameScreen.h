@@ -1,14 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "IScreen.h"
-#include "Board.h"
+#include "BoardPlayer.h"
+#include "BoardAi.h"
 #include "GameSettings.h"
+#include<Windows.h>
 
 class GameScreen: public IScreen
 {
-	Board m_playerBoard_1;
-	Board m_playerBoard_2;
+	BoardPlayer m_playerBoard_1;
+	BoardPlayer m_playerBoard_2;
+	BoardAi m_boardAi;
 	GameMode m_gameMode;
+	sf::View playerView_1;
+	sf::View playerView_2;
 	bool m_turn = false;
 
 public:

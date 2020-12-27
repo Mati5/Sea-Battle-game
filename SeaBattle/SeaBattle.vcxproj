@@ -146,6 +146,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardAi.cpp" />
+    <ClCompile Include="BoardPlayer.cpp" />
     <ClCompile Include="Craft.cpp" />
     <ClCompile Include="CraftType.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -162,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardAi.h" />
+    <ClInclude Include="BoardPlayer.h" />
     <ClInclude Include="Craft.h" />
     <ClInclude Include="CraftType.h" />
     <ClInclude Include="Button.h" />

@@ -5,18 +5,16 @@
 #include "CraftType.h"
 #include "Button.h"
 #include "Craft.h"
-#include<Windows.h>
+
 
 class Board
 {
+protected:
 	int m_dimensionX{10};
 	int m_dimensionY{10};
 	std::array<std::array<Field, 10>, 10> m_fieldTab;
 	std::vector<Craft> m_craftTab;
-	std::vector<std::vector<int>> m_availableField{};
-	std::vector<Field> m_hitCraftTab;
 	Field m_clickedField;
-	bool m_leftMouseBtnPressed{false};
 
 public:
 	Board();
@@ -62,15 +60,11 @@ public:
 
 	void updateCraftTab(const Craft& craft, int index);
 
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-
-	void handleInput(const sf::Event& event);
-
-	void renderBoard(sf::RenderWindow& mWindow, bool turn, bool Ai=false);
+	void renderBoard(sf::RenderWindow& mWindow);
 
 	void randomCraft(int type, int quantity);
 
-	void checkCraftIsDestroyed(const Field& field);
+	bool checkCraftIsDestroyed(const Field& field);
 
 	void tickForbidArea(const Craft& craft);
 
@@ -82,13 +76,9 @@ public:
 
 	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
 
-	Field getAvailableField();
+	int getCraft(std::vector<Craft> craftTab, const Field& field);
 
-	void delAvailableField(int index);
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderWindow& window);
 
-	void delForbidAvailableField(std::vector<Field> forbidArea);
-
-	int getIndexAvailableField(int coordinateX, int coordinateY);
-
-	int getCraft(const Field& field);
+	void handleInput(sf::RenderWindow& window, const sf::Event& event);
 };

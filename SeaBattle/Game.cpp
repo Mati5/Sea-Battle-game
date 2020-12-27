@@ -9,6 +9,7 @@ Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titleb
 
 void Game::run()
 {
+
 	while (_window.isOpen())
 	{
 		handleInput();
@@ -34,7 +35,7 @@ void Game::update() const
 	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
 	sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);
 
-	Game::Screen->mouseX= worldPos.x;
+	Game::Screen->mouseX = worldPos.x;
 	Game::Screen->mouseY = worldPos.y;
 
 	Game::Screen->update();
@@ -46,7 +47,7 @@ void Game::render()
 	Game::Screen->render(_window);
 	_window.display();
 	_window.setVerticalSyncEnabled(true);
-	_window.setFramerateLimit(15);
+	_window.setFramerateLimit(10);
 }
 
 

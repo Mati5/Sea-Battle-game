@@ -48,11 +48,11 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 			if (m_randomCraftBtn.onClick(mouseX, mouseY))
 			{
-				m_board.resetBoard();
-				m_board.randomCraft(4, 1);
-				m_board.randomCraft(3, 2);
-				m_board.randomCraft(2, 3);
-				m_board.randomCraft(1, 4);
+				m_boardPlayer.resetBoard();
+				m_boardPlayer.randomCraft(4, 1);
+				m_boardPlayer.randomCraft(3, 2);
+				m_boardPlayer.randomCraft(2, 3);
+				m_boardPlayer.randomCraft(1, 4);
 			}
 
 			if (m_nextPlayerBtn.onClick(mouseX, mouseY))
@@ -60,18 +60,18 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 				switch (m_gameSettings.getSelectedGameMode())
 				{
 				case GameMode::OneVsOne:
-					m_gameSettings.setPlayerBoard_1(m_board);
-					m_board.resetBoard();
+					m_gameSettings.setPlayerBoard_1(m_boardPlayer);
+					m_boardPlayer.resetBoard();
 					setStartGame(true);
 					break;
 				case GameMode::OneVsAi:
-					m_gameSettings.setPlayerBoard_1(m_board);
-					m_board.resetBoard();
-					m_board.randomCraft(4, 1);
-					m_board.randomCraft(3, 2);
-					m_board.randomCraft(2, 3);
-					m_board.randomCraft(1, 4);
-					m_gameSettings.setPlayerBoard_2(m_board);
+					m_gameSettings.setPlayerBoard_1(m_boardPlayer);
+					m_boardAi.resetBoard();
+					m_boardAi.randomCraft(4, 1);
+					m_boardAi.randomCraft(3, 2);
+					m_boardAi.randomCraft(2, 3);
+					m_boardAi.randomCraft(1, 4);
+					m_gameSettings.setBoardAi(m_boardAi);
 					Game::Screen = std::make_shared<GameScreen>(m_gameSettings);
 					break;
 				default:
@@ -83,7 +83,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 			if (m_startGameBtn.onClick(mouseX, mouseY))
 			{
-				m_gameSettings.setPlayerBoard_2(m_board);
+				m_gameSettings.setPlayerBoard_2(m_boardPlayer);
 				Game::Screen = std::make_shared<GameScreen>(m_gameSettings);
 				return;
 			}
@@ -108,11 +108,11 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 {
 
 
-	for (int y = 0; y < m_board.getDimensionY(); y++)
+	for (int y = 0; y < m_boardPlayer.getDimensionY(); y++)
 	{
-		for (int x = 0; x < m_board.getDimensionX(); x++)
+		for (int x = 0; x < m_boardPlayer.getDimensionX(); x++)
 		{
-			Field field = m_board.getFieldTab()[y][x];
+			Field field = m_boardPlayer.getFieldTab()[y][x];
 
 			//Display craft
 			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
