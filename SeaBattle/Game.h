@@ -10,6 +10,8 @@ class Game
 	
 private:
 	sf::RenderWindow _window;
+	
+	
 	static const sf::Time TimePerFrame;
 
 	void handleInput();

@@ -6,7 +6,7 @@ std::shared_ptr<IScreen> Game::Screen = std::make_shared<StartScreen>(); //Start
 
 Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titlebar | sf::Style::Close)
 {
-	
+	Screen->setBackground("../images/bg1.png");
 }
 
 void Game::run()
@@ -26,6 +26,7 @@ void Game::run()
 	}
 }
 
+
 void Game::handleInput()
 {
 	sf::Event event;
@@ -33,25 +34,21 @@ void Game::handleInput()
 	while (_window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
 			_window.close();
-
-		Game::Screen->handleInput(_window, event);
 	}
+
+	Game::Screen->handleInput(_window, event);
 }
 
 void Game::update(sf::Time deltaTime) const
 {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
-	sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);
-
-	Game::Screen->mouseX = worldPos.x;
-	Game::Screen->mouseY = worldPos.y;
-
 	Game::Screen->update(deltaTime);
+	Screen->setMousePosition(_window);
 }
 
 void Game::render()
 {
 	_window.clear();
+	_window.draw(Screen->backgroundSprite);
 	Game::Screen->render(_window);
 	_window.setVerticalSyncEnabled(true);
 	_window.setFramerateLimit(15);

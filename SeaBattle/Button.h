@@ -10,6 +10,6 @@ class Button: public GridField
 	
 public:
 	Button();
-	sf::RectangleShape renderField() const override;
+
 };
 

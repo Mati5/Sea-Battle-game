@@ -2,7 +2,10 @@
 
 Field::Field()
 {
+	m_width = 45;
+	m_height = 45;
 	m_type = CraftType::zeroMasted;
+	m_spaceBetweenField = 50;
 }
 
 Field::~Field() = default;
@@ -27,6 +30,16 @@ bool Field::getChecked() const
 	return m_checked;
 }
 
+void Field::setSpaceBetweenField(int spaceBetweenField)
+{
+	m_spaceBetweenField = spaceBetweenField;
+}
+
+int Field::getSpaceBetweenField() const
+{
+	return m_spaceBetweenField;
+}
+
 void Field::setCoordinate(int x, int y)
 {
 	m_coordinate[0] = x * this->getSpaceBetweenField();
@@ -35,26 +48,12 @@ void Field::setCoordinate(int x, int y)
 
 int Field::getCoordinateX() const
 {
-	return GridField::getCoordinateX() > 0 ? GridField::getCoordinateX() / GridField::getSpaceBetweenField() : GridField::getCoordinateX();
+	return GridField::getCoordinateX() > 0 ? GridField::getCoordinateX() / m_spaceBetweenField : GridField::getCoordinateX();
 }
 
 int Field::getCoordinateY() const
 {
-	return GridField::getCoordinateY() > 0 ? GridField::getCoordinateY() / GridField::getSpaceBetweenField() : GridField::getCoordinateY();
-}
-
-sf::RectangleShape Field::renderField() const
-{
-	sf::RectangleShape shape;
-	sf::Vector2f kratkaSize(this->getWidth(), this->getHeight());
-
-	shape.setSize(kratkaSize);
-	shape.setFillColor(this->getColor());
-	auto x = float(m_coordinate[0]);
-	auto y = float(m_coordinate[1]);
-	shape.setPosition(x, y);
-
-	return shape;
+	return GridField::getCoordinateY() > 0 ? GridField::getCoordinateY() / m_spaceBetweenField : GridField::getCoordinateY();
 }
 
 bool Field::onClick(float mouseX, float mouseY)

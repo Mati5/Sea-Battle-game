@@ -10,7 +10,7 @@ class GameSettings
 	BoardPlayer m_playerBoard_1;
 	BoardPlayer m_playerBoard_2;
 	BoardAi m_boardAi;
-	GameMode m_selectedGameMode{GameMode::OneVsAi};
+	GameMode m_selectedGameMode{GameMode::OneVsOne};
 
 public:
 	void setPlayerBoard_1(const BoardPlayer& playerBoard_1);
@@ -24,6 +24,8 @@ public:
 	void setBoardAi(const BoardAi& boardAi);
 
 	BoardAi getBoardAi() const;
+
+	void setSelectedGameMode(GameMode gameMode);
 
 	GameMode getSelectedGameMode() const;
 };

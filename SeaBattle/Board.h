@@ -15,6 +15,10 @@ protected:
 	std::array<std::array<Field, 10>, 10> m_fieldTab;
 	std::vector<Craft> m_craftTab;
 	Field m_clickedField;
+	sf::Texture m_fieldTexture;
+	sf::Texture m_craftTexture;
+	sf::Texture m_checkedTexture;
+	sf::Texture m_hitCraftTexture;
 
 public:
 	Board();

@@ -7,13 +7,28 @@ GameScreen::GameScreen(const GameSettings& gameSettings) :
 	m_playerBoard_2{ gameSettings.getPlayerBoard_2() },
 	m_boardAi{ gameSettings.getBoardAi() },
 	m_gameMode{ gameSettings.getSelectedGameMode() },
-	playerView_1(sf::FloatRect(0.F, 0.F, 1140.F, 680.F)),
-	playerView_2(sf::FloatRect(0.F, 0.F, 1140.F, 680.F))
+	playerView_1(sf::FloatRect(-36.F, -50.F, 1140.F, 680.F)),
+	playerView_2(sf::FloatRect(-36.F, -50.F, 1140.F, 680.F))
 
 {
+	setBackground("../images/bg1.png");
 	playerView_1.setViewport(sf::FloatRect(0.F, 0.F, 1.F, 1.F));
 	playerView_2.setViewport(sf::FloatRect(0.5F, 0.F, 1.F, 1.F));
 	timer = DelayAi;
+
+	if (!m_arrowRightTexture.loadFromFile("../images/arrow-right.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+	m_arrowRightSprite.setTexture(m_arrowRightTexture);
+	m_arrowRightSprite.setPosition((windowWidth-55)/2, (windowHeight-110)/2);
+
+	if (!m_arrowLeftTexture.loadFromFile("../images/arrow-left.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+	m_arrowLeftSprite.setTexture(m_arrowLeftTexture);
+	m_arrowLeftSprite.setPosition((windowWidth - 55) / 2, (windowHeight - 110) / 2);
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
@@ -114,6 +129,14 @@ void GameScreen::render(sf::RenderWindow& window)
 {
 	window.clear();
 
+	window.setView(window.getDefaultView());
+	window.draw(backgroundSprite);
+
+	if(!m_turn)
+		window.draw(m_arrowRightSprite);
+	else
+		window.draw(m_arrowLeftSprite);
+
 	window.setView(playerView_1);
 	m_playerBoard_1.renderBoard(window);
 
@@ -129,7 +152,6 @@ void GameScreen::render(sf::RenderWindow& window)
 	default:
 		break;
 	}
-	
 }
 
 void GameScreen::setTurn(bool turn)

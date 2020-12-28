@@ -30,6 +30,11 @@ BoardAi GameSettings::getBoardAi() const
     return m_boardAi;
 }
 
+void GameSettings::setSelectedGameMode(GameMode gameMode)
+{
+    m_selectedGameMode = gameMode;
+}
+
 GameMode GameSettings::getSelectedGameMode() const
 {
     return m_selectedGameMode;

@@ -11,7 +11,6 @@ class Craft
 	CraftType m_craftType;
 	int m_quantityDestroyedEl;
 	
-
 public:
 	Craft();
 

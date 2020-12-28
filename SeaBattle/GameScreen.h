@@ -17,6 +17,10 @@ class GameScreen: public IScreen
 	bool m_turn = false;
 	static const float DelayAi;
 	float timer;
+	sf::Texture m_arrowRightTexture;
+	sf::Sprite m_arrowRightSprite;
+	sf::Texture m_arrowLeftTexture;
+	sf::Sprite m_arrowLeftSprite;
 
 public:
 	explicit GameScreen(const GameSettings& gameSettings);

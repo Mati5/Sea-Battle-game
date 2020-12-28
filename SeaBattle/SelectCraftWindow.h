@@ -17,6 +17,8 @@ class SelectCraftWindow: public IScreen
 	Button m_randomCraftBtn;
 	Button m_nextPlayerBtn;
 	Button m_startGameBtn;
+	sf::View m_boardView;
+	sf::View m_controlView;
 	bool m_startGame;
 	sf::Texture m_threeMastedTexture;
 	Craft m_craft;
@@ -24,6 +26,7 @@ class SelectCraftWindow: public IScreen
 
 public:
 	SelectCraftWindow();
+	SelectCraftWindow(GameMode gameMode);
 	/*implementacja funkcji z interfesju*/
 	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 	void update(sf::Time deltaTime) override;

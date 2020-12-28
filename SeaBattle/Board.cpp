@@ -2,6 +2,26 @@
 
 Board::Board()
 {
+	if (!m_fieldTexture.loadFromFile("../images/field.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+
+	if (!m_craftTexture.loadFromFile("../images/craft.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+
+	if (!m_checkedTexture.loadFromFile("../images/checked.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+
+	if (!m_hitCraftTexture.loadFromFile("../images/hitCraft.png"))
+	{
+		std::cout << "Error load craft texture!" << std::endl;
+	}
+
 	for (int y = 0; y < getDimensionY(); y++) {
 		for (int x = 0; x < getDimensionX(); x++) {
 			Craft craft;
@@ -9,6 +29,7 @@ Board::Board()
 			
 			field.setCoordinate(x, y);
 			field.setColor(sf::Color::Cyan);
+			field.setSprite(m_fieldTexture);
 			craft.addField(field);
 			m_fieldTab[y][x] = field;
 		}
@@ -86,14 +107,26 @@ void Board::renderBoard(sf::RenderWindow& mWindow) const
 		{
 			Field field = getFieldTab()[y][x];
 
-			//Display craft
-			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
-				field.setColor(sf::Color::Green);
+			switch (field.getType())
+			{
+			case CraftType::fourMasted:
+			case CraftType::threeMasted:
+			case CraftType::twoMasted:
+			case CraftType::oneMasted:
+				field.setSprite(m_craftTexture);
+				break;
+			default:
+				field.setSprite(m_fieldTexture);
+				break;
+			}
 
-			if (field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid && field.getChecked())
-				field.setColor(sf::Color::Blue);
+			if (field.getChecked())
+				field.setSprite(m_checkedTexture);
+			
+			if (field.getChecked() && field.getType() != CraftType::zeroMasted && field.getType() != CraftType::forbid)
+				field.setSprite(m_hitCraftTexture);
 
-			mWindow.draw(field.renderField());
+			mWindow.draw(field.getSprite());
 		}
 	}
 }

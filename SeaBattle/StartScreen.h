@@ -7,7 +7,11 @@
 
 class StartScreen: public IScreen
 {
-	Button startBtn;
+	Button oneVsOneBtn;
+	Button oneVsAiBtn;
+	Button exitBtn;
+	sf::Texture logoTexture;
+	sf::Sprite logoSprite;
 
 public:
 	StartScreen();

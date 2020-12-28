@@ -10,7 +10,7 @@ protected:
 	sf::Color m_color;
 	float m_width;
 	float m_height;
-	int m_spaceBetweenField;
+	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 
 public:
@@ -38,13 +38,11 @@ public:
 
 	float getHeight() const;
 
-	void setSpaceBetweenField(int spaceBetweenField);
-
-	int getSpaceBetweenField() const;
-
 	virtual bool onClick(float mouseX, float mouseY);
 
 	virtual sf::RectangleShape renderField() const;
+
+	void loadTexture(const std::string& location);
 
 	void setSprite(const sf::Texture& texture);
 
