@@ -160,7 +160,7 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 	window.draw(backgroundSprite);
 
 	window.setView(m_boardView);
-	m_boardPlayer.renderBoard(window);
+	m_boardPlayer.renderBoard(window, true);
 	window.draw(m_craft.getSpriteField().getSprite());
 
 	//Control view buttons

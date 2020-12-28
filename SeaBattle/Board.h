@@ -64,7 +64,7 @@ public:
 
 	void updateCraftTab(const Craft& craft, int index);
 
-	void renderBoard(sf::RenderWindow& mWindow) const;
+	void renderBoard(sf::RenderWindow& mWindow, bool showCraft=false) const;
 
 	void randomCraft(int type, int quantity);
 

@@ -99,26 +99,27 @@ void Board::updateCraftTab(const Craft& craft, int index)
 	m_craftTab[index] = craft;
 }
 
-void Board::renderBoard(sf::RenderWindow& mWindow) const
+void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft) const
 {	
 	for (int y = 0; y < getDimensionY(); y++)
 	{
 		for (int x = 0; x < getDimensionX(); x++)
 		{
 			Field field = getFieldTab()[y][x];
-
-			switch (field.getType())
-			{
-			case CraftType::fourMasted:
-			case CraftType::threeMasted:
-			case CraftType::twoMasted:
-			case CraftType::oneMasted:
-				field.setSprite(m_craftTexture);
-				break;
-			default:
-				field.setSprite(m_fieldTexture);
-				break;
-			}
+			field.setSprite(m_fieldTexture);
+			if (showCraft)
+				switch (field.getType())
+				{
+				case CraftType::fourMasted:
+				case CraftType::threeMasted:
+				case CraftType::twoMasted:
+				case CraftType::oneMasted:
+						field.setSprite(m_craftTexture);
+					break;
+				default:
+					field.setSprite(m_fieldTexture);
+					break;
+				}
 
 			if (field.getChecked())
 				field.setSprite(m_checkedTexture);
