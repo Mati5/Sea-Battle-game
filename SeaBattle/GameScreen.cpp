@@ -138,7 +138,7 @@ void GameScreen::update(sf::Time deltaTime)
 	}
 
 	//Ai action
-	if (m_timer<=0 && m_gameMode == GameMode::OneVsAi && m_turn)
+	if (!m_endGame && m_timer<=0 && m_gameMode == GameMode::OneVsAi && m_turn)
 	{
 		Field selectedField = m_boardAi.action(m_playerBoard_1.getFieldTab(), m_playerBoard_1.getCraftTab());
 		m_timer = DelayAi;
