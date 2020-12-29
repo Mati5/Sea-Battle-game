@@ -1,6 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include "CraftType.h"
 #include "GridField.h"
 
@@ -8,7 +6,7 @@ class Field: public GridField
 {
 	CraftType m_type;
 	int m_spaceBetweenField;
-	bool m_checked{false};
+	bool m_checked;
 
 public:
 	Field();
@@ -35,4 +33,3 @@ public:
 
 	bool hitCraft()const;
 };
-

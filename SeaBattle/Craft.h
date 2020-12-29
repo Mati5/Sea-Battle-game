@@ -4,7 +4,6 @@
 
 class Craft
 {
-	Field m_sprite;
 	std::vector<Field> m_area;
 	std::vector<Field> m_forbidArea;
 	std::string m_orientation; //horizontal/vertical
@@ -13,8 +12,6 @@ class Craft
 	
 public:
 	Craft();
-
-	Field& getSpriteField();
 
 	std::vector<Field> getArea() const;
 
@@ -43,4 +40,3 @@ public:
 	//return true if craft destroyed
 	bool checkStateCraft() const;
 };
-

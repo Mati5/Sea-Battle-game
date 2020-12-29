@@ -6,6 +6,7 @@ Field::Field()
 	m_height = 45;
 	m_type = CraftType::zeroMasted;
 	m_spaceBetweenField = 50;
+	m_checked = false;
 }
 
 Field::~Field() = default;
@@ -42,8 +43,8 @@ int Field::getSpaceBetweenField() const
 
 void Field::setCoordinate(int x, int y)
 {
-	m_coordinate[0] = x * this->getSpaceBetweenField();
-	m_coordinate[1] = y * this->getSpaceBetweenField();
+	m_coordinate[0] = x * m_spaceBetweenField;
+	m_coordinate[1] = y * m_spaceBetweenField;
 }
 
 int Field::getCoordinateX() const
@@ -58,5 +59,5 @@ int Field::getCoordinateY() const
 
 bool Field::hitCraft() const
 {
-	return int(this->getType()) > 0 && int(this->getType()) < 5;
+	return int(m_type) > 0 && int(m_type) < 5;
 }

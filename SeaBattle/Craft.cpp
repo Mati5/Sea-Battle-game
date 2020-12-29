@@ -6,12 +6,6 @@ Craft::Craft()
 	m_quantityDestroyedEl = 0;
 }
 
-
-Field& Craft::getSpriteField()
-{
-	return m_sprite;
-}
-
 std::vector<Field> Craft::getArea() const
 {
 	return m_area;
@@ -92,4 +86,3 @@ bool Craft::checkStateCraft() const
 		return m_quantityDestroyedEl == getCraftTypeNumber(m_craftType);
 	return false;
 }
-

@@ -53,5 +53,3 @@ void Game::render()
 	_window.setFramerateLimit(15);
 	_window.display();
 }
-
-

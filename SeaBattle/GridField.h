@@ -2,12 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-
 class GridField
 {
 protected:
 	std::vector<int> m_coordinate;
-	sf::Color m_color;
 	float m_width;
 	float m_height;
 	sf::Texture m_texture;
@@ -26,10 +24,6 @@ public:
 
 	virtual int getCoordinateY() const;
 
-	void setColor(sf::Color color);
-
-	sf::Color getColor() const;
-
 	void setWidth(float width);
 
 	float getWidth() const;
@@ -39,8 +33,6 @@ public:
 	float getHeight() const;
 
 	virtual bool onClick(float mouseX, float mouseY);
-
-	virtual sf::RectangleShape renderField() const;
 
 	void loadTexture(const std::string& location);
 

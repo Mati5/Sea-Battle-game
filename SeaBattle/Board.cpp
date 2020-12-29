@@ -3,24 +3,16 @@
 Board::Board()
 {
 	if (!m_fieldTexture.loadFromFile("../images/field.png"))
-	{
 		std::cout << "Error load craft texture!" << std::endl;
-	}
 
 	if (!m_craftTexture.loadFromFile("../images/craft.png"))
-	{
 		std::cout << "Error load craft texture!" << std::endl;
-	}
 
 	if (!m_checkedTexture.loadFromFile("../images/checked.png"))
-	{
 		std::cout << "Error load craft texture!" << std::endl;
-	}
 
 	if (!m_hitCraftTexture.loadFromFile("../images/hitCraft.png"))
-	{
 		std::cout << "Error load craft texture!" << std::endl;
-	}
 
 	for (int y = 0; y < getDimensionY(); y++) {
 		for (int x = 0; x < getDimensionX(); x++) {
@@ -28,7 +20,6 @@ Board::Board()
 			Field field;
 			
 			field.setCoordinate(x, y);
-			field.setColor(sf::Color::Cyan);
 			field.setSprite(m_fieldTexture);
 			craft.addField(field);
 			m_fieldTab[y][x] = field;
@@ -101,25 +92,16 @@ void Board::updateCraftTab(const Craft& craft, int index)
 
 void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft) const
 {	
-	for (int y = 0; y < getDimensionY(); y++)
+	for (int y = 0; y < m_dimensionY; y++)
 	{
-		for (int x = 0; x < getDimensionX(); x++)
+		for (int x = 0; x < m_dimensionX; x++)
 		{
-			Field field = getFieldTab()[y][x];
+			Field field = m_fieldTab[y][x];
+			
 			field.setSprite(m_fieldTexture);
-			if (showCraft)
-				switch (field.getType())
-				{
-				case CraftType::fourMasted:
-				case CraftType::threeMasted:
-				case CraftType::twoMasted:
-				case CraftType::oneMasted:
-						field.setSprite(m_craftTexture);
-					break;
-				default:
-					field.setSprite(m_fieldTexture);
-					break;
-				}
+
+			if(showCraft && int(field.getType())>0 && int(field.getType())<=4)
+				field.setSprite(m_craftTexture);
 
 			if (field.getChecked())
 				field.setSprite(m_checkedTexture);
@@ -243,7 +225,7 @@ void Board::checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCra
 	}
 }
 
-int Board::getCraft(std::vector<Craft> craftTab, const Field& field)
+int Board::getCraft(std::vector<Craft> craftTab, const Field& field) const
 {
 	CraftType craftType = field.getType();
 
@@ -632,16 +614,8 @@ bool Board::checkCraftIsDestroyed(const Field& field)
 
 		if (m_craftTab[craftIndex].checkStateCraft())
 		{
-			
-
 			//Tick field around craft
 			tickForbidArea(m_craftTab[craftIndex]);
-
-			//delete forbid element from available field
-			//delForbidAvailableField(m_craftTab[craftIndex].getForbidArea());
-
-			//delete element from hitCraftTab
-			//m_hitCraftTab.clear();
 
 			return true;
 		}
@@ -655,21 +629,18 @@ void Board::tickForbidArea(const Craft& craft)
 	for (int i = 0; i < craft.getForbidArea().size(); i++)
 	{
 		Field forbidField = craft.getForbidArea()[i];
-		forbidField.setColor(sf::Color::Magenta);
 		forbidField.setChecked(true);
 		updateTabEl(forbidField);
 	}
 }
 
-void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderWindow& window)
+void Board::handleInput(const sf::RenderWindow& window)
 {
-	if (key == sf::Mouse::Left)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		//m_leftMouseBtnPressed = isPressed;
-
-		for (int y = 0; y < getDimensionY(); y++)
+		for (int y = 0; y < m_dimensionY; y++)
 		{
-			for (int x = 0; x < getDimensionX(); x++)
+			for (int x = 0; x < m_dimensionX; x++)
 			{
 				sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 				sf::Vector2f worldPos = window.mapPixelToCoords(mousePosition);
@@ -685,7 +656,7 @@ void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderW
 
 					if (m_fieldTab[y][x].hitCraft())
 						m_boardStats++;
-	
+
 					//check if craft is destroyed
 					checkCraftIsDestroyed(m_fieldTab[y][x]);
 				}
@@ -694,22 +665,7 @@ void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderW
 	}
 }
 
-void Board::handleInput(sf::RenderWindow& window, const sf::Event& event)
-{
-	switch (event.type)
-	{
-	case sf::Event::MouseButtonPressed:
-		handlePlayerInput(event.key.code, true, window);
-		break;
-	case sf::Event::MouseButtonReleased:
-		handlePlayerInput(event.key.code, false, window);
-		break;
-	default:
-		break;
-	}
-}
-
-int Board::getBoardStats()
+int Board::getBoardStats() const
 {
 	return m_boardStats;
 }

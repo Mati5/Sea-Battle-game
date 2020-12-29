@@ -7,8 +7,8 @@ class IScreen
 public:
 	sf::Texture backgroundTexture;
 	sf::Sprite backgroundSprite;
-	float mouseX;
-	float mouseY;
+	float mouseX{0};
+	float mouseY{0};
 	float windowWidth{ 1140 };
 	float windowHeight{ 680 };
 
@@ -20,9 +20,8 @@ public:
 		jest przyrówna do zera aby poinformowaæ kompilator ¿e brak definicji i mo¿liwoœci wyw³ania jest zamierzony
 
 		deklaracja tych funkcji wystêpuje w klasach gdiz nastêpuje dziedziczenie	*/
-	//virtual void handlePlayerInput(sf::Keyboard::Key key, bool isPressed) = 0;
+
 	virtual void handleInput(sf::RenderWindow& window, const sf::Event& event) = 0;
 	virtual void update(sf::Time deltaTime) = 0;
 	virtual void render(sf::RenderWindow& window) = 0;
-
 };

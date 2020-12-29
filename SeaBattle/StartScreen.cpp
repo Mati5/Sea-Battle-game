@@ -26,8 +26,7 @@ StartScreen::StartScreen()
 
 void StartScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
-	
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 	{	
 		if (oneVsOneBtn.onClick(mouseX, mouseY))
 		{

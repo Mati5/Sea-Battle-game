@@ -40,4 +40,3 @@ public:
 	void setTurn(bool turn);
 	bool getTurn() const;
 };
-

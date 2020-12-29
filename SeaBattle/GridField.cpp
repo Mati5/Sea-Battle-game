@@ -4,7 +4,6 @@ GridField::GridField()
 {
 	m_coordinate.push_back(10);
 	m_coordinate.push_back(10);
-	m_color = sf::Color::Red;
 	m_width = 20.F;
 	m_height = 20.F;
 	m_sprite.setPosition(float(m_coordinate[0]), float(m_coordinate[1]));
@@ -34,16 +33,6 @@ int GridField::getCoordinateX() const
 int GridField::getCoordinateY() const
 {
 	return m_coordinate[1];
-}
-
-void GridField::setColor(sf::Color color)
-{
-	m_color = color;
-}
-
-sf::Color GridField::getColor() const
-{
-	return m_color;
 }
 
 void GridField::setWidth(float width)
@@ -80,26 +69,10 @@ bool GridField::onClick(float mouseX, float mouseY)
 	return false;
 }
 
-sf::RectangleShape GridField::renderField() const
-{
-	sf::RectangleShape shape;
-	sf::Vector2f kratkaSize(this->getWidth(), this->getHeight());
-
-	shape.setSize(kratkaSize);
-	shape.setFillColor(this->getColor());
-	auto x = float(m_coordinate[0]);
-	auto y = float(m_coordinate[1]);
-	shape.setPosition(x, y);
-
-	return shape;
-}
-
 void GridField::loadTexture(const std::string& location)
 {
 	if (!m_texture.loadFromFile(location))
-	{
 		std::cout << "Error load craft texture!" << std::endl;
-	}
 
 	m_texture.setRepeated(true);
 	m_sprite.setTexture(m_texture);

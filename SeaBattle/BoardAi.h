@@ -13,7 +13,7 @@ public:
 
 	Field action(std::array<std::array<Field, 10>, 10> fieldTab, std::vector<Craft> craftTab);
 
-	Field getAvailableField(std::array<std::array<Field, 10>, 10> fieldTab);
+	Field getAvailableField(const std::array<std::array<Field, 10>, 10>& fieldTab);
 
 	void delAvailableField(int index);
 

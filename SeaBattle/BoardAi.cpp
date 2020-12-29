@@ -8,7 +8,6 @@ BoardAi::BoardAi()
 			Field field;
 
 			field.setCoordinate(x, y);
-			field.setColor(sf::Color::Cyan);
 			craft.addField(field);
 			m_fieldTab[y][x] = field;
 
@@ -19,16 +18,16 @@ BoardAi::BoardAi()
 
 Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vector<Craft> craftTab)
 {
-	Field field2;
+	Field field;
 
 	if (m_hitCraftTab.size() == 1)
 	{
-		field2 = m_hitCraftTab[0];
+		field = m_hitCraftTab[0];
 
 		//Tick 4 option (random 4 direction)
 		std::vector<char> direction = {};
-		int x = field2.getCoordinateX();
-		int y = field2.getCoordinateY();
+		int x = field.getCoordinateX();
+		int y = field.getCoordinateY();
 
 		//1 check which direction is available
 		// all 4 direction
@@ -92,23 +91,23 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 			switch (randDirection)
 			{
 			case 'N':
-				field2 = fieldTab[y - 1][x];
+				field = fieldTab[y - 1][x];
 				break;
 			case 'E':
-				field2 = fieldTab[y][x + 1];
+				field = fieldTab[y][x + 1];
 				break;
 			case 'S':
-				field2 = fieldTab[y + 1][x];
+				field = fieldTab[y + 1][x];
 				break;
 			case 'W':
-				field2 = fieldTab[y][x - 1];
+				field = fieldTab[y][x - 1];
 				break;
 			default:
 				break;
 			}
 		}
 		else {
-			field2 = getAvailableField(fieldTab);
+			field = getAvailableField(fieldTab);
 		}
 	}
 	else if (m_hitCraftTab.size() > 1)
@@ -124,12 +123,12 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 				int y = value.getCoordinateY();
 
 				if (y - 1 >= 0 && !fieldTab[y - 1][x].getChecked()) {
-					field2 = fieldTab[y - 1][x];
+					field = fieldTab[y - 1][x];
 					break;
 				}
 				else if (y + 1 <= 9 && !fieldTab[y + 1][x].getChecked())
 				{
-					field2 = fieldTab[y + 1][x];
+					field = fieldTab[y + 1][x];
 					break;
 				}
 			}
@@ -142,12 +141,12 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 				int y = value.getCoordinateY();
 
 				if (x - 1 >= 0 && !fieldTab[y][x - 1].getChecked()) {
-					field2 = fieldTab[y][x - 1];
+					field = fieldTab[y][x - 1];
 					break;
 				}
 				else if (x + 1 <= 9 && !fieldTab[y][x + 1].getChecked())
 				{
-					field2 = fieldTab[y][x + 1];
+					field = fieldTab[y][x + 1];
 					break;
 				}
 			}
@@ -155,26 +154,26 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 	}
 	else
 	{
-		field2 = getAvailableField(fieldTab);
+		field = getAvailableField(fieldTab);
 	}
 	
-	if (!field2.getChecked())
+	if (!field.getChecked())
 	{
 
-		if (field2.hitCraft()) {
+		if (field.hitCraft()) {
 			//add to hitCraftTab to remeber which craft is partly destroyed
-			m_hitCraftTab.push_back(field2);
+			m_hitCraftTab.push_back(field);
 		}
 
-		int checkedFieldIndex = getIndexAvailableField(field2.getCoordinateX(), field2.getCoordinateY());
+		int checkedFieldIndex = getIndexAvailableField(field.getCoordinateX(), field.getCoordinateY());
 		if(checkedFieldIndex>=0)
 			delAvailableField(checkedFieldIndex);
 	}
 
-	return field2;
+	return field;
 }
 
-Field BoardAi::getAvailableField(std::array<std::array<Field, 10>, 10> fieldTab)
+Field BoardAi::getAvailableField(const std::array<std::array<Field, 10>, 10>& fieldTab)
 {
 	int availableFieldSize = m_availableField.size();
 	int randField = rand() % availableFieldSize;

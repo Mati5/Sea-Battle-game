@@ -4,10 +4,7 @@
 #include "BoardPlayer.h"
 #include "BoardAi.h"
 #include "Button.h"
-#include "Game.h"
 #include "GameScreen.h"
-#include "SelectCraftWindow.h"
-#include "Craft.h"
 
 class SelectCraftWindow: public IScreen
 {
@@ -21,9 +18,6 @@ class SelectCraftWindow: public IScreen
 	sf::View m_boardView;
 	sf::View m_controlView;
 	bool m_startGame;
-	sf::Texture m_threeMastedTexture;
-	Craft m_craft;
-	Craft m_selectedCraft;
 
 public:
 	SelectCraftWindow();

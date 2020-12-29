@@ -1,11 +1,8 @@
 #pragma once
+#include <iostream>
 #include <array>
 #include "Field.h"
-#include <iostream>
-#include "CraftType.h"
-#include "Button.h"
 #include "Craft.h"
-#include<Windows.h>
 
 class Board
 {
@@ -20,6 +17,7 @@ protected:
 	sf::Texture m_craftTexture;
 	sf::Texture m_checkedTexture;
 	sf::Texture m_hitCraftTexture;
+	bool m_leftMouseBtnPressed;
 
 public:
 	Board();
@@ -36,7 +34,6 @@ public:
 			for (int x = 0; x < this->getDimensionX(); x++) {
 				Field field;
 				field.setCoordinate(x, y);
-				field.setColor(sf::Color::Cyan);
 
 				m_fieldTab[y][x] = field;
 			}
@@ -81,11 +78,9 @@ public:
 
 	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
 
-	int getCraft(std::vector<Craft> craftTab, const Field& field);
+	int getCraft(std::vector<Craft> craftTab, const Field& field) const;
 
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderWindow& window);
+	void handleInput(const sf::RenderWindow& window);
 
-	void handleInput(sf::RenderWindow& window, const sf::Event& event);
-
-	int getBoardStats();
+	int getBoardStats() const;
 };

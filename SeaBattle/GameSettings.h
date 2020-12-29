@@ -29,4 +29,3 @@ public:
 
 	GameMode getSelectedGameMode() const;
 };
-

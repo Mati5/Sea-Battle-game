@@ -44,15 +44,12 @@ GameScreen::GameScreen(const GameSettings& gameSettings) :
 void GameScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
 	setMousePosition(window);
-	if (event.type == sf::Event::MouseButtonPressed)
+	if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 	{
-		if (event.key.code == sf::Mouse::Left)
+		if (m_homeBtn.onClick(mouseX, mouseY))
 		{
-			if (m_homeBtn.onClick(mouseX, mouseY))
-			{
-				Game::Screen = std::make_shared<StartScreen>();
-				return;
-			}
+			Game::Screen = std::make_shared<StartScreen>();
+			return;
 		}
 	}
 
@@ -62,7 +59,7 @@ void GameScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 		switch (m_gameMode)
 		{
 		case GameMode::OneVsOne:
-			m_playerBoard_1.handleInput(window, event);
+			m_playerBoard_1.handleInput(window);
 			break;
 		case GameMode::OneVsAi:
 			
@@ -78,10 +75,10 @@ void GameScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 		switch (m_gameMode)
 		{
 		case GameMode::OneVsOne:
-			m_playerBoard_2.handleInput(window, event);
+			m_playerBoard_2.handleInput(window);
 				break;
 		case GameMode::OneVsAi:
-			m_boardAi.handleInput(window, event);
+			m_boardAi.handleInput(window);
 			break;
 		default:
 			break;

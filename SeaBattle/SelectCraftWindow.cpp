@@ -28,18 +28,6 @@ SelectCraftWindow::SelectCraftWindow() :
 	m_startGameBtn.loadTexture("../images/start-btn.png");
 
 	m_startGame = false;
-
-	// Load a texture from a file
-	m_craft.getSpriteField().setCoordinate(10, 6);
-	if (!m_threeMastedTexture.loadFromFile("../images/craft_3.png"))
-	{
-		std::cout << "Error load craft texture!" << std::endl;
-	}
-	else
-	{
-		// Assign it to a sprite
-		m_craft.getSpriteField().setSprite(m_threeMastedTexture);
-	}
 }
 
 SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
@@ -74,37 +62,13 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	m_startGameBtn.loadTexture("../images/start-btn.png");
 
 	m_startGame = false;
-
-	// Load a texture from a file
-	m_craft.getSpriteField().setCoordinate(10, 6);
-	if (!m_threeMastedTexture.loadFromFile("../images/craft_3.png"))
-	{
-		std::cout << "Error load craft texture!" << std::endl;
-	}
-	else
-	{
-		// Assign it to a sprite
-		m_craft.getSpriteField().setSprite(m_threeMastedTexture);
-	}
 }
 
 void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
 	//Run only when pressed not realese and hold
-	if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
+	if(event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 	{
-		
-		window.setView(m_boardView);
-		setMousePosition(window);
-		if (m_craft.getSpriteField().getChecked())
-		{
-			m_craft.getSpriteField().setChecked(false);
-		}
-		else {
-			if (m_craft.getSpriteField().onClick(mouseX, mouseY))
-				std::cout << "Clicked craft" << std::endl;
-		}
-
 		window.setView(m_controlView);
 		setMousePosition(window);
 		if (m_backBtn.onClick(mouseX, mouseY))
@@ -122,7 +86,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			m_boardPlayer.randomCraft(1, 4);
 		}
 
-		if (!m_startGame && m_nextPlayerBtn.onClick(mouseX, mouseY))
+		if (!m_startGame && !m_boardPlayer.getCraftTab().empty() && m_nextPlayerBtn.onClick(mouseX, mouseY))
 		{
 			switch (m_gameSettings.getSelectedGameMode())
 			{
@@ -148,7 +112,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			return;
 		}
 
-		if (m_startGame && m_startGameBtn.onClick(mouseX, mouseY))
+		if (m_startGame && !m_boardPlayer.getCraftTab().empty() && m_startGameBtn.onClick(mouseX, mouseY))
 		{
 			m_gameSettings.setPlayerBoard_2(m_boardPlayer);
 			Game::Screen = std::make_shared<GameScreen>(m_gameSettings);
@@ -159,13 +123,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 void SelectCraftWindow::update(sf::Time deltaTime)
 {
-	if (m_craft.getSpriteField().getChecked())
-	{
-		int x = int(mouseX) / m_craft.getSpriteField().getSpaceBetweenField();
-		int y = int(mouseY) / m_craft.getSpriteField().getSpaceBetweenField();
-		m_craft.getSpriteField().setCoordinate(x, y);
-		m_craft.getSpriteField().setSprite(m_threeMastedTexture);
-	}
+
 }
 
 void SelectCraftWindow::render(sf::RenderWindow& window)
@@ -177,7 +135,6 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 
 	window.setView(m_boardView);
 	m_boardPlayer.renderBoard(window, true);
-	window.draw(m_craft.getSpriteField().getSprite());
 
 	//Control view buttons
 	window.setView(m_controlView);

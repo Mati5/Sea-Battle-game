@@ -20,4 +20,3 @@ public:
 	void update(sf::Time deltaTime) override;
 	void render(sf::RenderWindow& window) override;
 };
-

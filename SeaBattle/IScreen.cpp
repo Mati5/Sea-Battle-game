@@ -12,7 +12,7 @@ void IScreen::setBackground(const std::string& location)
 	}
 	backgroundTexture.setRepeated(true);
 	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setTextureRect(sf::IntRect(0, 0, windowWidth, windowHeight));
+	backgroundSprite.setTextureRect(sf::IntRect(0, 0, int(windowWidth), int(windowHeight)));
 
 }
 
