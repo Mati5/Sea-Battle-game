@@ -677,17 +677,20 @@ void Board::handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderW
 				float mouseX = worldPos.x;
 				float mouseY = worldPos.y;
 
-				if (m_fieldTab[y][x].onClick(mouseX, mouseY)) {
-
+				if (!m_fieldTab[y][x].getChecked() && m_fieldTab[y][x].onClick(mouseX, mouseY))
+				{
+					m_fieldTab[y][x].setChecked(true);
 					setClickedField(m_fieldTab[y][x]);
 					updateTabEl(m_fieldTab[y][x]);
 
+					if (m_fieldTab[y][x].hitCraft())
+						m_boardStats++;
+	
 					//check if craft is destroyed
 					checkCraftIsDestroyed(m_fieldTab[y][x]);
 				}
 			}
 		}
-
 	}
 }
 
@@ -704,4 +707,9 @@ void Board::handleInput(sf::RenderWindow& window, const sf::Event& event)
 	default:
 		break;
 	}
+}
+
+int Board::getBoardStats()
+{
+	return m_boardStats;
 }

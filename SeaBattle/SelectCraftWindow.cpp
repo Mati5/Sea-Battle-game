@@ -7,17 +7,22 @@ SelectCraftWindow::SelectCraftWindow() :
 	m_boardView.setViewport(sf::FloatRect(0.F, 0.0F, 1.F, 1.F));
 	m_controlView.setViewport(sf::FloatRect(0.F, 0.8F, 1.F, 1.F));
 
-	m_randomCraftBtn.setCoordinate(0, 0);
+	m_backBtn.setCoordinate(0, 0);
+	m_backBtn.setWidth(160);
+	m_backBtn.setHeight(50);
+	m_backBtn.loadTexture("../images/back-btn.png");
+
+	m_randomCraftBtn.setCoordinate(200, 0);
 	m_randomCraftBtn.setWidth(160);
 	m_randomCraftBtn.setHeight(50);
 	m_randomCraftBtn.loadTexture("../images/rand-craft-btn.png");
 	
-	m_nextPlayerBtn.setCoordinate(200, 0);
+	m_nextPlayerBtn.setCoordinate(400, 0);
 	m_nextPlayerBtn.setWidth(160);
 	m_nextPlayerBtn.setHeight(50);
 	m_nextPlayerBtn.loadTexture("../images/next-btn.png");
 
-	m_startGameBtn.setCoordinate(200, 0);
+	m_startGameBtn.setCoordinate(400, 0);
 	m_startGameBtn.setWidth(160);
 	m_startGameBtn.setHeight(50);
 	m_startGameBtn.loadTexture("../images/start-btn.png");
@@ -48,17 +53,22 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	m_boardView.setViewport(sf::FloatRect(0.F, 0.0F, 1.F, 1.F));
 	m_controlView.setViewport(sf::FloatRect(0.F, 0.87F, 1.F, 1.F));
 
-	m_randomCraftBtn.setCoordinate(0, 0);
+	m_backBtn.setCoordinate(0, 0);
+	m_backBtn.setWidth(160);
+	m_backBtn.setHeight(50);
+	m_backBtn.loadTexture("../images/back-btn.png");
+
+	m_randomCraftBtn.setCoordinate(200, 0);
 	m_randomCraftBtn.setWidth(160);
 	m_randomCraftBtn.setHeight(50);
 	m_randomCraftBtn.loadTexture("../images/rand-craft-btn.png");
 
-	m_nextPlayerBtn.setCoordinate(200, 0);
+	m_nextPlayerBtn.setCoordinate(400, 0);
 	m_nextPlayerBtn.setWidth(160);
 	m_nextPlayerBtn.setHeight(50);
 	m_nextPlayerBtn.loadTexture("../images/next-btn.png");
 
-	m_startGameBtn.setCoordinate(200, 0);
+	m_startGameBtn.setCoordinate(400, 0);
 	m_startGameBtn.setWidth(160);
 	m_startGameBtn.setHeight(50);
 	m_startGameBtn.loadTexture("../images/start-btn.png");
@@ -97,6 +107,12 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 		window.setView(m_controlView);
 		setMousePosition(window);
+		if (m_backBtn.onClick(mouseX, mouseY))
+		{
+			Game::Screen = std::make_shared<StartScreen>();
+			return;
+		}
+
 		if (m_randomCraftBtn.onClick(mouseX, mouseY))
 		{
 			m_boardPlayer.resetBoard();
@@ -165,6 +181,7 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 
 	//Control view buttons
 	window.setView(m_controlView);
+	window.draw(m_backBtn.getSprite());
 	window.draw(m_randomCraftBtn.getSprite());
 	if(!m_startGame)
 		window.draw(m_nextPlayerBtn.getSprite());

@@ -33,8 +33,6 @@ public:
 
 	int getCoordinateY() const override;
 
-	bool onClick(float mouseX, float mouseY) override;
-
 	bool hitCraft()const;
 };
 

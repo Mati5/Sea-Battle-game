@@ -56,25 +56,6 @@ int Field::getCoordinateY() const
 	return GridField::getCoordinateY() > 0 ? GridField::getCoordinateY() / m_spaceBetweenField : GridField::getCoordinateY();
 }
 
-bool Field::onClick(float mouseX, float mouseY)
-{
-	if (!this->getChecked() && GridField::onClick(mouseX, mouseY)) 
-	{
-		std::cout << "clicked field: " << this->getCoordinate()[1] / this->getSpaceBetweenField() << " " << this->getCoordinate()[0] / this->getSpaceBetweenField() << std::endl;
-		
-		this->setColor(sf::Color::White);
-		this->setChecked(true);
-
-		if (this->hitCraft()) {
-			this->setColor(sf::Color::Blue);
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
 bool Field::hitCraft() const
 {
 	return int(this->getType()) > 0 && int(this->getType()) < 5;

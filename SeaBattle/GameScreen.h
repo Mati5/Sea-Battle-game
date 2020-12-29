@@ -4,7 +4,8 @@
 #include "BoardPlayer.h"
 #include "BoardAi.h"
 #include "GameSettings.h"
-#include<Windows.h>
+#include "Button.h"
+#include "StartScreen.h"
 
 class GameScreen: public IScreen
 {
@@ -12,15 +13,21 @@ class GameScreen: public IScreen
 	BoardPlayer m_playerBoard_2;
 	BoardAi m_boardAi;
 	GameMode m_gameMode;
-	sf::View playerView_1;
-	sf::View playerView_2;
+	sf::View m_playerView_1;
+	sf::View m_playerView_2;
+	sf::View m_bottomView;
 	bool m_turn = false;
+	bool m_endGame = false;
 	static const float DelayAi;
-	float timer;
+	float m_timer;
 	sf::Texture m_arrowRightTexture;
-	sf::Sprite m_arrowRightSprite;
 	sf::Texture m_arrowLeftTexture;
-	sf::Sprite m_arrowLeftSprite;
+	sf::Sprite m_arrowSprite;
+
+	sf::Texture m_playerOneWinTexture;
+	sf::Texture m_playerTwoWinTexture;
+	sf::Sprite m_playerWinSprite;
+	Button m_homeBtn;
 
 public:
 	explicit GameScreen(const GameSettings& gameSettings);

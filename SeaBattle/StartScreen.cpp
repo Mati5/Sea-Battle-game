@@ -3,6 +3,8 @@
 
 StartScreen::StartScreen()
 {
+	setBackground("../images/bg1.png");
+
 	if (!logoTexture.loadFromFile("../images/logo-sea-battle.png"))
 	{
 		std::cout << "Error load craft texture!" << std::endl;
@@ -38,6 +40,12 @@ void StartScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 			Game::Screen = std::make_shared<SelectCraftWindow>(GameMode::OneVsAi);
 			return;
 		}
+
+		if (exitBtn.onClick(mouseX, mouseY))
+		{
+			window.close();
+			return;
+		}
 	}
 }
 
@@ -48,6 +56,9 @@ void StartScreen::update(sf::Time deltaTime)
 
 void StartScreen::render(sf::RenderWindow& window)
 {
+	window.clear();
+	window.setView(window.getDefaultView());
+	window.draw(backgroundSprite);
 	window.draw(logoSprite);
 	window.draw(oneVsOneBtn.getSprite());
 	window.draw(oneVsAiBtn.getSprite());

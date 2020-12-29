@@ -17,6 +17,7 @@ class SelectCraftWindow: public IScreen
 	Button m_randomCraftBtn;
 	Button m_nextPlayerBtn;
 	Button m_startGameBtn;
+	Button m_backBtn;
 	sf::View m_boardView;
 	sf::View m_controlView;
 	bool m_startGame;

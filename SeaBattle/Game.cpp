@@ -26,7 +26,6 @@ void Game::run()
 	}
 }
 
-
 void Game::handleInput()
 {
 	sf::Event event;

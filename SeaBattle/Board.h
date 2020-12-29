@@ -15,6 +15,7 @@ protected:
 	std::array<std::array<Field, 10>, 10> m_fieldTab;
 	std::vector<Craft> m_craftTab;
 	Field m_clickedField;
+	int m_boardStats{0};
 	sf::Texture m_fieldTexture;
 	sf::Texture m_craftTexture;
 	sf::Texture m_checkedTexture;
@@ -85,4 +86,6 @@ public:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed, sf::RenderWindow& window);
 
 	void handleInput(sf::RenderWindow& window, const sf::Event& event);
+
+	int getBoardStats();
 };
