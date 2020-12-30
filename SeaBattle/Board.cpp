@@ -16,12 +16,10 @@ Board::Board()
 
 	for (int y = 0; y < getDimensionY(); y++) {
 		for (int x = 0; x < getDimensionX(); x++) {
-			Craft craft;
 			Field field;
-			
 			field.setCoordinate(x, y);
 			field.setSprite(m_fieldTexture);
-			craft.addField(field);
+
 			m_fieldTab[y][x] = field;
 		}
 	}
@@ -67,6 +65,11 @@ std::vector<Craft> Board::getCraftTab() const
 	return m_craftTab;
 }
 
+void Board::updateCraftTab(int index, const Craft& craft)
+{
+	m_craftTab[index] = craft;
+}
+
 void Board::setClickedField(const Field& clickedField)
 {
 	m_clickedField = clickedField;
@@ -90,7 +93,7 @@ void Board::updateCraftTab(const Craft& craft, int index)
 	m_craftTab[index] = craft;
 }
 
-void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft) const
+void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft, bool showForbidArea) const
 {	
 	for (int y = 0; y < m_dimensionY; y++)
 	{
@@ -102,6 +105,9 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft) const
 
 			if(showCraft && int(field.getType())>0 && int(field.getType())<=4)
 				field.setSprite(m_craftTexture);
+
+			if(showForbidArea && field.getType() == CraftType::forbid)
+				field.setSprite(m_checkedTexture);
 
 			if (field.getChecked())
 				field.setSprite(m_checkedTexture);
@@ -116,15 +122,45 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft) const
 
 void Board::checkNSDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction)
 {
-	for (int i = 1; i < type; i++)
+	if (rowIndex > 0 && (m_fieldTab[rowIndex-1][colIndex].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex-1][colIndex].getType() != CraftType::forbid))
 	{
-		if (rowIndex + (i * direction) > 9 || rowIndex + (i * direction) < 0)
+		allowCraft = false;
+		return;
+	}
+
+	if (rowIndex > 0 && colIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex - 1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex - 1][colIndex - 1].getType() != CraftType::forbid))
+	{
+		allowCraft = false;
+		return;
+	}
+
+	if (rowIndex > 0 && colIndex < 9 && (m_fieldTab[rowIndex - 1][colIndex + 1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex - 1][colIndex + 1].getType() != CraftType::forbid))
+	{
+		allowCraft = false;
+		return;
+	}
+
+	for (int i = 0; i <= type; i++)
+	{
+		if (i>0 && (rowIndex + ((i-1) * direction) > 9 || rowIndex + ((i-1) * direction) < 0))
 		{
 			allowCraft = false;
 			break;
 		}
 
-		if (m_fieldTab[rowIndex + (i*direction)][colIndex].getType() != CraftType::zeroMasted)
+		if (rowIndex + (i * direction) <=9 && rowIndex + (i * direction) >=0 && m_fieldTab[rowIndex + (i*direction)][colIndex].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex + (i * direction)][colIndex].getType() != CraftType::forbid)
+		{
+			allowCraft = false;
+			break;
+		}
+
+		if (rowIndex + (i * direction)>=0 && rowIndex + (i * direction) <=9 && colIndex>0 && m_fieldTab[rowIndex + (i * direction)][colIndex-1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex + (i * direction)][colIndex-1].getType() != CraftType::forbid)
+		{
+			allowCraft = false;
+			break;
+		}
+
+		if (colIndex<9 && rowIndex + (i * direction)>=0 && rowIndex + (i * direction)<=9 && m_fieldTab[rowIndex + (i * direction)][colIndex + 1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex + (i * direction)][colIndex + 1].getType() != CraftType::forbid)
 		{
 			allowCraft = false;
 			break;
@@ -172,15 +208,45 @@ void Board::checkVertical(int rowIndex, int colIndex, int type, bool& allowCraft
 
 void Board::checkWEDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction)
 {
-	for (int i = 1; i < type; i++)
+	if (colIndex>0 && (m_fieldTab[rowIndex][colIndex - 1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex][colIndex - 1].getType() != CraftType::forbid))
 	{
-		if (colIndex + (i * direction) < 0 || colIndex + (i * direction)>9)
+		allowCraft = false;
+		return;
+	}
+
+	if (rowIndex > 0 && colIndex > 0 && (m_fieldTab[rowIndex-1][colIndex - 1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex-1][colIndex - 1].getType() != CraftType::forbid))
+	{
+		allowCraft = false;
+		return;
+	}
+
+	if (rowIndex < 9 && colIndex > 0 && (m_fieldTab[rowIndex+1][colIndex -1].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex+1][colIndex - 1].getType() != CraftType::forbid))
+	{
+		allowCraft = false;
+		return;
+	}
+
+	for (int i = 0; i <= type; i++)
+	{
+		if (i>0 && colIndex + ((i-1) * direction) < 0 || colIndex + ((i-1) * direction) > 9)
 		{
 			allowCraft = false;
 			break;
 		}
 
-		if (m_fieldTab[rowIndex][colIndex + (i*direction)].getType() != CraftType::zeroMasted)
+		if ((colIndex + (i * direction)<=9 && colIndex + (i * direction) >= 0) && m_fieldTab[rowIndex][colIndex + (i*direction)].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex][colIndex + (i * direction)].getType() != CraftType::forbid)
+		{
+			allowCraft = false;
+			break;
+		}
+
+		if (rowIndex>0 && colIndex + (i * direction)>=0 && colIndex + (i * direction) <=9 && m_fieldTab[rowIndex-1][colIndex + (i * direction)].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex-1][colIndex + (i * direction)].getType() != CraftType::forbid)
+		{
+			allowCraft = false;
+			break;
+		}
+
+		if (rowIndex < 9 && colIndex + (i * direction)>=0 && colIndex + (i * direction)<=9 && m_fieldTab[rowIndex + 1][colIndex + (i * direction)].getType() != CraftType::zeroMasted && m_fieldTab[rowIndex+1][colIndex + (i * direction)].getType() != CraftType::forbid)
 		{
 			allowCraft = false;
 			break;
@@ -223,6 +289,288 @@ void Board::checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCra
 	{
 		std::cout << "WARNING HORIZONTAL CHECK" << std::endl;
 	}
+}
+
+void Board::setCraftOnMap(char allowedDirection, Craft& craftModel, int craftIndex)
+{
+	int direction = 0;
+	int colIndex = craftModel.getCraftSprite().getCoordinateX();
+	int rowIndex = craftModel.getCraftSprite().getCoordinateY();
+	int type = int(craftModel.getCraftType());
+	CraftType craftType = craftModel.getCraftType();
+
+	switch (allowedDirection)
+	{
+	case 'N':
+	case 'S':
+		direction = 1;
+		break;
+	default:
+		break;
+	}
+
+	craftModel.setOrientation(direction == 1 ? "vertical" : "horizontal");
+
+	if (allowedDirection == 'S')
+	{
+		//Top left
+		if (colIndex > 0 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex - 1]);
+		}
+
+		//Top center
+		if (rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex]);
+		}
+
+		//TopRight
+		if (colIndex < 9 && rowIndex>0 && (m_fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex + 1]);
+		}
+
+		for (int i = 0; i < type; i++)
+		{
+			//left forbid field
+			if (colIndex > 0 && (m_fieldTab[rowIndex + i][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + i][colIndex - 1].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex + i][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex + i][colIndex - 1]);
+			}
+
+			//set field's craft
+			m_fieldTab[rowIndex + i][colIndex].setType(craftType);
+			craftModel.addField(m_fieldTab[rowIndex + i][colIndex]);
+
+			//right forbied field
+			if (colIndex < 9 && (m_fieldTab[rowIndex + i][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + i][colIndex + 1].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex + i][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex + i][colIndex + 1]);
+			}
+		}
+
+		//Bottom left
+		if (colIndex > 0 && rowIndex + type <= 9 && (m_fieldTab[rowIndex + type][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + type][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + type][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + type][colIndex - 1]);
+		}
+
+		//Bottom center
+		if (rowIndex + type <= 9 && (m_fieldTab[rowIndex + type][colIndex].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + type][colIndex].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + type][colIndex].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + type][colIndex]);
+		}
+
+		//Bottom right
+		if (colIndex < 9 && rowIndex + type <= 9 && (m_fieldTab[rowIndex + type][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + type][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + type][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + type][colIndex + 1]);
+		}
+	}
+	else if (allowedDirection == 'N')
+	{
+		//Bottom left
+		if (colIndex > 0 && rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex - 1]);
+		}
+
+		//Bottom center
+		if (rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex]);
+		}
+
+		//Bottom right
+		if (rowIndex < 9 && colIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex + 1]);
+		}
+
+		for (int i = 0; i < type; i++)
+		{
+			if (colIndex > 0 && (m_fieldTab[rowIndex - i][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - i][colIndex - 1].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex - i][colIndex - 1].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex - i][colIndex - 1]);
+			}
+
+			m_fieldTab[rowIndex - i][colIndex].setType(craftType);
+			craftModel.addField(m_fieldTab[rowIndex - i][colIndex]);
+
+			if (colIndex < 9 && (m_fieldTab[rowIndex - i][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - i][colIndex + 1].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex - i][colIndex + 1].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex - i][colIndex + 1]);
+			}
+		}
+
+		//Top left
+		if (colIndex > 0 && rowIndex - type >= 0 && (m_fieldTab[rowIndex - type][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - type][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - type][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - type][colIndex - 1]);
+		}
+
+		//Top center
+		if (rowIndex - type >= 0 && (m_fieldTab[rowIndex - type][colIndex].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - type][colIndex].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - type][colIndex].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - type][colIndex]);
+		}
+
+		//Top right
+		if (rowIndex - type >= 0 && colIndex < 9 && (m_fieldTab[rowIndex - type][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - type][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - type][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - type][colIndex + 1]);
+		}
+	}
+	else if (allowedDirection == 'E')
+	{
+		//top
+		if (colIndex > 0 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex - 1]);
+		}
+
+		//center
+		if (colIndex > 0 && (m_fieldTab[rowIndex][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex][colIndex - 1]);
+		}
+
+		//bottom
+		if (colIndex > 0 && rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex - 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex - 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex - 1]);
+		}
+
+		for (int i = 0; i < type; i++)
+		{
+			//Top
+			if (colIndex <= 9 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex + i].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex - 1][colIndex + i].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex + i]);
+			}
+
+			//Center
+			m_fieldTab[rowIndex][colIndex + i].setType(craftType);
+			craftModel.addField(m_fieldTab[rowIndex][colIndex + i]);
+
+			//Bottom
+			if (rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex + i].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex + i].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex + 1][colIndex + i].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex + i]);
+			}
+		}
+
+		//Top
+		if (colIndex + type <= 9 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex + type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex + type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex + type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex + type]);
+		}
+
+		//Center
+		if (colIndex + type <= 9 && (m_fieldTab[rowIndex][colIndex + type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex][colIndex + type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex][colIndex + type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex][colIndex + type]);
+		}
+
+		//Bottom
+		if (colIndex + type <= 9 && rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex + type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex + type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex + type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex + type]);
+		}
+
+
+	}
+	else if (allowedDirection == 'W')
+	{
+		//Top
+		if (colIndex < 9 && rowIndex>0 && (m_fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex + 1]);
+		}
+
+
+		//Center
+		if (colIndex < 9 && (m_fieldTab[rowIndex][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex][colIndex + 1]);
+		}
+
+		//Bottom
+		if (colIndex < 9 && rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex + 1].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex + 1].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex + 1]);
+		}
+
+		for (int i = 0; i < type; i++)
+		{
+			if (colIndex - i >= 0 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex - i].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex - i].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex - 1][colIndex - i].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex - i]);
+			}
+
+			m_fieldTab[rowIndex][colIndex - i].setType(craftType);
+			craftModel.addField(m_fieldTab[rowIndex][colIndex - i]);
+
+			if (rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex - i].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex - i].getType() == CraftType::forbid))
+			{
+				m_fieldTab[rowIndex + 1][colIndex - i].setType(CraftType::forbid);
+				craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex - i]);
+			}
+		}
+
+		//Top
+		if (colIndex - type >= 0 && rowIndex > 0 && (m_fieldTab[rowIndex - 1][colIndex - type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex - 1][colIndex - type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex - 1][colIndex - type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex - 1][colIndex - type]);
+		}
+
+		//Center
+		if (colIndex - type >= 0 && (m_fieldTab[rowIndex][colIndex - type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex][colIndex - type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex][colIndex - type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex][colIndex - type]);
+		}
+
+		//Bottom
+		if (colIndex - type >= 0 && rowIndex < 9 && (m_fieldTab[rowIndex + 1][colIndex - type].getType() == CraftType::zeroMasted || m_fieldTab[rowIndex + 1][colIndex - type].getType() == CraftType::forbid))
+		{
+			m_fieldTab[rowIndex + 1][colIndex - type].setType(CraftType::forbid);
+			craftModel.addForbidArea(m_fieldTab[rowIndex + 1][colIndex - type]);
+		}
+	}
+	
+	//addCraft(craftModel);
+	updateCraftTab(craftIndex, craftModel);
 }
 
 int Board::getCraft(std::vector<Craft> craftTab, const Field& field) const
@@ -668,4 +1016,81 @@ void Board::handleInput(const sf::RenderWindow& window)
 int Board::getBoardStats() const
 {
 	return m_boardStats;
+}
+
+void Board::delCraft(int craftIndex)
+{
+	Craft craft = m_craftTab[craftIndex];
+	
+	for (int i = 0; i < craft.getArea().size(); i++)
+	{
+		Field field;
+		field.setCoordinate(craft.getArea()[i].getCoordinateX(), craft.getArea()[i].getCoordinateY());
+		field.setSprite(m_fieldTexture);
+		m_fieldTab[craft.getArea()[i].getCoordinateY()][craft.getArea()[i].getCoordinateX()] = field;
+	}
+
+	for (int i = 0;i < craft.getForbidArea().size();i++)
+	{
+		Field field;
+		field.setCoordinate(craft.getForbidArea()[i].getCoordinateX(), craft.getForbidArea()[i].getCoordinateY());
+		field.setSprite(m_fieldTexture);
+		m_fieldTab[craft.getForbidArea()[i].getCoordinateY()][craft.getForbidArea()[i].getCoordinateX()] = field;
+	}
+
+
+	//m_craftTab.erase(m_craftTab.begin() + craftIndex);
+}
+
+void Board::setCraftTab(sf::Texture& fourMTexture, sf::Texture& threeMTexture, sf::Texture& twoMTexture, sf::Texture& oneMTexture)
+{
+	m_craftTab.clear();
+
+	for (int i = 0; i < 1; i++)
+	{
+		Craft craft;
+		craft.getCraftSprite().setType(CraftType::fourMasted);
+		craft.setCraftType(CraftType::fourMasted);
+		craft.getCraftSprite().setWidth(180);
+		craft.getCraftSprite().setHeight(45);
+		craft.getCraftSprite().setCoordinate(11, 3);
+		craft.getCraftSprite().setSprite(fourMTexture);
+		m_craftTab.push_back(craft);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		Craft craft;
+		craft.getCraftSprite().setType(CraftType::threeMasted);
+		craft.setCraftType(CraftType::threeMasted);
+		craft.getCraftSprite().setWidth(135);
+		craft.getCraftSprite().setHeight(45);
+		craft.getCraftSprite().setCoordinate(11+(i*3), 4);
+		craft.getCraftSprite().setSprite(threeMTexture);
+		m_craftTab.push_back(craft);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		Craft craft;
+		craft.getCraftSprite().setType(CraftType::twoMasted);
+		craft.setCraftType(CraftType::twoMasted);
+		craft.getCraftSprite().setWidth(90);
+		craft.getCraftSprite().setHeight(45);
+		craft.getCraftSprite().setCoordinate(11+(i*2), 5);
+		craft.getCraftSprite().setSprite(twoMTexture);
+		m_craftTab.push_back(craft);
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		Craft craft;
+		craft.getCraftSprite().setType(CraftType::oneMasted);
+		craft.setCraftType(CraftType::oneMasted);
+		craft.getCraftSprite().setWidth(45);
+		craft.getCraftSprite().setHeight(45);
+		craft.getCraftSprite().setCoordinate(11+(i*1), 6);
+		craft.getCraftSprite().setSprite(oneMTexture);
+		m_craftTab.push_back(craft);
+	}
 }

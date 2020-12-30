@@ -159,6 +159,7 @@
     <ClCompile Include="GridField.cpp" />
     <ClCompile Include="IScreen.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="SelectCraftWindow.cpp" />
     <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GridField.h" />
     <ClInclude Include="IScreen.h" />
+    <ClInclude Include="Orientation.h" />
     <ClInclude Include="SelectCraftWindow.h" />
     <ClInclude Include="StartScreen.h" />
   </ItemGroup>

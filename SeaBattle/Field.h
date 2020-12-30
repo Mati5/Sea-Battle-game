@@ -1,12 +1,14 @@
 #pragma once
 #include "CraftType.h"
 #include "GridField.h"
+#include "Orientation.h"
 
 class Field: public GridField
 {
 	CraftType m_type;
 	int m_spaceBetweenField;
 	bool m_checked;
+	Orientation m_position;
 
 public:
 	Field();
@@ -32,4 +34,8 @@ public:
 	int getCoordinateY() const override;
 
 	bool hitCraft()const;
+
+	void rotateField(sf::Texture& texture);
+
+	Orientation getPosition() const;
 };

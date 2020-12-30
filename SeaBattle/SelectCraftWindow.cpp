@@ -62,12 +62,158 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	m_startGameBtn.loadTexture("../images/start-btn.png");
 
 	m_startGame = false;
+
+	if (!m_fourMasthedTexture.loadFromFile("../images/four-masthed.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_fourMasthedVTexture.loadFromFile("../images/four-masthed-vertical.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_threeMasthedTexture.loadFromFile("../images/three-masthed.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_threeMasthedVTexture.loadFromFile("../images/three-masthed-vertical.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_twoMasthedTexture.loadFromFile("../images/two-masthed.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_twoMasthedVTexture.loadFromFile("../images/two-masthed-vertical.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_oneMasthedTexture.loadFromFile("../images/one-masthed.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	m_boardPlayer.setCraftTab(m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
 }
 
 void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
-	//Run only when pressed not realese and hold
-	if(event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
+	window.setView(m_boardView);
+	setMousePosition(window);
+	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
+	{
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
+		{
+			window.setView(m_boardView);
+			Craft craft = m_boardPlayer.getCraftTab()[i];
+			Field craftSprite = craft.getCraftSprite();
+			
+			if (craftSprite.getChecked())
+			{
+				
+				if (craftSprite.getPosition() == Orientation::Vertical)
+				{
+					switch (craft.getCraftType())
+					{
+					case CraftType::fourMasted:
+						craftSprite.rotateField(m_fourMasthedTexture);
+						break;
+					case CraftType::threeMasted:
+						craftSprite.rotateField(m_threeMasthedTexture);
+						break;
+					case CraftType::twoMasted:
+						craftSprite.rotateField(m_twoMasthedTexture);
+						break;
+					case CraftType::oneMasted:
+						craftSprite.rotateField(m_oneMasthedTexture);
+						break;
+					}
+				}
+				else
+				{
+					switch (craft.getCraftType())
+					{
+					case CraftType::fourMasted:
+						craftSprite.rotateField(m_fourMasthedVTexture);
+						break;
+					case CraftType::threeMasted:
+						craftSprite.rotateField(m_threeMasthedVTexture);
+						break;
+					case CraftType::twoMasted:
+						craftSprite.rotateField(m_twoMasthedVTexture);
+						break;
+					case CraftType::oneMasted:
+						craftSprite.rotateField(m_oneMasthedTexture);
+						break;
+					default:
+						break;
+					}
+				}	
+			}
+
+			craft.setCraftSprite(craftSprite);
+			m_boardPlayer.updateCraftTab(i, craft);
+		}
+
+		if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
+		{
+			Craft craft = m_boardPlayer.getCraftTab()[i];
+			Field craftSprite = craft.getCraftSprite();
+
+			if (craftSprite.onClick(mouseX, mouseY))
+			{
+
+				if (craftSprite.getChecked())
+				{
+					craftSprite.setChecked(false);
+
+					if (craftSprite.getCoordinateX() >= 0 && craftSprite.getCoordinateX() <= 9 &&
+						craftSprite.getCoordinateY() >= 0 && craftSprite.getCoordinateY() <= 9)
+					{
+						bool allowCraft = true;
+						switch (craftSprite.getPosition())
+						{
+						case Orientation::Horizontal:
+							m_boardPlayer.checkWEDirection(craftSprite.getCoordinateY(), craftSprite.getCoordinateX(), int(craft.getCraftType()), allowCraft, 1);
+							break;
+						case Orientation::Vertical:
+							m_boardPlayer.checkNSDirection(craftSprite.getCoordinateY(), craftSprite.getCoordinateX(), int(craft.getCraftType()), allowCraft, 1);
+							break;
+						default:
+							break;
+						}
+
+						if (allowCraft)
+						{
+							switch (craftSprite.getPosition())
+							{
+							case Orientation::Horizontal:
+								m_boardPlayer.setCraftOnMap('E', craft, i);
+								break;
+							case Orientation::Vertical:
+								m_boardPlayer.setCraftOnMap('S', craft, i);
+								break;
+							default:
+								break;
+							}
+						}
+
+						if(!allowCraft)
+							craftSprite.setChecked(true);
+					}
+				}
+				else
+				{
+					std::cout << "ThreeMasthed checked" << std::endl;
+					craftSprite.setChecked(true);
+
+					if (craftSprite.getChecked() && craftSprite.getCoordinateX() >= 0 && craftSprite.getCoordinateX() <= 9 &&
+						craftSprite.getCoordinateY() >= 0 && craftSprite.getCoordinateY() <= 9)
+					{
+						m_boardPlayer.delCraft(i);
+						craft.clearArea();
+						craft.clearForbidArea();
+					}
+				}
+			}
+
+			craft.setCraftSprite(craftSprite);
+			m_boardPlayer.updateCraftTab(i, craft);
+		}
+	}
+
+	if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 	{
 		window.setView(m_controlView);
 		setMousePosition(window);
@@ -93,6 +239,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			case GameMode::OneVsOne:
 				m_gameSettings.setPlayerBoard_1(m_boardPlayer);
 				m_boardPlayer.resetBoard();
+				m_boardPlayer.setCraftTab(m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
 				setStartGame(true);
 				break;
 			case GameMode::OneVsAi:
@@ -119,11 +266,34 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			return;
 		}
 	}
+	window.setView(m_boardView);
 }
 
 void SelectCraftWindow::update(sf::Time deltaTime)
 {
+	//window.setView(window.getDefaultView());
+	if (m_threeMasthed.getChecked())
+	{
+		auto x = int(mouseX) / m_threeMasthed.getSpaceBetweenField();
+		auto y = int(mouseY) / m_threeMasthed.getSpaceBetweenField();
 
+		m_threeMasthed.setCoordinate(x, y);	
+	}
+
+	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
+	{
+		Craft craft = m_boardPlayer.getCraftTab()[i];
+
+		if (craft.getCraftSprite().getChecked())
+		{
+			auto x = int(mouseX) / craft.getCraftSprite().getSpaceBetweenField();
+			auto y = int(mouseY) / craft.getCraftSprite().getSpaceBetweenField();
+
+			craft.getCraftSprite().setCoordinate(x, y);
+		}
+
+		m_boardPlayer.updateCraftTab(i, craft);
+	}
 }
 
 void SelectCraftWindow::render(sf::RenderWindow& window)
@@ -132,9 +302,17 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 
 	window.setView(window.getDefaultView());
 	window.draw(backgroundSprite);
-
+	
 	window.setView(m_boardView);
 	m_boardPlayer.renderBoard(window, true);
+
+	
+	//window.draw(m_threeMasthed.getSprite());
+
+	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
+	{
+		window.draw(m_boardPlayer.getCraftTab()[i].getCraftSprite().getSprite());
+	}
 
 	//Control view buttons
 	window.setView(m_controlView);

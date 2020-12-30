@@ -17,6 +17,7 @@ protected:
 	sf::Texture m_craftTexture;
 	sf::Texture m_checkedTexture;
 	sf::Texture m_hitCraftTexture;
+
 	bool m_leftMouseBtnPressed;
 
 public:
@@ -54,6 +55,8 @@ public:
 
 	std::vector<Craft> getCraftTab() const;
 
+	void updateCraftTab(int index, const Craft& craft);
+
 	void setClickedField(const Field& clickedField);
 
 	Field getClickedField() const;
@@ -62,7 +65,7 @@ public:
 
 	void updateCraftTab(const Craft& craft, int index);
 
-	void renderBoard(sf::RenderWindow& mWindow, bool showCraft=false) const;
+	void renderBoard(sf::RenderWindow& mWindow, bool showCraft=false, bool showForbidArea=false) const;
 
 	void randomCraft(int type, int quantity);
 
@@ -78,9 +81,15 @@ public:
 
 	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
 
+	void setCraftOnMap(char allowedDirection, Craft& craftModel, int craftIndex);
+	
 	int getCraft(std::vector<Craft> craftTab, const Field& field) const;
 
 	void handleInput(const sf::RenderWindow& window);
 
 	int getBoardStats() const;
+
+	void delCraft(int craftIndex);
+
+	void setCraftTab(sf::Texture& fourMTexture, sf::Texture& threeMTexture, sf::Texture& twoMTexture, sf::Texture& oneMTexture);
 };

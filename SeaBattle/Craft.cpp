@@ -86,3 +86,28 @@ bool Craft::checkStateCraft() const
 		return m_quantityDestroyedEl == getCraftTypeNumber(m_craftType);
 	return false;
 }
+
+void Craft::setCraftSprite(const Field& craftSprite)
+{
+	m_craftSprite = craftSprite;
+}
+
+void Craft::setCraftSpriteTexture(const sf::Texture& texture)
+{
+	m_craftSprite.setSprite(texture);
+}
+
+Field& Craft::getCraftSprite()
+{
+	return m_craftSprite;
+}
+
+void Craft::clearArea()
+{
+	m_area.clear();
+}
+
+void Craft::clearForbidArea()
+{
+	m_forbidArea.clear();
+}

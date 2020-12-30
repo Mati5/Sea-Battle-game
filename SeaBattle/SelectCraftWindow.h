@@ -18,6 +18,19 @@ class SelectCraftWindow: public IScreen
 	sf::View m_boardView;
 	sf::View m_controlView;
 	bool m_startGame;
+	
+	sf::Texture m_fourMasthedTexture;
+	sf::Texture m_fourMasthedVTexture;
+
+	sf::Texture m_threeMasthedTexture;
+	sf::Texture m_threeMasthedVTexture;
+
+	sf::Texture m_twoMasthedTexture;
+	sf::Texture m_twoMasthedVTexture;
+
+	sf::Texture m_oneMasthedTexture;
+
+	Field m_threeMasthed;
 
 public:
 	SelectCraftWindow();

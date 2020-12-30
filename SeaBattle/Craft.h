@@ -9,6 +9,7 @@ class Craft
 	std::string m_orientation; //horizontal/vertical
 	CraftType m_craftType;
 	int m_quantityDestroyedEl;
+	Field m_craftSprite;
 	
 public:
 	Craft();
@@ -39,4 +40,14 @@ public:
 
 	//return true if craft destroyed
 	bool checkStateCraft() const;
+
+	void setCraftSprite(const Field& craftSprite);
+
+	void setCraftSpriteTexture(const sf::Texture& texture);
+
+	Field& getCraftSprite();
+
+	void clearArea();
+
+	void clearForbidArea();
 };
