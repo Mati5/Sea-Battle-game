@@ -164,16 +164,16 @@ void GameScreen::render(sf::RenderWindow& window)
 	window.draw(m_arrowSprite);
 
 	window.setView(m_playerView_1);
-	m_playerBoard_1.renderBoard(window, m_gameMode == GameMode::OneVsAi && true); //m_gameMode == GameMode::OneVsAi && true
+	m_playerBoard_1.renderBoard(window, (m_gameMode == GameMode::OneVsAi || m_endGame) && true); //m_gameMode == GameMode::OneVsAi && true
 
 	window.setView(m_playerView_2);
 	switch (m_gameMode)
 	{
 	case GameMode::OneVsOne:
-		m_playerBoard_2.renderBoard(window);
+		m_playerBoard_2.renderBoard(window, m_endGame && true);
 		break;
 	case GameMode::OneVsAi:
-		m_boardAi.renderBoard(window);
+		m_boardAi.renderBoard(window, m_endGame && true);
 		break;
 	default:
 		break;
