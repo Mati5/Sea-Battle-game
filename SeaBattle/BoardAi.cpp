@@ -25,7 +25,7 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 		field = m_hitCraftTab[0];
 
 		//Tick 4 option (random 4 direction)
-		std::vector<char> direction = {};
+		std::vector<Direction> direction = {};
 		int x = field.getCoordinateX();
 		int y = field.getCoordinateY();
 
@@ -33,73 +33,73 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 		// all 4 direction
 		if (x > 0 && x < 9 && y > 0 && y < 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 		else if (x == 0 && y == 0)
 		{
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
 		}
 		else if (x == 0 && y == 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
 		}
 		else if (x == 9 && y == 0)
 		{
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 		else if (x == 9 && y == 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 		else if (x == 0 && y > 0 && y < 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
 		}
 		else if (x == 9 && y > 0 && y < 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 		else if (x > 0 && x < 9 && y == 0)
 		{
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-			if (!fieldTab[y + 1][x].getChecked()) direction.push_back('S');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
+			if (!fieldTab[y + 1][x].getChecked()) direction.push_back(Direction::S);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 		else if (x > 0 && x < 9 && y == 9)
 		{
-			if (!fieldTab[y - 1][x].getChecked()) direction.push_back('N');
-			if (!fieldTab[y][x + 1].getChecked()) direction.push_back('E');
-			if (!fieldTab[y][x - 1].getChecked()) direction.push_back('W');
+			if (!fieldTab[y - 1][x].getChecked()) direction.push_back(Direction::N);
+			if (!fieldTab[y][x + 1].getChecked()) direction.push_back(Direction::E);
+			if (!fieldTab[y][x - 1].getChecked()) direction.push_back(Direction::W);
 		}
 
 		if (!direction.empty())
 		{
-			int randDirectionNum = rand() % direction.size();
-			char randDirection = direction[randDirectionNum];
+			int randDirectionNum = RandNum(direction.size());
+			Direction randDirection = direction[randDirectionNum];
 
 			switch (randDirection)
 			{
-			case 'N':
+			case Direction::N:
 				field = fieldTab[y - 1][x];
 				break;
-			case 'E':
+			case Direction::E:
 				field = fieldTab[y][x + 1];
 				break;
-			case 'S':
+			case Direction::S:
 				field = fieldTab[y + 1][x];
 				break;
-			case 'W':
+			case Direction::W:
 				field = fieldTab[y][x - 1];
 				break;
 			default:
@@ -113,9 +113,9 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 	else if (m_hitCraftTab.size() > 1)
 	{
 		int hitCraftIndex = getCraft(craftTab, m_hitCraftTab[0]);
-		std::string hitCraftDirection = craftTab[hitCraftIndex].getOrientation();
+		Orientation hitCraftOrientation = craftTab[hitCraftIndex].getOrientation();
 
-		if (hitCraftDirection == "vertical") //N/S
+		if (hitCraftOrientation == Orientation::Vertical) //N/S
 		{
 			for (auto&& value : m_hitCraftTab)
 			{
@@ -176,7 +176,7 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 Field BoardAi::getAvailableField(const std::array<std::array<Field, 10>, 10>& fieldTab)
 {
 	int availableFieldSize = m_availableField.size();
-	int randField = rand() % availableFieldSize;
+	int randField = RandNum(availableFieldSize);
 	int randX = m_availableField[randField][1];
 	int randY = m_availableField[randField][0];
 

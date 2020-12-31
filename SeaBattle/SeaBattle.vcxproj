@@ -151,6 +151,7 @@
     <ClCompile Include="Craft.cpp" />
     <ClCompile Include="CraftType.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMode.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="IScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Orientation.cpp" />
+    <ClCompile Include="RandNum.cpp" />
     <ClCompile Include="SelectCraftWindow.cpp" />
     <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
@@ -170,6 +172,7 @@
     <ClInclude Include="Craft.h" />
     <ClInclude Include="CraftType.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMode.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="GridField.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="Orientation.h" />
+    <ClInclude Include="RandNum.h" />
     <ClInclude Include="SelectCraftWindow.h" />
     <ClInclude Include="StartScreen.h" />
   </ItemGroup>

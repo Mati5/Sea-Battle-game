@@ -4,6 +4,7 @@ Craft::Craft()
 {
 	m_craftType = CraftType::zeroMasted;
 	m_quantityDestroyedEl = 0;
+	m_orientation = Orientation::Horizontal;
 }
 
 std::vector<Field> Craft::getArea() const
@@ -26,12 +27,12 @@ void Craft::addForbidArea(const Field& field)
 	m_forbidArea.push_back(field);
 }
 
-void Craft::setOrientation(const std::string& orientation)
+void Craft::setOrientation(const Orientation& orientation)
 {
 	m_orientation = orientation;
 }
 
-std::string Craft::getOrientation() const
+Orientation Craft::getOrientation() const
 {
 	return m_orientation;
 }

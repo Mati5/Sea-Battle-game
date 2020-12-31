@@ -47,7 +47,7 @@ void Field::setCoordinate(int x, int y)
 	m_coordinate[0] = x * m_spaceBetweenField;
 	m_coordinate[1] = y * m_spaceBetweenField;
 
-	m_sprite.setPosition(m_coordinate[0], m_coordinate[1]);
+	m_sprite.setPosition(float(m_coordinate[0]), float(m_coordinate[1]));
 }
 
 int Field::getCoordinateX() const
@@ -65,7 +65,7 @@ bool Field::hitCraft() const
 	return int(m_type) > 0 && int(m_type) < 5;
 }
 
-void Field::rotateField(sf::Texture& texture)
+void Field::rotateField(const sf::Texture& texture)
 {
 	
 	if (m_position == Orientation::Horizontal)

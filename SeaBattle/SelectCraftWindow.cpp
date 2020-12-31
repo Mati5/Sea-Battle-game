@@ -93,15 +93,13 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 	setMousePosition(window);
 	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
 	{
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
+		if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Right)
 		{
-			window.setView(m_boardView);
 			Craft craft = m_boardPlayer.getCraftTab()[i];
 			Field craftSprite = craft.getCraftSprite();
 			
 			if (craftSprite.getChecked())
 			{
-				
 				if (craftSprite.getPosition() == Orientation::Vertical)
 				{
 					switch (craft.getCraftType())
@@ -117,6 +115,8 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 						break;
 					case CraftType::oneMasted:
 						craftSprite.rotateField(m_oneMasthedTexture);
+						break;
+					default:
 						break;
 					}
 				}
@@ -153,7 +153,6 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 			if (craftSprite.onClick(mouseX, mouseY))
 			{
-
 				if (craftSprite.getChecked())
 				{
 					craftSprite.setChecked(false);
@@ -179,10 +178,10 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 							switch (craftSprite.getPosition())
 							{
 							case Orientation::Horizontal:
-								m_boardPlayer.setCraftOnMap('E', craft, i);
+								m_boardPlayer.setCraftOnMap(Direction::E, craft, i);
 								break;
 							case Orientation::Vertical:
-								m_boardPlayer.setCraftOnMap('S', craft, i);
+								m_boardPlayer.setCraftOnMap(Direction::S, craft, i);
 								break;
 							default:
 								break;
@@ -195,7 +194,6 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 				}
 				else
 				{
-					std::cout << "ThreeMasthed checked" << std::endl;
 					craftSprite.setChecked(true);
 
 					if (craftSprite.getChecked() && craftSprite.getCoordinateX() >= 0 && craftSprite.getCoordinateX() <= 9 &&
@@ -271,15 +269,6 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 void SelectCraftWindow::update(sf::Time deltaTime)
 {
-	//window.setView(window.getDefaultView());
-	if (m_threeMasthed.getChecked())
-	{
-		auto x = int(mouseX) / m_threeMasthed.getSpaceBetweenField();
-		auto y = int(mouseY) / m_threeMasthed.getSpaceBetweenField();
-
-		m_threeMasthed.setCoordinate(x, y);	
-	}
-
 	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
 	{
 		Craft craft = m_boardPlayer.getCraftTab()[i];
@@ -305,9 +294,6 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 	
 	window.setView(m_boardView);
 	m_boardPlayer.renderBoard(window, true);
-
-	
-	//window.draw(m_threeMasthed.getSprite());
 
 	for (int i = 0; i < m_boardPlayer.getCraftTab().size(); i++)
 	{

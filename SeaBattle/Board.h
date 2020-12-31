@@ -3,6 +3,8 @@
 #include <array>
 #include "Field.h"
 #include "Craft.h"
+#include "Direction.h"
+#include "RandNum.h"
 
 class Board
 {
@@ -75,13 +77,13 @@ public:
 
 	void checkNSDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
 
-	void checkVertical(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
+	void checkVertical(int rowIndex, int colIndex, int type, bool& allowCraft, Direction& allowedDirection);
 
 	void checkWEDirection(int rowIndex, int colIndex, int type, bool& allowCraft, int direction);
 
-	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, char& allowedDirection);
+	void checkHorizontal(int rowIndex, int colIndex, int type, bool& allowCraft, Direction& allowedDirection);
 
-	void setCraftOnMap(char allowedDirection, Craft& craftModel, int craftIndex);
+	void setCraftOnMap(const Direction& allowedDirection, Craft& craftModel, int craftIndex);
 	
 	int getCraft(std::vector<Craft> craftTab, const Field& field) const;
 
@@ -91,5 +93,5 @@ public:
 
 	void delCraft(int craftIndex);
 
-	void setCraftTab(sf::Texture& fourMTexture, sf::Texture& threeMTexture, sf::Texture& twoMTexture, sf::Texture& oneMTexture);
+	void setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture);
 };

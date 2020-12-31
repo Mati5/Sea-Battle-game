@@ -35,7 +35,7 @@ public:
 
 	bool hitCraft()const;
 
-	void rotateField(sf::Texture& texture);
+	void rotateField(const sf::Texture& texture);
 
 	Orientation getPosition() const;
 };

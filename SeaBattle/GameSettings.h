@@ -4,7 +4,6 @@
 #include "BoardAi.h"
 #include "GameMode.h"
 
-
 class GameSettings
 {
 	BoardPlayer m_playerBoard_1;

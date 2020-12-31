@@ -6,7 +6,7 @@ class Craft
 {
 	std::vector<Field> m_area;
 	std::vector<Field> m_forbidArea;
-	std::string m_orientation; //horizontal/vertical
+	Orientation m_orientation;
 	CraftType m_craftType;
 	int m_quantityDestroyedEl;
 	Field m_craftSprite;
@@ -22,9 +22,9 @@ public:
 
 	void addForbidArea(const Field& field);
 
-	void setOrientation(const std::string& orientation);
+	void setOrientation(const Orientation& orientation);
 
-	std::string getOrientation() const;
+	Orientation getOrientation() const;
 
 	void setCraftType(CraftType craftType);
 
