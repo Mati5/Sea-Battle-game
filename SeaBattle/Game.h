@@ -9,6 +9,7 @@ class Game
 private:
 	sf::RenderWindow _window;
 	static const sf::Time TimePerFrame;
+	sf::Image gameIcon;
 
 	void handleInput();
 	void update(sf::Time deltaTime) const;

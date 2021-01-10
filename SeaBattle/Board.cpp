@@ -88,11 +88,6 @@ void Board::updateTabEl(const Field& field)
 	m_fieldTab[tabY][tabX] = field;
 }
 
-void Board::updateCraftTab(const Craft& craft, int index)
-{
-	m_craftTab[index] = craft;
-}
-
 void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft, bool showForbidArea) const
 {	
 	for (int y = 0; y < m_dimensionY; y++)

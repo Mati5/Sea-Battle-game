@@ -32,7 +32,7 @@ public:
 
 	float getHeight() const;
 
-	virtual bool onClick(float mouseX, float mouseY);
+	bool onClick(float mouseX, float mouseY);
 
 	void loadTexture(const std::string& location);
 

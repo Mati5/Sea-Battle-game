@@ -5,5 +5,5 @@ class BoardPlayer: public Board
 {
 
 public:
-	void tickField(Field field);
+	void tickField(Field& field);
 };

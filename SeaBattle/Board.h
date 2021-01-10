@@ -65,8 +65,6 @@ public:
 
 	void updateTabEl(const Field& field);
 
-	void updateCraftTab(const Craft& craft, int index);
-
 	void renderBoard(sf::RenderWindow& mWindow, bool showCraft=false, bool showForbidArea=false) const;
 
 	void randomCraft(int type, int quantity);

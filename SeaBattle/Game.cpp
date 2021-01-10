@@ -7,6 +7,8 @@ std::shared_ptr<IScreen> Game::Screen = std::make_shared<StartScreen>(); //Start
 Game::Game() : _window(sf::VideoMode(1140, 680), "Sea Battle", sf::Style::Titlebar | sf::Style::Close)
 {
 	Screen->setBackground("../images/bg1.png");
+	gameIcon.loadFromFile("../images/checked.png");
+	_window.setIcon(gameIcon.getSize().x, gameIcon.getSize().y, gameIcon.getPixelsPtr());
 }
 
 void Game::run()

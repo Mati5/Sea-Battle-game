@@ -1,6 +1,6 @@
 #include "BoardPlayer.h"
 
-void BoardPlayer::tickField(Field field)
+void BoardPlayer::tickField(Field& field)
 {
 	
 	if (!field.getChecked())
