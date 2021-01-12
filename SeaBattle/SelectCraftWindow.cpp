@@ -37,7 +37,6 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	m_gameSettings.setSelectedGameMode(gameMode);
 
 	setBackground("../images/bg1.png");
-
 	m_boardView.setViewport(sf::FloatRect(0.F, 0.0F, 1.F, 1.F));
 	m_controlView.setViewport(sf::FloatRect(0.F, 0.87F, 1.F, 1.F));
 
@@ -85,6 +84,7 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 		std::cout << "Error load texture" << std::endl;
 
 	m_boardPlayer.setCraftTab(m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
+	m_craftToSetOnMap = m_boardPlayer.getCraftTab();
 }
 
 void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& event)
@@ -186,6 +186,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 							default:
 								break;
 							}
+							m_quantitySetCraft++;
 						}
 
 						if(!allowCraft)
@@ -202,6 +203,8 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 						m_boardPlayer.delCraft(i);
 						craft.clearArea();
 						craft.clearForbidArea();
+						m_quantitySetCraft--;
+						m_craftToSetOnMap.push_back(craft);
 					}
 				}
 			}
@@ -223,15 +226,29 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 		if (m_randomCraftBtn.onClick(mouseX, mouseY))
 		{
-			m_boardPlayer.resetBoard();
-			m_boardPlayer.randomCraft(4, 1);
-			m_boardPlayer.randomCraft(3, 2);
-			m_boardPlayer.randomCraft(2, 3);
-			m_boardPlayer.randomCraft(1, 4);
+			/*if (m_craftToSetOnMap.size() < 10) {
+				for (int i = 0; i < m_craftToSetOnMap.size(); i++)
+				{
+					m_boardPlayer.randomCraft(int(m_craftToSetOnMap[i].getCraftType()));
+				}
+				m_craftToSetOnMap.clear();
+				m_boardPlayer.clearCraftTab();
+			}
+			else
+			{*/
+				m_boardPlayer.resetBoard();
+				m_boardPlayer.randomCraft(4, Settings::get().getQuantityFourMasthed());
+				m_boardPlayer.randomCraft(3, Settings::get().getQuantityThreeMasthed());
+				m_boardPlayer.randomCraft(2, Settings::get().getQuantityTwoMasthed());
+				m_boardPlayer.randomCraft(1, Settings::get().getQuantityOneMasthed());
+			//}
+			
+			m_quantitySetCraft = m_boardPlayer.getCraftTab().size();
 		}
 
-		if (!m_startGame && !m_boardPlayer.getCraftTab().empty() && m_nextPlayerBtn.onClick(mouseX, mouseY))
+		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && !m_startGame && !m_boardPlayer.getCraftTab().empty() && m_nextPlayerBtn.onClick(mouseX, mouseY))
 		{
+			m_quantitySetCraft = 0;
 			switch (m_gameSettings.getSelectedGameMode())
 			{
 			case GameMode::OneVsOne:
@@ -243,10 +260,10 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			case GameMode::OneVsAi:
 				m_gameSettings.setPlayerBoard_1(m_boardPlayer);
 				m_boardAi.resetBoard();
-				m_boardAi.randomCraft(4, 1);
-				m_boardAi.randomCraft(3, 2);
-				m_boardAi.randomCraft(2, 3);
-				m_boardAi.randomCraft(1, 4);
+				m_boardAi.randomCraft(4, Settings::get().getQuantityFourMasthed());
+				m_boardAi.randomCraft(3, Settings::get().getQuantityThreeMasthed());
+				m_boardAi.randomCraft(2, Settings::get().getQuantityTwoMasthed());
+				m_boardAi.randomCraft(1, Settings::get().getQuantityOneMasthed());
 				m_gameSettings.setBoardAi(m_boardAi);
 				Game::Screen = std::make_shared<GameScreen>(m_gameSettings);
 				break;
@@ -257,7 +274,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			return;
 		}
 
-		if (m_startGame && !m_boardPlayer.getCraftTab().empty() && m_startGameBtn.onClick(mouseX, mouseY))
+		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && m_startGame && !m_boardPlayer.getCraftTab().empty() && m_startGameBtn.onClick(mouseX, mouseY))
 		{
 			m_gameSettings.setPlayerBoard_2(m_boardPlayer);
 			Game::Screen = std::make_shared<GameScreen>(m_gameSettings);

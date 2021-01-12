@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "IScreen.h"
 #include "StartScreen.h"
+#include "GameSettings.h"
 
 class Game
 {

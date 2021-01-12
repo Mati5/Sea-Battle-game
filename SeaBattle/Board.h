@@ -5,6 +5,8 @@
 #include "Craft.h"
 #include "Direction.h"
 #include "RandNum.h"
+#include "Settings.h"
+#include "SetCraftTab.h"
 
 class Board
 {
@@ -19,7 +21,6 @@ protected:
 	sf::Texture m_craftTexture;
 	sf::Texture m_checkedTexture;
 	sf::Texture m_hitCraftTexture;
-
 	bool m_leftMouseBtnPressed;
 
 public:
@@ -67,7 +68,7 @@ public:
 
 	void renderBoard(sf::RenderWindow& mWindow, bool showCraft=false, bool showForbidArea=false) const;
 
-	void randomCraft(int type, int quantity);
+	void randomCraft(int type, int quantity=1);
 
 	bool checkCraftIsDestroyed(const Field& field);
 
@@ -92,4 +93,6 @@ public:
 	void delCraft(int craftIndex);
 
 	void setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture);
+
+	void clearCraftTab();
 };

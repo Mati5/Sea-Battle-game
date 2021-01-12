@@ -163,6 +163,7 @@
     <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="RandNum.cpp" />
     <ClCompile Include="SelectCraftWindow.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +184,7 @@
     <ClInclude Include="Orientation.h" />
     <ClInclude Include="RandNum.h" />
     <ClInclude Include="SelectCraftWindow.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="StartScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,8 +5,9 @@
 #include "BoardAi.h"
 #include "Button.h"
 #include "GameScreen.h"
+#include "SetCraftTab.h"
 
-class SelectCraftWindow: public IScreen
+class SelectCraftWindow: public IScreen 
 {
 	GameSettings m_gameSettings;
 	BoardPlayer m_boardPlayer;
@@ -18,6 +19,8 @@ class SelectCraftWindow: public IScreen
 	sf::View m_boardView;
 	sf::View m_controlView;
 	bool m_startGame;
+	std::vector<Craft> m_craftToSetOnMap;
+	int m_quantitySetCraft{ 0 };
 	
 	sf::Texture m_fourMasthedTexture;
 	sf::Texture m_fourMasthedVTexture;
@@ -29,8 +32,6 @@ class SelectCraftWindow: public IScreen
 	sf::Texture m_twoMasthedVTexture;
 
 	sf::Texture m_oneMasthedTexture;
-
-	Field m_threeMasthed;
 
 public:
 	SelectCraftWindow();
