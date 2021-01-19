@@ -1,23 +1,27 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "IScreen.h"
+#include "CheckboxBtn.h"
 #include "Button.h"
+#include "Settings.h"
 #include "Game.h"
-#include "SelectCraftWindow.h"
+#include "StartScreen.h"
 
-class StartScreen: public IScreen
+class SettingsScreen: public IScreen
 {
-	Button m_oneVsOneBtn;
-	Button m_oneVsAiBtn;
-	Button m_settingsBtn;
-	Button m_exitBtn;
 	sf::Texture m_logoTexture;
 	sf::Sprite m_logoSprite;
+	sf::Text m_tickForbidAreaText;
+	sf::Font m_font;
+	CheckboxBtn m_tickForbidAreaBtn;
+	sf::Texture m_backBtnTexture;
+	Button m_backBtn;
 
 public:
-	StartScreen();
+	SettingsScreen();
 	/*implementacja funkcji z interfesju*/
 	void handleInput(sf::RenderWindow& window, const sf::Event& event) override;
 	void update(sf::Time deltaTime) override;
 	void render(sf::RenderWindow& window) override;
 };
+
