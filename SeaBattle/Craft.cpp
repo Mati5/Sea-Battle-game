@@ -61,6 +61,8 @@ int Craft::getCraftTypeNumber(CraftType craftType) const
 			return 3;
 		case CraftType::fourMasted:
 			return 4;
+		case CraftType::fiveMasted:
+			return 5;
 		default:
 			return -1;
 	}
@@ -83,7 +85,7 @@ void Craft::destroyEl()
 
 bool Craft::checkStateCraft() const
 {
-	if(getCraftTypeNumber(m_craftType)>0 && getCraftTypeNumber(m_craftType)<=4)
+	if(getCraftTypeNumber(m_craftType)>0 && getCraftTypeNumber(m_craftType)<=5)
 		return m_quantityDestroyedEl == getCraftTypeNumber(m_craftType);
 	return false;
 }

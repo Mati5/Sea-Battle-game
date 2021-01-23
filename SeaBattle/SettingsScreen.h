@@ -14,6 +14,8 @@ class SettingsScreen: public IScreen
 	sf::Texture m_logoTexture;
 	sf::Sprite m_logoSprite;
 	Text m_tickForbidAreaText;
+	Text m_fiveMasthedQuantityInfoText;
+	Text m_fiveMasthedQuantityText;
 	Text m_fourMasthedQuantityInfoText;
 	Text m_fourMasthedQuantityText;
 	Text m_threeMasthedQuantityInfoText;
@@ -26,6 +28,7 @@ class SettingsScreen: public IScreen
 	Text m_currentCraftFieldText;
 	Text m_quantityCraftFieldText;
 
+	IncDecBtn m_fiveMasthedIncDecBtn;
 	IncDecBtn m_fourMasthedIncDecBtn;
 	IncDecBtn m_threeMasthedIncDecBtn;
 	IncDecBtn m_twoMasthedIncDecBtn;

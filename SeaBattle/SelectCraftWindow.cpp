@@ -62,6 +62,12 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 
 	m_startGame = false;
 
+	if (!m_fiveMasthedTexture.loadFromFile("../images/five-masthed.png"))
+		std::cout << "Error load texture" << std::endl;
+
+	if (!m_fiveMasthedVTexture.loadFromFile("../images/five-masthed-vertical.png"))
+		std::cout << "Error load texture" << std::endl;
+
 	if (!m_fourMasthedTexture.loadFromFile("../images/four-masthed.png"))
 		std::cout << "Error load texture" << std::endl;
 
@@ -83,7 +89,7 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	if (!m_oneMasthedTexture.loadFromFile("../images/one-masthed.png"))
 		std::cout << "Error load texture" << std::endl;
 
-	m_boardPlayer.setCraftTab(m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
+	m_boardPlayer.setCraftTab(m_fiveMasthedTexture, m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
 	m_craftToSetOnMap = m_boardPlayer.getCraftTab();
 }
 
@@ -104,6 +110,9 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 				{
 					switch (craft.getCraftType())
 					{
+					case CraftType::fiveMasted:
+						craftSprite.rotateField(m_fiveMasthedTexture);
+						break;
 					case CraftType::fourMasted:
 						craftSprite.rotateField(m_fourMasthedTexture);
 						break;
@@ -124,6 +133,9 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 				{
 					switch (craft.getCraftType())
 					{
+					case CraftType::fiveMasted:
+						craftSprite.rotateField(m_fiveMasthedVTexture);
+						break;
 					case CraftType::fourMasted:
 						craftSprite.rotateField(m_fourMasthedVTexture);
 						break;
@@ -237,6 +249,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			else
 			{*/
 				m_boardPlayer.resetBoard();
+				m_boardPlayer.randomCraft(5, Settings::get().getQuantityFiveMasthed());
 				m_boardPlayer.randomCraft(4, Settings::get().getQuantityFourMasthed());
 				m_boardPlayer.randomCraft(3, Settings::get().getQuantityThreeMasthed());
 				m_boardPlayer.randomCraft(2, Settings::get().getQuantityTwoMasthed());
@@ -254,12 +267,13 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			case GameMode::OneVsOne:
 				m_gameSettings.setPlayerBoard_1(m_boardPlayer);
 				m_boardPlayer.resetBoard();
-				m_boardPlayer.setCraftTab(m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
+				m_boardPlayer.setCraftTab(m_fiveMasthedTexture, m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
 				setStartGame(true);
 				break;
 			case GameMode::OneVsAi:
 				m_gameSettings.setPlayerBoard_1(m_boardPlayer);
 				m_boardAi.resetBoard();
+				m_boardAi.randomCraft(5, Settings::get().getQuantityFiveMasthed());
 				m_boardAi.randomCraft(4, Settings::get().getQuantityFourMasthed());
 				m_boardAi.randomCraft(3, Settings::get().getQuantityThreeMasthed());
 				m_boardAi.randomCraft(2, Settings::get().getQuantityTwoMasthed());

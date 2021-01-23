@@ -25,29 +25,35 @@ SettingsScreen::SettingsScreen(): m_tickForbidAreaBtn(Settings::get().getShowFor
 	m_currentCraftFieldText.setText(std::to_string(Settings::get().getCurrentCraftField()));
 	m_currentCraftFieldText.setPosition(730, 190);
 
+	m_fiveMasthedQuantityInfoText.setText("Five masthed quantity:");
+	m_fiveMasthedQuantityInfoText.setPosition(450, 240);
+	m_fiveMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityFiveMasthed()));
+	m_fiveMasthedQuantityText.setPosition(725, 240);
+	m_fiveMasthedIncDecBtn.setPosition(750, 235);
+
 	m_fourMasthedQuantityInfoText.setText("Four masthed quantity:");
-	m_fourMasthedQuantityInfoText.setPosition(450, 240);
+	m_fourMasthedQuantityInfoText.setPosition(450, 300);
 	m_fourMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityFourMasthed()));
-	m_fourMasthedQuantityText.setPosition(725, 240);
-	m_fourMasthedIncDecBtn.setPosition(750, 235);
+	m_fourMasthedQuantityText.setPosition(725, 300);
+	m_fourMasthedIncDecBtn.setPosition(750, 295);
 
 	m_threeMasthedQuantityInfoText.setText("Three masthed quantity:");
-	m_threeMasthedQuantityInfoText.setPosition(450, 300);
+	m_threeMasthedQuantityInfoText.setPosition(450, 360);
 	m_threeMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityThreeMasthed()));
-	m_threeMasthedQuantityText.setPosition(725, 300);
-	m_threeMasthedIncDecBtn.setPosition(750, 295);
+	m_threeMasthedQuantityText.setPosition(725, 360);
+	m_threeMasthedIncDecBtn.setPosition(750, 355);
 
 	m_twoMasthedQuantityInfoText.setText("Two masthed quantity:");
-	m_twoMasthedQuantityInfoText.setPosition(450, 360);
+	m_twoMasthedQuantityInfoText.setPosition(450, 420);
 	m_twoMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityTwoMasthed()));
-	m_twoMasthedQuantityText.setPosition(725, 360);
-	m_twoMasthedIncDecBtn.setPosition(750, 355);
+	m_twoMasthedQuantityText.setPosition(725, 420);
+	m_twoMasthedIncDecBtn.setPosition(750, 415);
 
 	m_oneMasthedQuantityInfoText.setText("One masthed quantity:");
-	m_oneMasthedQuantityInfoText.setPosition(450, 420);
+	m_oneMasthedQuantityInfoText.setPosition(450, 480);
 	m_oneMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityOneMasthed()));
-	m_oneMasthedQuantityText.setPosition(725, 420);
-	m_oneMasthedIncDecBtn.setPosition(750, 415);
+	m_oneMasthedQuantityText.setPosition(725, 480);
+	m_oneMasthedIncDecBtn.setPosition(750, 475);
 
 	m_tickForbidAreaBtn.setCoordinate(650, 135);
 	m_tickForbidAreaBtn.updateCoordinate();
@@ -71,6 +77,14 @@ void SettingsScreen::handleInput(sf::RenderWindow& window, const sf::Event& even
 		}
 		//if (Settings::get().getMaxCraftField()>=Settings::get().getCurrentCraftField())
 		//{
+			if (Settings::get().getMaxCraftField() >= Settings::get().getCurrentCraftField() + 5 &&
+				Settings::get().getMaxFiveMasthed() > Settings::get().getQuantityFiveMasthed() &&
+				m_fiveMasthedIncDecBtn.getIncButton().onClick(mouseX, mouseY))
+			{
+				Settings::get().incDecQuantityCraft(CraftType::fiveMasted, 1);
+				m_fiveMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityFiveMasthed()));
+			}
+
 			if (Settings::get().getMaxCraftField() >= Settings::get().getCurrentCraftField()+4 && m_fourMasthedIncDecBtn.getIncButton().onClick(mouseX, mouseY))
 			{
 				Settings::get().incDecQuantityCraft(CraftType::fourMasted, 1);
@@ -90,13 +104,19 @@ void SettingsScreen::handleInput(sf::RenderWindow& window, const sf::Event& even
 			}
 
 			if (Settings::get().getMaxCraftField() >= Settings::get().getCurrentCraftField() + 1 &&
-				Settings::get().getMaxOneMasthed() >= Settings::get().getQuantityOneMasthed() &&
+				Settings::get().getMaxOneMasthed() > Settings::get().getQuantityOneMasthed() &&
 				m_oneMasthedIncDecBtn.getIncButton().onClick(mouseX, mouseY))
 			{
 				Settings::get().incDecQuantityCraft(CraftType::oneMasted, 1);
 				m_oneMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityOneMasthed()));
 			}
 		//}
+
+		if (m_fiveMasthedIncDecBtn.getDecButton().onClick(mouseX, mouseY))
+		{
+			Settings::get().incDecQuantityCraft(CraftType::fiveMasted, -1);
+			m_fiveMasthedQuantityText.setText(std::to_string(Settings::get().getQuantityFiveMasthed()));
+		}
 	
 		if (m_fourMasthedIncDecBtn.getDecButton().onClick(mouseX, mouseY))
 		{
@@ -139,6 +159,10 @@ void SettingsScreen::render(sf::RenderWindow& window)
 	window.draw(m_quantityCraftFieldText.getText());
 	window.draw(m_maxCraftFieldText.getText());
 	window.draw(m_currentCraftFieldText.getText());
+
+	window.draw(m_fiveMasthedQuantityInfoText.getText());
+	window.draw(m_fiveMasthedQuantityText.getText());
+	m_fiveMasthedIncDecBtn.renderIncDecBtn(window);
 
 	window.draw(m_fourMasthedQuantityInfoText.getText());
 	window.draw(m_fourMasthedQuantityText.getText());

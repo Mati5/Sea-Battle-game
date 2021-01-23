@@ -21,6 +21,9 @@ class SelectCraftWindow: public IScreen
 	bool m_startGame;
 	std::vector<Craft> m_craftToSetOnMap;
 	int m_quantitySetCraft{ 0 };
+
+	sf::Texture m_fiveMasthedTexture;
+	sf::Texture m_fiveMasthedVTexture;
 	
 	sf::Texture m_fourMasthedTexture;
 	sf::Texture m_fourMasthedVTexture;

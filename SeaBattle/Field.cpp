@@ -62,7 +62,7 @@ int Field::getCoordinateY() const
 
 bool Field::hitCraft() const
 {
-	return int(m_type) > 0 && int(m_type) < 5;
+	return int(m_type) > 0 && int(m_type) <= 5;
 }
 
 void Field::rotateField(const sf::Texture& texture)
@@ -72,6 +72,9 @@ void Field::rotateField(const sf::Texture& texture)
 	{
 		switch (m_type)
 		{
+		case CraftType::fiveMasted:
+			m_height = 225;
+			break;
 		case CraftType::fourMasted:	
 			m_height = 180;
 			break;
@@ -94,6 +97,9 @@ void Field::rotateField(const sf::Texture& texture)
 	{
 		switch (m_type)
 		{
+		case CraftType::fiveMasted:
+			m_width = 225;
+			break;
 		case CraftType::fourMasted:
 			m_width = 180;
 			break;

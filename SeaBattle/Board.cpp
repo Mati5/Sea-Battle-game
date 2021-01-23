@@ -98,7 +98,7 @@ void Board::renderBoard(sf::RenderWindow& mWindow, bool showCraft, bool showForb
 			
 			field.setSprite(m_fieldTexture);
 
-			if (showCraft && int(field.getType()) > 0 && int(field.getType()) <= 4)
+			if (showCraft && int(field.getType()) > 0 && int(field.getType()) <= 5)
 				field.setSprite(m_craftTexture);
 	
 			if(showForbidArea && field.getType() == CraftType::forbid)
@@ -577,21 +577,25 @@ int Board::getCraft(std::vector<Craft> craftTab, const Field& field) const
 
 	switch (craftType)
 	{
-	case CraftType::fourMasted:
+	case CraftType::fiveMasted:
 		start = 0;
-		stop = Settings::get().getQuantityFourMasthed()-1;
+		stop = Settings::get().getQuantityFiveMasthed() - 1;
+		break;
+	case CraftType::fourMasted:
+		start = Settings::get().getQuantityFiveMasthed();
+		stop = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed()-1;
 		break;
 	case CraftType::threeMasted:
-		start = Settings::get().getQuantityFourMasthed();
-		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() - 1;
+		start = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed();
+		stop = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() - 1;
 		break;
 	case CraftType::twoMasted:
-		start = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed();
-		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed()-1;
+		start = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed();
+		stop = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed()-1;
 		break;
 	case CraftType::oneMasted:
-		start = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed();
-		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed() + Settings::get().getQuantityOneMasthed() - 1;
+		start = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed();
+		stop = Settings::get().getQuantityFiveMasthed() + Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed() + Settings::get().getQuantityOneMasthed() - 1;
 		break;
 	default:
 		break;
@@ -641,6 +645,9 @@ void Board::randomCraft(int type, int quantity)
 				break;
 			case 4:
 				craftType = CraftType::fourMasted;
+				break;
+			case 5:
+				craftType = CraftType::fiveMasted;
 				break;
 			default:
 				craftType = CraftType::zeroMasted;
@@ -1045,9 +1052,21 @@ void Board::delCraft(int craftIndex)
 	//m_craftTab.erase(m_craftTab.begin() + craftIndex);
 }
 
-void Board::setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture)
+void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture)
 {
 	m_craftTab.clear();
+	for (int i = 0; i < Settings::get().getQuantityFiveMasthed(); i++)
+	{
+		Craft craft;
+		craft.getCraftSprite().setType(CraftType::fiveMasted);
+		craft.setCraftType(CraftType::fiveMasted);
+		craft.getCraftSprite().setWidth(225);
+		craft.getCraftSprite().setHeight(45);
+		//craft.getCraftSprite().setCoordinate(11 + (i * 5), 2);
+		craft.getCraftSprite().setCoordinate(11, 2);
+		craft.getCraftSprite().setSprite(fiveMTexture);
+		m_craftTab.push_back(craft);
+	}
 
 	for (int i = 0; i < Settings::get().getQuantityFourMasthed(); i++)
 	{
@@ -1056,7 +1075,8 @@ void Board::setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& thre
 		craft.setCraftType(CraftType::fourMasted);
 		craft.getCraftSprite().setWidth(180);
 		craft.getCraftSprite().setHeight(45);
-		craft.getCraftSprite().setCoordinate(11+ (i * 4), 3);
+		//craft.getCraftSprite().setCoordinate(11+ (i * 4), 3);
+		craft.getCraftSprite().setCoordinate(11, 3);
 		craft.getCraftSprite().setSprite(fourMTexture);
 		m_craftTab.push_back(craft);
 	}
@@ -1068,7 +1088,8 @@ void Board::setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& thre
 		craft.setCraftType(CraftType::threeMasted);
 		craft.getCraftSprite().setWidth(135);
 		craft.getCraftSprite().setHeight(45);
-		craft.getCraftSprite().setCoordinate(11 + (i * 3), 4);
+		//craft.getCraftSprite().setCoordinate(11 + (i * 3), 4);
+		craft.getCraftSprite().setCoordinate(11, 4);
 		craft.getCraftSprite().setSprite(threeMTexture);
 		m_craftTab.push_back(craft);
 	}
@@ -1080,7 +1101,8 @@ void Board::setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& thre
 		craft.setCraftType(CraftType::twoMasted);
 		craft.getCraftSprite().setWidth(90);
 		craft.getCraftSprite().setHeight(45);
-		craft.getCraftSprite().setCoordinate(11 + (i * 2), 5);
+		//craft.getCraftSprite().setCoordinate(11 + (i * 2), 5);
+		craft.getCraftSprite().setCoordinate(11, 5);
 		craft.getCraftSprite().setSprite(twoMTexture);
 		m_craftTab.push_back(craft);
 	}
@@ -1092,7 +1114,8 @@ void Board::setCraftTab(const sf::Texture& fourMTexture, const sf::Texture& thre
 		craft.setCraftType(CraftType::oneMasted);
 		craft.getCraftSprite().setWidth(45);
 		craft.getCraftSprite().setHeight(45);
-		craft.getCraftSprite().setCoordinate(11 + (i * 1), 6);
+		//craft.getCraftSprite().setCoordinate(11 + (i * 1), 6);
+		craft.getCraftSprite().setCoordinate(11, 6);
 		craft.getCraftSprite().setSprite(oneMTexture);
 		m_craftTab.push_back(craft);
 	}

@@ -77,12 +77,24 @@ void Settings::incDecQuantityCraft(CraftType craftType, int number)
 			m_currentCraftField += number*(4);
 		}
 		break;
+	case CraftType::fiveMasted:
+		if (m_quantityFiveMasthed > 0 || m_quantityFiveMasthed == 0 && number > 0)
+		{
+			m_quantityFiveMasthed += number;
+			m_currentCraftField += number * (5);
+		}
+		break;
 	}
 }
 
 int Settings::getMaxOneMasthed() const
 {
 	return m_maxOneMasthed;
+}
+
+int Settings::getMaxFiveMasthed() const
+{
+	return m_maxFiveMasthed;
 }
 
 Settings& Settings::get()

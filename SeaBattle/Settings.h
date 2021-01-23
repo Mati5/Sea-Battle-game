@@ -8,6 +8,7 @@ class Settings
 	int m_maxCraftField{ 23 };
 	int m_currentCraftField{ 20 };
 	int m_maxOneMasthed{ 10 };
+	int m_maxFiveMasthed{ 2 };
 	int m_quantityFiveMasthed{ 0 };
 	int m_quantityFourMasthed{ 1 };
 	int m_quantityThreeMasthed{ 2 };
@@ -36,6 +37,8 @@ public:
 	void incDecQuantityCraft(CraftType craftType, int number);
 
 	int getMaxOneMasthed() const;
+
+	int getMaxFiveMasthed() const;
 
 	static Settings& get();
 };

@@ -6,6 +6,7 @@ enum class CraftType
 	twoMasted,
 	threeMasted,
 	fourMasted,
+	fiveMasted,
 	forbid
 };
 
