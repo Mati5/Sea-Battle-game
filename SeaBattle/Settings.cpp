@@ -35,6 +35,56 @@ int Settings::getQuantityOneMasthed() const
 	return m_quantityOneMasthed;
 }
 
+int Settings::getMaxCraftField() const
+{
+	return m_maxCraftField;
+}
+
+int Settings::getCurrentCraftField() const
+{
+	return m_currentCraftField;
+}
+
+void Settings::incDecQuantityCraft(CraftType craftType, int number)
+{
+	switch (craftType)
+	{
+	case CraftType::oneMasted:
+		if (m_quantityOneMasthed > 0 || m_quantityOneMasthed == 0 && number > 0)
+		{
+			m_quantityOneMasthed += number;
+			m_currentCraftField += number*(1);
+		}
+		break;
+	case CraftType::twoMasted:
+		if (m_quantityTwoMasthed > 0 || m_quantityTwoMasthed == 0 && number > 0)
+		{
+			m_quantityTwoMasthed += number;
+			m_currentCraftField += number*(2);
+		}
+		break;
+	case CraftType::threeMasted:
+		if (m_quantityThreeMasthed > 0 || m_quantityThreeMasthed == 0 && number > 0)
+		{
+			m_quantityThreeMasthed += number;
+			m_currentCraftField += number*(3);
+		}	
+		break;
+	case CraftType::fourMasted:
+		if (m_quantityFourMasthed > 0 || m_quantityFourMasthed == 0 && number > 0)
+		{
+			m_quantityFourMasthed += number;
+			m_currentCraftField += number*(4);
+		}
+		break;
+	}
+}
+
+int Settings::getMaxOneMasthed() const
+{
+	return m_maxOneMasthed;
+}
+
 Settings& Settings::get()
 {
 	static Settings instance;

@@ -1,9 +1,13 @@
 #pragma once
 #include "GameMode.h"
+#include "CraftType.h"
 
 class Settings
 {
 	bool m_showForbidArea{ true };
+	int m_maxCraftField{ 23 };
+	int m_currentCraftField{ 20 };
+	int m_maxOneMasthed{ 10 };
 	int m_quantityFiveMasthed{ 0 };
 	int m_quantityFourMasthed{ 1 };
 	int m_quantityThreeMasthed{ 2 };
@@ -24,6 +28,14 @@ public:
 	int getQuantityTwoMasthed() const;
 
 	int getQuantityOneMasthed() const;
+
+	int getMaxCraftField() const;
+
+	int getCurrentCraftField() const;
+
+	void incDecQuantityCraft(CraftType craftType, int number);
+
+	int getMaxOneMasthed() const;
 
 	static Settings& get();
 };

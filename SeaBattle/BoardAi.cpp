@@ -113,6 +113,7 @@ Field BoardAi::action(std::array<std::array<Field, 10>, 10> fieldTab, std::vecto
 	else if (m_hitCraftTab.size() > 1)
 	{
 		int hitCraftIndex = getCraft(craftTab, m_hitCraftTab[0]);
+
 		Orientation hitCraftOrientation = craftTab[hitCraftIndex].getOrientation();
 
 		if (hitCraftOrientation == Orientation::Vertical) //N/S

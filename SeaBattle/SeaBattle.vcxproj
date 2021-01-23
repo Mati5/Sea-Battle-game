@@ -159,6 +159,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="GridField.cpp" />
+    <ClCompile Include="IncDecBtn.cpp" />
     <ClCompile Include="IScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Orientation.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsScreen.cpp" />
     <ClCompile Include="StartScreen.cpp" />
+    <ClCompile Include="Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -183,6 +185,7 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GridField.h" />
+    <ClInclude Include="IncDecBtn.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="Orientation.h" />
     <ClInclude Include="RandNum.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="StartScreen.h" />
+    <ClInclude Include="Text.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

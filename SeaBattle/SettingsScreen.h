@@ -6,13 +6,31 @@
 #include "Settings.h"
 #include "Game.h"
 #include "StartScreen.h"
+#include "Text.h"
+#include "IncDecBtn.h"
 
 class SettingsScreen: public IScreen
 {
 	sf::Texture m_logoTexture;
 	sf::Sprite m_logoSprite;
-	sf::Text m_tickForbidAreaText;
-	sf::Font m_font;
+	Text m_tickForbidAreaText;
+	Text m_fourMasthedQuantityInfoText;
+	Text m_fourMasthedQuantityText;
+	Text m_threeMasthedQuantityInfoText;
+	Text m_threeMasthedQuantityText;
+	Text m_twoMasthedQuantityInfoText;
+	Text m_twoMasthedQuantityText;
+	Text m_oneMasthedQuantityInfoText;
+	Text m_oneMasthedQuantityText;
+	Text m_maxCraftFieldText;
+	Text m_currentCraftFieldText;
+	Text m_quantityCraftFieldText;
+
+	IncDecBtn m_fourMasthedIncDecBtn;
+	IncDecBtn m_threeMasthedIncDecBtn;
+	IncDecBtn m_twoMasthedIncDecBtn;
+	IncDecBtn m_oneMasthedIncDecBtn;
+
 	CheckboxBtn m_tickForbidAreaBtn;
 	sf::Texture m_backBtnTexture;
 	Button m_backBtn;

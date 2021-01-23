@@ -579,19 +579,19 @@ int Board::getCraft(std::vector<Craft> craftTab, const Field& field) const
 	{
 	case CraftType::fourMasted:
 		start = 0;
-		stop = 0;
+		stop = Settings::get().getQuantityFourMasthed()-1;
 		break;
 	case CraftType::threeMasted:
-		start = 1;
-		stop = 2;
+		start = Settings::get().getQuantityFourMasthed();
+		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() - 1;
 		break;
 	case CraftType::twoMasted:
-		start = 3;
-		stop = 5;
+		start = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed();
+		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed()-1;
 		break;
 	case CraftType::oneMasted:
-		start = 6;
-		stop = 9;
+		start = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed();
+		stop = Settings::get().getQuantityFourMasthed() + Settings::get().getQuantityThreeMasthed() + Settings::get().getQuantityTwoMasthed() + Settings::get().getQuantityOneMasthed() - 1;
 		break;
 	default:
 		break;

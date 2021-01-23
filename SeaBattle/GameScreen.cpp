@@ -117,21 +117,21 @@ void GameScreen::update(sf::Time deltaTime)
 	}
 
 	//Player2 win
-	if (m_playerBoard_1.getBoardStats() == 20)
+	if (m_playerBoard_1.getBoardStats() == Settings::get().getCurrentCraftField())
 	{
 		m_endGame = true;
 		m_playerWinSprite.setTexture(m_playerTwoWinTexture);
 	}
 
 	//Player1 win
-	if (m_playerBoard_2.getBoardStats() == 20)
+	if (m_playerBoard_2.getBoardStats() == Settings::get().getCurrentCraftField())
 	{
 		m_endGame = true;
 		m_playerWinSprite.setTexture(m_playerOneWinTexture);
 	}
 
 	//Player1 win
-	if (m_boardAi.getBoardStats() == 20)
+	if (m_boardAi.getBoardStats() == Settings::get().getCurrentCraftField())
 	{
 		m_endGame = true;
 		m_playerWinSprite.setTexture(m_playerOneWinTexture);
