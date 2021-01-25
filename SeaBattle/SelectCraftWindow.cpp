@@ -217,7 +217,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 							craftSprite.setChecked(true);
 					}
 				}
-				else
+				else if(int(craftSprite.getType())>0 && int(craftSprite.getType())<6)
 				{
 					craftSprite.setChecked(true);
 
@@ -228,7 +228,8 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 						craft.clearArea();
 						craft.clearForbidArea();
 						m_quantitySetCraft--;
-						m_craftToSetOnMap.push_back(craft);
+						m_craftToSetOnMap.push_back(craft);		
+						craftSprite.setChecked(true);
 					}
 				}
 			}
@@ -251,16 +252,25 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 		if (m_randomCraftBtn.onClick(mouseX, mouseY))
 		{
 			if (m_craftToSetOnMap.size() != Settings::get().getQuantityCraft()) {
-				m_boardPlayer.clearCraftTab();
-				int i;
-				for (i = 0; i < m_craftToSetOnMap.size(); i++)
+				//m_boardPlayer.clearCraftTab();
+
+				for (int i = 0; i < m_craftToSetOnMap.size(); i++)
 				{
 					m_boardPlayer.randomCraft(int(m_craftToSetOnMap[i].getCraftType()));
 					m_quantitySetCraft++;
 				}
 				m_craftToSetOnMap.clear();
-
-				m_quantitySetCraft = i;
+				int j = 0;
+				for (j = 0; j < m_boardPlayer.getCraftTab().size(); j++)
+				{
+					if (m_boardPlayer.getCraftTab()[j].getArea().empty())
+					{
+						m_boardPlayer.delCraftFromArray(j);
+						j--;
+					}
+				}
+				m_boardPlayer.sortCraftTab();
+				m_quantitySetCraft = m_boardPlayer.getCraftTab().size();
 			}
 			else
 			{
@@ -272,8 +282,6 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 				m_boardPlayer.randomCraft(1, Settings::get().getQuantityOneMasthed());
 				m_quantitySetCraft = m_boardPlayer.getCraftTab().size();
 			}
-			
-			
 		}
 
 		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && !m_startGame && m_nextPlayerBtn.onClick(mouseX, mouseY))
@@ -283,8 +291,14 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			{
 			case GameMode::OneVsOne:
 				m_gameSettings.setPlayerBoard_1(m_boardPlayer);
-				m_boardPlayer.resetBoard();
+				m_boardPlayer.resetBoard();	
 				m_boardPlayer.setCraftTab(m_fiveMasthedTexture, m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
+				m_craftToSetOnMap.clear();
+				for (int i = 0; i < m_boardPlayer.getCraftTab().size();i++)
+				{
+					m_craftToSetOnMap.push_back(m_boardPlayer.getCraftTab()[i]);
+				}
+
 				setStartGame(true);
 				break;
 			case GameMode::OneVsAi:

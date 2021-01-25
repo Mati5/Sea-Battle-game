@@ -1052,6 +1052,11 @@ void Board::delCraft(int craftIndex)
 	//m_craftTab.erase(m_craftTab.begin() + craftIndex);
 }
 
+void Board::delCraftFromArray(int craftIndex)
+{
+	m_craftTab.erase(m_craftTab.begin() + craftIndex);
+}
+
 void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture)
 {
 	m_craftTab.clear();
@@ -1129,4 +1134,20 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 void Board::clearCraftTab()
 {
 	m_craftTab.clear();
+}
+
+void Board::sortCraftTab()
+{
+	for (int i = 1; i < m_craftTab.size(); i++)
+	{
+		for (int j = m_craftTab.size() - 1; j >= 1; j--)
+		{
+			if (m_craftTab[j].getCraftTypeNumber(m_craftTab[j].getCraftType()) > m_craftTab[j - 1].getCraftTypeNumber(m_craftTab[j-1].getCraftType()))
+			{
+				Craft temp = m_craftTab[j - 1];
+				m_craftTab[j - 1] = m_craftTab[j];
+				m_craftTab[j] = temp;
+			}
+		}
+	}
 }

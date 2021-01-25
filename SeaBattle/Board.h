@@ -92,7 +92,11 @@ public:
 
 	void delCraft(int craftIndex);
 
+	void delCraftFromArray(int craftIndex);
+
 	void setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& fourMTexture, const sf::Texture& threeMTexture, const sf::Texture& twoMTexture, const sf::Texture& oneMTexture);
 
 	void clearCraftTab();
+
+	void sortCraftTab();
 };
