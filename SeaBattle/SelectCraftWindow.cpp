@@ -89,8 +89,17 @@ SelectCraftWindow::SelectCraftWindow(GameMode gameMode):
 	if (!m_oneMasthedTexture.loadFromFile("../images/one-masthed.png"))
 		std::cout << "Error load texture" << std::endl;
 
+	if (!m_rozkladStatkowInfoTexture.loadFromFile("../images/info-statki.png"))
+		std::cout << "Error load texture" << std::endl;
+	m_rozkladStatkowInfoSprite.setTexture(m_rozkladStatkowInfoTexture);
+	m_rozkladStatkowInfoSprite.setPosition(565, 435);
+
 	m_boardPlayer.setCraftTab(m_fiveMasthedTexture, m_fourMasthedTexture, m_threeMasthedTexture, m_twoMasthedTexture, m_oneMasthedTexture);
-	m_craftToSetOnMap = m_boardPlayer.getCraftTab();
+	m_craftToSetOnMap.clear();
+	for (int i = 0; i < m_boardPlayer.getCraftTab().size();i++)
+	{
+		m_craftToSetOnMap.push_back(m_boardPlayer.getCraftTab()[i]);
+	}
 }
 
 void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& event)
@@ -199,6 +208,9 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 								break;
 							}
 							m_quantitySetCraft++;
+
+							int craftIndex = getCraftToSetOnMapIndex(craft);
+							m_craftToSetOnMap.erase(m_craftToSetOnMap.begin() + craftIndex);						
 						}
 
 						if(!allowCraft)
@@ -238,28 +250,33 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 
 		if (m_randomCraftBtn.onClick(mouseX, mouseY))
 		{
-			/*if (m_craftToSetOnMap.size() < 10) {
-				for (int i = 0; i < m_craftToSetOnMap.size(); i++)
+			if (m_craftToSetOnMap.size() != Settings::get().getQuantityCraft()) {
+				m_boardPlayer.clearCraftTab();
+				int i;
+				for (i = 0; i < m_craftToSetOnMap.size(); i++)
 				{
 					m_boardPlayer.randomCraft(int(m_craftToSetOnMap[i].getCraftType()));
+					m_quantitySetCraft++;
 				}
 				m_craftToSetOnMap.clear();
-				m_boardPlayer.clearCraftTab();
+
+				m_quantitySetCraft = i;
 			}
 			else
-			{*/
+			{
 				m_boardPlayer.resetBoard();
 				m_boardPlayer.randomCraft(5, Settings::get().getQuantityFiveMasthed());
 				m_boardPlayer.randomCraft(4, Settings::get().getQuantityFourMasthed());
 				m_boardPlayer.randomCraft(3, Settings::get().getQuantityThreeMasthed());
 				m_boardPlayer.randomCraft(2, Settings::get().getQuantityTwoMasthed());
 				m_boardPlayer.randomCraft(1, Settings::get().getQuantityOneMasthed());
-			//}
+				m_quantitySetCraft = m_boardPlayer.getCraftTab().size();
+			}
 			
-			m_quantitySetCraft = m_boardPlayer.getCraftTab().size();
+			
 		}
 
-		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && !m_startGame && !m_boardPlayer.getCraftTab().empty() && m_nextPlayerBtn.onClick(mouseX, mouseY))
+		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && !m_startGame && m_nextPlayerBtn.onClick(mouseX, mouseY))
 		{
 			m_quantitySetCraft = 0;
 			switch (m_gameSettings.getSelectedGameMode())
@@ -288,7 +305,7 @@ void SelectCraftWindow::handleInput(sf::RenderWindow& window, const sf::Event& e
 			return;
 		}
 
-		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && m_startGame && !m_boardPlayer.getCraftTab().empty() && m_startGameBtn.onClick(mouseX, mouseY))
+		if (m_quantitySetCraft == m_boardPlayer.getCraftTab().size() && m_startGame && m_startGameBtn.onClick(mouseX, mouseY))
 		{
 			m_gameSettings.setPlayerBoard_2(m_boardPlayer);
 			Game::Screen = std::make_shared<GameScreen>(m_gameSettings);
@@ -322,6 +339,8 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 
 	window.setView(window.getDefaultView());
 	window.draw(backgroundSprite);
+
+	window.draw(m_rozkladStatkowInfoSprite);
 	
 	window.setView(m_boardView);
 	m_boardPlayer.renderBoard(window, true);
@@ -330,6 +349,11 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 	{
 		window.draw(m_boardPlayer.getCraftTab()[i].getCraftSprite().getSprite());
 	}
+
+	/*for (int i = 0; i < m_craftToSetOnMap.size(); i++)
+	{
+		window.draw(m_craftToSetOnMap[i].getCraftSprite().getSprite());
+	}*/
 
 	//Control view buttons
 	window.setView(m_controlView);
@@ -344,4 +368,15 @@ void SelectCraftWindow::render(sf::RenderWindow& window)
 void SelectCraftWindow::setStartGame(bool startGame)
 {
 	m_startGame = startGame;
+}
+
+int SelectCraftWindow::getCraftToSetOnMapIndex(Craft& craft)
+{
+	for (int i = 0; i < m_craftToSetOnMap.size(); i++)
+	{
+		if (craft.getId() == m_craftToSetOnMap[i].getId())
+			return i;
+			
+	}
+	return -1;
 }

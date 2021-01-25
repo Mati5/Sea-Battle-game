@@ -40,6 +40,8 @@ public:
 
 	int getMaxFiveMasthed() const;
 
+	int getQuantityCraft() const;
+
 	static Settings& get();
 };
 

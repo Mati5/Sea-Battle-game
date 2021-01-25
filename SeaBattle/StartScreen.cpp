@@ -31,13 +31,13 @@ void StartScreen::handleInput(sf::RenderWindow& window, const sf::Event& event)
 {
 	if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 	{	
-		if (m_oneVsOneBtn.onClick(mouseX, mouseY))
+		if (Settings::get().getCurrentCraftField()>0 && m_oneVsOneBtn.onClick(mouseX, mouseY))
 		{
 			Game::Screen = std::make_shared<SelectCraftWindow>(GameMode::OneVsOne);
 			return;
 		}
 				
-		if (m_oneVsAiBtn.onClick(mouseX, mouseY))
+		if (Settings::get().getCurrentCraftField()>0 && m_oneVsAiBtn.onClick(mouseX, mouseY))
 		{
 			Game::Screen = std::make_shared<SelectCraftWindow>(GameMode::OneVsAi);
 			return;

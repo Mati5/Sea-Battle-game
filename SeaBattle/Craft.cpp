@@ -114,3 +114,13 @@ void Craft::clearForbidArea()
 {
 	m_forbidArea.clear();
 }
+
+void Craft::setId(uint32_t id)
+{
+	m_id = id;
+}
+
+uint32_t Craft::getId() const
+{
+	return m_id;
+}

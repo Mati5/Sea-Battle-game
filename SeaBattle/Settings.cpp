@@ -97,6 +97,11 @@ int Settings::getMaxFiveMasthed() const
 	return m_maxFiveMasthed;
 }
 
+int Settings::getQuantityCraft() const
+{
+	return m_quantityFiveMasthed + m_quantityFourMasthed + m_quantityThreeMasthed + m_quantityTwoMasthed + m_quantityOneMasthed;
+}
+
 Settings& Settings::get()
 {
 	static Settings instance;

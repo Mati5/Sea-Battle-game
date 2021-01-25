@@ -4,6 +4,7 @@
 
 class Craft
 {
+	uint32_t m_id;
 	std::vector<Field> m_area;
 	std::vector<Field> m_forbidArea;
 	Orientation m_orientation;
@@ -50,4 +51,8 @@ public:
 	void clearArea();
 
 	void clearForbidArea();
+
+	void setId(uint32_t id);
+
+	uint32_t getId() const;
 };

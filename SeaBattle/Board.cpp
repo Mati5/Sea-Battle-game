@@ -1058,6 +1058,7 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 	for (int i = 0; i < Settings::get().getQuantityFiveMasthed(); i++)
 	{
 		Craft craft;
+		craft.setId(reinterpret_cast<uint32_t>(&craft));
 		craft.getCraftSprite().setType(CraftType::fiveMasted);
 		craft.setCraftType(CraftType::fiveMasted);
 		craft.getCraftSprite().setWidth(225);
@@ -1071,6 +1072,7 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 	for (int i = 0; i < Settings::get().getQuantityFourMasthed(); i++)
 	{
 		Craft craft;
+		craft.setId(reinterpret_cast<uint32_t>(&craft));
 		craft.getCraftSprite().setType(CraftType::fourMasted);
 		craft.setCraftType(CraftType::fourMasted);
 		craft.getCraftSprite().setWidth(180);
@@ -1084,6 +1086,7 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 	for (int i = 0; i < Settings::get().getQuantityThreeMasthed(); i++)
 	{
 		Craft craft;
+		craft.setId(reinterpret_cast<uint32_t>(&craft));
 		craft.getCraftSprite().setType(CraftType::threeMasted);
 		craft.setCraftType(CraftType::threeMasted);
 		craft.getCraftSprite().setWidth(135);
@@ -1097,6 +1100,7 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 	for (int i = 0; i < Settings::get().getQuantityTwoMasthed(); i++)
 	{
 		Craft craft;
+		craft.setId(reinterpret_cast<uint32_t>(&craft));
 		craft.getCraftSprite().setType(CraftType::twoMasted);
 		craft.setCraftType(CraftType::twoMasted);
 		craft.getCraftSprite().setWidth(90);
@@ -1110,6 +1114,7 @@ void Board::setCraftTab(const sf::Texture& fiveMTexture, const sf::Texture& four
 	for (int i = 0; i < Settings::get().getQuantityOneMasthed(); i++)
 	{
 		Craft craft;
+		craft.setId(reinterpret_cast<uint32_t>(&craft));
 		craft.getCraftSprite().setType(CraftType::oneMasted);
 		craft.setCraftType(CraftType::oneMasted);
 		craft.getCraftSprite().setWidth(45);

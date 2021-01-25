@@ -36,6 +36,9 @@ class SelectCraftWindow: public IScreen
 
 	sf::Texture m_oneMasthedTexture;
 
+	sf::Texture m_rozkladStatkowInfoTexture;
+	sf::Sprite m_rozkladStatkowInfoSprite;
+
 public:
 	SelectCraftWindow();
 	SelectCraftWindow(GameMode gameMode);
@@ -45,4 +48,6 @@ public:
 	void render(sf::RenderWindow& window) override;
 
 	void setStartGame(bool startGame);
+
+	int getCraftToSetOnMapIndex(Craft& craft);
 };
